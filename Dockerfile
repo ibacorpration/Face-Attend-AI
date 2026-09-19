@@ -22,14 +22,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY . .
 
+# Create mount points
+RUN mkdir -p /app/data /app/ai/models
+
 # Download AI models during image build
 RUN python scripts/download_models.py
 
 # Ensure scripts are executable
 RUN chmod +x /app/scripts/docker-entrypoint.sh
-
-# Create mount points
-RUN mkdir -p /app/data /app/ai/models
 
 # Expose the API port
 EXPOSE 8000

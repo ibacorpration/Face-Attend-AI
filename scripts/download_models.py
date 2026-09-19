@@ -25,6 +25,8 @@ def download_models(output_dir="ai/models"):
             logger.info(f"Successfully downloaded {filename}")
         except Exception as e:
             logger.error(f"Failed to download {filename}: {e}")
+            import sys
+            sys.exit(1)
 
 if __name__ == "__main__":
     download_models()
