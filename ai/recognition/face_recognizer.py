@@ -20,7 +20,7 @@ class FaceRecognizer:
         """
         # 1. Detect faces
         faces = self.detector.detect(image)
-        if not faces:
+        if len(faces) == 0:
             return {"success": False, "error": "No face detected"}
             
         # 2. Get largest face
