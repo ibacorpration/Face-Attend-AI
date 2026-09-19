@@ -34,6 +34,10 @@ class RecognitionService:
         highest_sim = -1.0
         
         for face_record in all_faces:
+            # Enforce model version matching
+            if face_record.model_version != settings.AI_MODEL_VERSION:
+                continue
+                
             # Decrypt embedding from DB
             raw_bytes = decrypt_embedding(face_record.embedding)
             db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)

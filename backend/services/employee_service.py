@@ -67,12 +67,14 @@ class EmployeeService:
         with open(image_path, "wb") as f:
             f.write(image_bytes)
 
+        from backend.core.config import settings
+
         return face_repo.create(
             db=db,
             employee_id=employee_id,
             raw_embedding_bytes=embedding_bytes,
             image_path=str(image_path),
-            model_version="arcface_1.0"
+            model_version=settings.AI_MODEL_VERSION
         )
 
     def update_employee(self, db: Session, employee_id: int, employee_in: EmployeeUpdate):

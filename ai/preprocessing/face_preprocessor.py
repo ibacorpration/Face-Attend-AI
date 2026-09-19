@@ -49,7 +49,7 @@ class FacePreprocessor:
         rgb_face = np.transpose(rgb_face, (2, 0, 1))
         
         # Normalize to [-1, 1]
-        rgb_face = (rgb_face.astype(np.float32) - 127.5) / 128.0
+        rgb_face = (rgb_face.astype(np.float32) - 127.5) / 127.5
         
         # Add batch dimension
         blob = np.expand_dims(rgb_face, axis=0)

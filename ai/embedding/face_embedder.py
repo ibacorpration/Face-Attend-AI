@@ -29,10 +29,22 @@ class FaceEmbedder:
         """
         Generate embedding from preprocessed face.
         Expects preprocessed_face shape (1, 3, 112, 112).
-        Returns an unnormalized 512-d embedding.
+        Returns an L2-normalized 512-d embedding of type float32.
         """
         if self._session is None:
             raise RuntimeError("ArcFace session not initialized")
             
         embeddings = self._session.run([self._output_name], {self._input_name: preprocessed_face})[0]
-        return embeddings[0] # Return the 1D array of the first (and only) item in batch
+        embedding = embeddings[0] # Return the 1D array of the first (and only) item in batch
+        
+        # Validate finity
+        if not np.all(np.isfinite(embedding)):
+            raise ValueError("Model output contains non-finite values (NaN or Inf)")
+            
+        # L2 Normalize
+        norm = np.linalg.norm(embedding)
+        if norm == 0:
+            raise ValueError("Model output has zero norm")
+            
+        normalized_embedding = embedding / norm
+        return normalized_embedding.astype(np.float32)
