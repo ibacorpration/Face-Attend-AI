@@ -5,8 +5,18 @@ from main import app
 
 @pytest.fixture(scope="module")
 def client():
+    from backend.core.deps import get_current_admin
+    from backend.db.models import AdminUser
+
+    def override_get_current_admin():
+        return AdminUser(id=1, username="testadmin")
+
+    app.dependency_overrides[get_current_admin] = override_get_current_admin
+    
     with TestClient(app) as c:
         yield c
+        
+    app.dependency_overrides.clear()
 
 def test_create_employee(client):
     unique_code = f"EMP-{uuid.uuid4().hex[:6]}"
