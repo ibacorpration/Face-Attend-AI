@@ -22,6 +22,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY . .
 
+# Download AI models during image build
+RUN python scripts/download_models.py
+
 # Ensure scripts are executable
 RUN chmod +x /app/scripts/docker-entrypoint.sh
 
