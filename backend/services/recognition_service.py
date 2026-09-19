@@ -1,6 +1,6 @@
 import numpy as np
 from sqlalchemy.orm import Session
-from ai.services.face_recognition_service import FaceRecognitionService as AIFaceRecognitionService
+from backend.services.ai_singleton import get_ai_service
 from ai.utils.similarity import cosine_similarity, verify_match
 from backend.repositories.face_repository import FaceRepository
 from backend.repositories.employee_repository import EmployeeRepository
@@ -11,7 +11,7 @@ from backend.core.config import settings
 
 class RecognitionService:
     def __init__(self):
-        self.ai_service = AIFaceRecognitionService()
+        self.ai_service = get_ai_service()
         self.face_repo = FaceRepository()
         self.employee_repo = EmployeeRepository()
         self.attendance_service = AttendanceService()
