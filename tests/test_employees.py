@@ -29,6 +29,7 @@ def test_create_employee(client):
             "department": "Engineering"
         }
     )
+    # 1- check status code
     assert response.status_code == 200, response.text
     data = response.json()
     assert data["employee_code"] == unique_code
