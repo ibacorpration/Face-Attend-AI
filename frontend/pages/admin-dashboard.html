@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -26,23 +27,42 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="topbar">
-                <h2>Overview</h2>
+                <h2>Dashboard Overview</h2>
+                <button class="btn btn-primary" onclick="exportAttendanceCSV()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Export Today's Report
+                </button>
             </header>
             
-            <div class="stats-grid">
-                <div class="glass-panel stat-card">
-                    <h4 class="text-secondary">Today's Check-ins</h4>
-                    <h2 class="stat-value" id="stat-checkins">0</h2>
-                </div>
+            <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 2rem;">
                 <div class="glass-panel stat-card">
                     <h4 class="text-secondary">Total Employees</h4>
                     <h2 class="stat-value" id="stat-employees">0</h2>
                 </div>
+                <div class="glass-panel stat-card">
+                    <h4 class="text-secondary">Present Today</h4>
+                    <h2 class="stat-value text-success" id="stat-present">0</h2>
+                </div>
+                <div class="glass-panel stat-card">
+                    <h4 class="text-secondary">Late Arrivals</h4>
+                    <h2 class="stat-value text-warning" id="stat-late">0</h2>
+                </div>
+                <div class="glass-panel stat-card">
+                    <h4 class="text-secondary">Absent</h4>
+                    <h2 class="stat-value text-danger" id="stat-absent">0</h2>
+                </div>
             </div>
 
-            <!-- Recent Activity Table -->
-            <div class="glass-panel mt-4">
-                <h3 class="mb-4">Recent Activity</h3>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <!-- Chart Section -->
+                <div class="glass-panel">
+                    <h3 class="mb-4">Attendance Trends (Last 7 Days)</h3>
+                    <canvas id="attendanceChart" height="100"></canvas>
+                </div>
+
+                <!-- Recent Activity Table -->
+                <div class="glass-panel">
+                    <h3 class="mb-4">Live Check-ins</h3>
                 <div class="table-responsive">
                     <table class="data-table">
                         <thead>
@@ -58,6 +78,7 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         </main>
     </div>
