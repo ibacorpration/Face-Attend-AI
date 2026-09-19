@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 class ImageQualityChecker:
-    def __init__(self, min_resolution: tuple = (112, 112), blur_threshold: float = 100.0):
+    def __init__(self, min_resolution: tuple = (112, 112), blur_threshold: float = 15.0):
         self.min_resolution = min_resolution
         self.blur_threshold = blur_threshold
         
