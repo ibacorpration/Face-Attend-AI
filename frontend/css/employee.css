@@ -104,6 +104,47 @@
     opacity: 0.8;
 }
 
+/* Success State */
+.camera-overlay.success {
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: inset 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+.camera-overlay.success .corner {
+    border-color: var(--success);
+}
+
+.camera-overlay.success .scan-line {
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+    animation: scan-fast 1s linear infinite;
+    opacity: 0.9;
+}
+
+/* Error State */
+.camera-overlay.error {
+    border-color: rgba(239, 68, 68, 0.5);
+    box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.3);
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.camera-overlay.error .corner {
+    border-color: var(--danger);
+}
+
+@keyframes scan-fast {
+    0% { top: 0%; }
+    50% { top: 100%; }
+    100% { top: 0%; }
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
 @keyframes scan {
     0% { top: 0%; }
     50% { top: 100%; }

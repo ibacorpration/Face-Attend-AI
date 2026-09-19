@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | FaceAttend AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/employee.css">
+    <style>
+        .profile-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            text-align: center;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.2);
+            margin: -60px auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--bg-primary);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            color: var(--accent-primary);
+        }
+        .profile-details {
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            text-align: left;
+        }
+        .detail-item {
+            background: rgba(255,255,255,0.02);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .detail-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .detail-value {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .countdown {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="glass-panel pop-in" style="margin-top: 60px;">
+            <div class="profile-avatar">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            
+            <h2 id="prof-name" class="text-gradient" style="font-size: 2rem;">Loading...</h2>
+            <p id="prof-status" class="badge badge-success" style="margin-top: 0.5rem; display: inline-block;">Check-in Successful</p>
+            
+            <div class="profile-details">
+                <div class="detail-item">
+                    <div class="detail-label">Employee Code</div>
+                    <div class="detail-value" id="prof-code">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Department</div>
+                    <div class="detail-value" id="prof-dept">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Check-in Time</div>
+                    <div class="detail-value" id="prof-time">-</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Current Status</div>
+                    <div class="detail-value" id="prof-emp-status">-</div>
+                </div>
+            </div>
+            
+            <a href="/pages/employee.html" class="btn btn-primary w-100">Return to Camera</a>
+            <div class="countdown" id="countdown-text">Returning automatically in 10 seconds...</div>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const empId = urlParams.get('id');
+            const attStatus = urlParams.get('status');
+            
+            if(!empId) {
+                window.location.href = '/pages/employee.html';
+                return;
+            }
+
+            try {
+                // Since this page is public (for the kiosk), the fetchAPI might fail if we require admin token.
+                // However, the backend GET /api/v1/employees/{id} is currently open (no Depends(get_current_admin)).
+                const emp = await fetchAPI(`/employees/${empId}`);
+                
+                document.getElementById('prof-name').textContent = emp.full_name;
+                document.getElementById('prof-code').textContent = emp.employee_code;
+                document.getElementById('prof-dept').textContent = emp.department || 'N/A';
+                document.getElementById('prof-emp-status').textContent = emp.status;
+                
+                document.getElementById('prof-time').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                
+                const statusEl = document.getElementById('prof-status');
+                if (attStatus === 'borderline') {
+                    statusEl.textContent = 'Pending Review';
+                    statusEl.className = 'badge badge-warning';
+                }
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('prof-name').textContent = 'Error Loading Profile';
+            }
+
+            // Countdown timer
+            let timeLeft = 10;
+            const timerEl = document.getElementById('countdown-text');
+            setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    timerEl.textContent = `Returning automatically in ${timeLeft} seconds...`;
+                } else {
+                    window.location.href = '/pages/employee.html';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -24,10 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (faceFile && empData.id) {
                 const formData = new FormData();
                 formData.append('file', faceFile);
-                await fetchAPI(`/employees/${empData.id}/face`, {
-                    method: 'POST',
-                    body: formData
-                });
+                try {
+                    await fetchAPI(`/employees/${empData.id}/face`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                } catch (faceError) {
+                    // Rollback: delete the created employee if face upload fails
+                    await fetchAPI(`/employees/${empData.id}`, { method: 'DELETE' });
+                    throw new Error(`Employee created but face upload failed: ${faceError.message}. Employee creation rolled back.`);
+                }
+            } else if (!faceFile && empData.id) {
+                // If they didn't provide a face file, rollback because we require a face.
+                await fetchAPI(`/employees/${empData.id}`, { method: 'DELETE' });
+                throw new Error("A face image is required for biometric recognition.");
             }
             
             Toast.show('Employee added and face registered successfully', 'success');

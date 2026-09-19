@@ -40,9 +40,7 @@ class RecognitionApp {
             if (result.success) {
                 this.handleSuccess(result);
             } else {
-                // If it's just "Face not recognized" we can silently ignore and keep scanning
-                // Or if it's "no face detected", keep scanning
-                console.log(result.error);
+                this.handleError(result.error || "Face not recognized");
             }
         } catch (error) {
             console.error("Frame processing error:", error);
@@ -57,6 +55,11 @@ class RecognitionApp {
         // Pause scanning
         clearInterval(this.scanInterval);
         
+        const overlay = document.getElementById('camera-overlay');
+        overlay.classList.remove('scanning', 'error');
+        overlay.classList.add('success');
+        document.getElementById('status-text').textContent = "Recognized!";
+        
         const card = document.getElementById('result-card');
         const nameEl = document.getElementById('employee-name');
         const statusEl = document.getElementById('match-status');
@@ -66,22 +69,36 @@ class RecognitionApp {
         if (result.status === 'match') {
             statusEl.textContent = "Attendance Logged Successfully";
             statusEl.style.color = "var(--success)";
-            Toast.show(`Check-in successful: ${result.full_name}`, 'success');
         } else if (result.status === 'borderline') {
             statusEl.textContent = "Pending Review (Borderline Match)";
             statusEl.style.color = "var(--warning)";
-            Toast.show(`Requires review: ${result.full_name}`, 'warning');
         }
         
         card.classList.remove('hidden');
         card.classList.add('pop-in');
         
-        // Resume scanning after 5 seconds
+        // Redirect to profile page after 2 seconds
         setTimeout(() => {
-            card.classList.add('hidden');
-            card.classList.remove('pop-in');
-            this.startScanning();
-        }, 5000);
+            window.location.href = `/pages/profile.html?id=${result.employee_id}&status=${result.status}`;
+        }, 2000);
+    }
+
+    handleError(errorMsg) {
+        // Only show red error if it's actually an unrecognized face (not just empty frame)
+        if (errorMsg.includes('Face not recognized') || errorMsg.includes('similarity')) {
+            const overlay = document.getElementById('camera-overlay');
+            overlay.classList.remove('scanning', 'success');
+            overlay.classList.add('error');
+            document.getElementById('status-text').textContent = "Not Recognized / Not in Team";
+            
+            // Revert back to scanning after 2 seconds
+            setTimeout(() => {
+                if(this.isProcessing) return;
+                overlay.classList.remove('error');
+                overlay.classList.add('scanning');
+                document.getElementById('status-text').textContent = "Position your face in the frame";
+            }, 2000);
+        }
     }
 }
 
