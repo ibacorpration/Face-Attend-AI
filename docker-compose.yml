@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: faceattend-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./ai/models:/app/ai/models
+    environment:
+      # Optional: Override environment variables here instead of .env
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+      - DATABASE_URL=sqlite:///./data/face_attendance.db
+    restart: unless-stopped

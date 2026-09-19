@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | FaceAttend AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h3><span class="text-gradient">FaceAttend</span></h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/pages/admin-dashboard.html" class="nav-item active">Dashboard</a>
+                <a href="/pages/employees.html" class="nav-item">Employees</a>
+                <a href="/pages/attendance.html" class="nav-item">Attendance</a>
+                <a href="#" class="nav-item" onclick="Auth.logout()">Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h2>Overview</h2>
+            </header>
+            
+            <div class="stats-grid">
+                <div class="glass-panel stat-card">
+                    <h4 class="text-secondary">Today's Check-ins</h4>
+                    <h2 class="stat-value" id="stat-checkins">0</h2>
+                </div>
+                <div class="glass-panel stat-card">
+                    <h4 class="text-secondary">Total Employees</h4>
+                    <h2 class="stat-value" id="stat-employees">0</h2>
+                </div>
+            </div>
+
+            <!-- Recent Activity Table -->
+            <div class="glass-panel mt-4">
+                <h3 class="mb-4">Recent Activity</h3>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date/Time</th>
+                                <th>Status</th>
+                                <th>Confidence</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-activity-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

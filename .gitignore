@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.vscode/
+.idea/
+data/*.db
+storage/employee_images/*
+!storage/employee_images/.gitkeep
+storage/attendance_evidence/*
+!storage/attendance_evidence/.gitkeep
+ai/models/*.onnx
+.coverage
+htmlcov/
+*.sqlite3

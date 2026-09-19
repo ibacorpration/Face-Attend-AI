@@ -1,0 +1,29 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Data
+data/*.db
+data/*.db3
+data/*.sqlite
+data/*.sqlite3
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+
+# AI Models (Optional - can be downloaded on startup, but we ignore by default to keep image small if built with models present)
+ai/models/*.onnx

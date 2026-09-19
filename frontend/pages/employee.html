@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Check-In | FaceAttend AI</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/employee.css">
+</head>
+<body>
+    <nav class="kiosk-nav">
+        <a href="/" class="back-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back
+        </a>
+        <h2 class="logo"><span class="text-gradient">FaceAttend</span></h2>
+    </nav>
+
+    <div class="kiosk-container">
+        <div class="glass-panel camera-container pop-in">
+            <div id="camera-overlay" class="camera-overlay">
+                <div class="scan-line"></div>
+                <div class="corner top-left"></div>
+                <div class="corner top-right"></div>
+                <div class="corner bottom-left"></div>
+                <div class="corner bottom-right"></div>
+            </div>
+            <video id="camera-feed" autoplay playsinline muted></video>
+            <div class="status-badge" id="status-text">Initializing Camera...</div>
+        </div>
+
+        <div id="result-card" class="glass-panel result-card hidden">
+            <h3 id="employee-name" class="text-gradient">Welcome</h3>
+            <p id="match-status" class="status-msg">Processing...</p>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/camera.js"></script>
+    <script src="../js/recognition.js"></script>
+</body>
+</html>
