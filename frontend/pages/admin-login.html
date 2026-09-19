@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | FaceAttend AI</title>
+    <title>Admin Login | Face Attend</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
+
 <body class="admin-login-body">
     <div class="login-container">
         <a href="/" class="back-link mb-4">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
             Home
         </a>
         <div class="glass-panel login-card pop-in">
@@ -42,15 +48,16 @@
             const btn = document.getElementById('login-btn');
             btn.innerHTML = '<div class="loader"></div>';
             btn.disabled = true;
-            
+
             await Auth.login(
                 document.getElementById('username').value,
                 document.getElementById('password').value
             );
-            
+
             btn.innerHTML = 'Sign In';
             btn.disabled = false;
         });
     </script>
 </body>
+
 </html>
