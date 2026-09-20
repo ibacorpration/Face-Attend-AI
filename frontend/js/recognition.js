@@ -15,8 +15,8 @@ class RecognitionApp {
     }
 
     startScanning() {
-        // Poll every 2 seconds
-        this.scanInterval = setInterval(() => this.processFrame(), 2000);
+        // Poll every 1 second (faster response)
+        this.scanInterval = setInterval(() => this.processFrame(), 1000);
     }
 
     async processFrame() {
@@ -55,7 +55,7 @@ class RecognitionApp {
         } finally {
             this.camera.hideOverlayScan();
             // Short cooldown before allowing next processing flag
-            setTimeout(() => { this.isProcessing = false; }, 500);
+            setTimeout(() => { this.isProcessing = false; }, 300);
         }
     }
 
@@ -85,7 +85,7 @@ class RecognitionApp {
         card.classList.remove('hidden');
         card.classList.add('pop-in');
 
-        // Redirect to profile page after 2 seconds
+        // Redirect to profile page very quickly to avoid user waiting
         setTimeout(() => {
             const params = new URLSearchParams({
                 id: result.employee_id,
@@ -96,7 +96,7 @@ class RecognitionApp {
                 estatus: result.employee_status || ''
             });
             window.location.href = `/pages/profile.html?${params.toString()}`;
-        }, 2000);
+        }, 700);
     }
 
     handleError(result) {
