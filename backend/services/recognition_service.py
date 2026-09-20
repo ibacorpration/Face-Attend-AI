@@ -88,6 +88,8 @@ class RecognitionService:
             employee_id=employee.id,
             employee_code=employee.employee_code,
             full_name=employee.full_name,
+            department=employee.department,
+            employee_status=employee.status,
             similarity_score=highest_sim,
             status=status,
             liveness_passed=ai_res["liveness"]["is_live"],

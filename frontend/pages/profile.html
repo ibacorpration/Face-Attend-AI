@@ -103,14 +103,17 @@
             }
 
             try {
-                // Since this page is public (for the kiosk), the fetchAPI might fail if we require admin token.
-                // However, the backend GET /api/v1/employees/{id} is currently open (no Depends(get_current_admin)).
-                const emp = await fetchAPI(`/employees/${empId}`);
+                // Read employee details directly from URL params passed from recognition.js
+                // This avoids needing an admin token for the public kiosk page.
+                const name = urlParams.get('name') || 'Unknown';
+                const code = urlParams.get('code') || '-';
+                const dept = urlParams.get('dept') || 'N/A';
+                const estatus = urlParams.get('estatus') || '-';
                 
-                document.getElementById('prof-name').textContent = emp.full_name;
-                document.getElementById('prof-code').textContent = emp.employee_code;
-                document.getElementById('prof-dept').textContent = emp.department || 'N/A';
-                document.getElementById('prof-emp-status').textContent = emp.status;
+                document.getElementById('prof-name').textContent = name;
+                document.getElementById('prof-code').textContent = code;
+                document.getElementById('prof-dept').textContent = dept;
+                document.getElementById('prof-emp-status').textContent = estatus;
                 
                 document.getElementById('prof-time').textContent = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                 

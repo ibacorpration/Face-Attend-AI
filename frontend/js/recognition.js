@@ -87,7 +87,15 @@ class RecognitionApp {
 
         // Redirect to profile page after 2 seconds
         setTimeout(() => {
-            window.location.href = `/pages/profile.html?id=${result.employee_id}&status=${result.status}`;
+            const params = new URLSearchParams({
+                id: result.employee_id,
+                status: result.status,
+                name: result.full_name || '',
+                code: result.employee_code || '',
+                dept: result.department || '',
+                estatus: result.employee_status || ''
+            });
+            window.location.href = `/pages/profile.html?${params.toString()}`;
         }, 2000);
     }
 
