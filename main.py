@@ -54,11 +54,6 @@ def health_check():
     }
     return health_status
 
-# Mount Frontend Static Files
-app.mount("/css", StaticFiles(directory="frontend/css"), name="css")
-app.mount("/js", StaticFiles(directory="frontend/js"), name="js")
-app.mount("/pages", StaticFiles(directory="frontend/pages"), name="pages")
-
 @app.get("/")
 def serve_index():
     from fastapi.responses import FileResponse
