@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    
+    --primary: #008b8b;
+    --primary-light: #20b2aa;
+    --primary-dark: #006666;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--text-primary)] font-sans antialiased;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-[var(--surface)] rounded-[var(--radius-lg)] shadow-[var(--shadow-sm)] border border-[var(--border)];
+  }
+  
+  .btn-primary {
+    @apply bg-[var(--primary)] text-white font-medium py-2 px-4 rounded-[var(--radius-md)] hover:bg-[var(--primary-dark)] transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-[var(--surface)] text-[var(--text-primary)] border border-[var(--border)] font-medium py-2 px-4 rounded-[var(--radius-md)] hover:bg-gray-50 transition-colors duration-200;
+  }
+  
+  .input-field {
+    @apply w-full border border-[var(--border)] rounded-[var(--radius-md)] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent transition-all duration-200 bg-white;
+  }
+}
