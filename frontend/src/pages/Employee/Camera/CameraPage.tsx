@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useCamera } from '../../../hooks/useCamera';
 import { recognitionService, RecognitionResult } from '../../../services/recognition.service';
 import { ScanFace, AlertCircle } from 'lucide-react';

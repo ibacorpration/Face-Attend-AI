@@ -27,7 +27,7 @@ describe('useCamera hook', () => {
     const { result } = renderHook(() => useCamera());
 
     // Mock video element attachment
-    result.current.videoRef.current = document.createElement('video');
+    (result.current.videoRef as any).current = document.createElement('video');
     
     // Simulate playing event
     setTimeout(() => {
@@ -52,7 +52,7 @@ describe('useCamera hook', () => {
     });
 
     const { result } = renderHook(() => useCamera());
-    result.current.videoRef.current = document.createElement('video');
+    (result.current.videoRef as any).current = document.createElement('video');
     
     await act(async () => {
       await result.current.startCamera();

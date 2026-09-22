@@ -1,17 +1,16 @@
-import React, { ReactNode } from 'react';
 import { render, screen, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { AuthProvider } from '../../context/AuthContext';
 import { useAuth } from '../useAuth';
 
 // Test component to consume the hook
 const TestComponent = () => {
-  const { token, login, logout, isAuthenticated } = useAuth();
+  const { login, logout, isAuthenticated } = useAuth();
 
   return (
     <div>
       <div data-testid="auth-status">{isAuthenticated ? 'Logged In' : 'Logged Out'}</div>
-      <div data-testid="token">{token || 'none'}</div>
+      <div data-testid="token">{localStorage.getItem('auth_token') || 'none'}</div>
       <button onClick={() => login('dummy-token')}>Login</button>
       <button onClick={logout}>Logout</button>
     </div>
@@ -51,7 +50,7 @@ describe('useAuth hook', () => {
   });
 
   it('should log out and remove token', () => {
-    localStorage.setItem('token', 'existing-token');
+    localStorage.setItem('auth_token', 'existing-token');
 
     render(
       <AuthProvider>
@@ -66,6 +65,6 @@ describe('useAuth hook', () => {
     });
 
     expect(screen.getByTestId('auth-status')).toHaveTextContent('Logged Out');
-    expect(localStorage.getItem('token')).toBeNull();
+    expect(localStorage.getItem('auth_token')).toBeNull();
   });
 });

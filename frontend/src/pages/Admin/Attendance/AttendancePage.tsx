@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search, Calendar, Download, FileText } from 'lucide-react';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { employeeService, Employee } from '../../../services/employee.service';
