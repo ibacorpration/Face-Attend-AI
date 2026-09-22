@@ -1,79 +1,103 @@
-# FaceAttend AI
+# FaceAttend AI 🎯
 
 ## AI Face Recognition Attendance System
 
-**Current Development Phase:** Phase 1
+**FaceAttend AI** is a production-ready, full-stack employee attendance system leveraging Computer Vision, Face Detection, Face Recognition, and Liveness checking. It features a high-performance Python/FastAPI backend and a premium, modern React/Vite frontend.
 
-### Overview
-FaceAttend AI is a production-ready employee attendance system leveraging Computer Vision, Face Detection, Face Recognition, and Liveness checking. This repository is currently in Phase 1, focusing on establishing a clean architecture, database models, and configuration.
+---
 
-### Architecture Overview
+## 🏗️ Architecture Overview
+
 The system architecture cleanly separates the Frontend, Backend, and AI components.
-- **Frontend**: HTML / CSS / Vanilla JS for Employee UI and Admin Dashboard.
-- **Backend**: FastAPI providing routes for Auth, Employees, Attendance, and Recognition API.
-- **AI**: YuNet for detection, ArcFace for recognition, Quality checking, and Liveness checking.
-- **Database**: SQLite (SQLAlchemy 2.x) to store state, configuration, and encrypted face embeddings.
 
-### Technology Stack
+- **Frontend**: A modern SPA built with React 18, Vite, TypeScript, and Tailwind CSS.
+- **Backend**: FastAPI providing robust REST APIs for Authentication, Employees, Attendance, and Recognition.
+- **AI / Computer Vision**: YuNet for fast face detection, ArcFace for highly accurate recognition, along with quality and liveness checking.
+- **Database**: SQLite (via SQLAlchemy 2.x) to store state, configuration, and encrypted face embeddings.
+
+---
+
+## 📁 Repository Structure (High-Level)
+
+To maintain clarity, here is the high-level folder architecture of the monorepo:
+
+```text
+FaceAttend AI/
+├── ai/                 # Computer Vision and AI pipeline components (Models, Extractors)
+├── backend/            # FastAPI application (Routes, Schemas, Auth, DB Models)
+├── frontend/           # React + Vite UI (Pages, Components, Hooks, Services)
+├── data/               # SQLite database storage
+├── storage/            # Local storage for employee images and attendance evidence
+├── tests/              # Automated backend tests (pytest)
+├── main.py             # FastAPI entry point
+├── requirements.txt    # Python dependencies
+└── docker-compose.yml  # Docker environment configuration
+```
+*(Note: Detailed file architecture for the frontend can be found inside `frontend/README.md`)*
+
+---
+
+## 💻 Technology Stack
+
+### Backend
 - **Language**: Python 3.10+
-- **Backend Framework**: FastAPI
+- **Framework**: FastAPI
 - **ORM**: SQLAlchemy 2.x
-- **Configuration**: Pydantic v2 and pydantic-settings
-- **Database**: SQLite
+- **Config**: Pydantic v2
 - **Testing**: pytest
 
-### Project Structure
-- `ai/`: Computer Vision and AI pipeline components (Pending Phase 2).
-- `backend/`: FastAPI application, configuration, and database components.
-- `frontend/`: UI files.
-- `storage/`: Local storage for employee images and attendance evidence.
-- `data/`: SQLite database storage.
-- `tests/`: Automated tests.
-- `main.py`: FastAPI application entry point.
+### Frontend
+- **Framework**: React 18 (TypeScript)
+- **Bundler**: Vite
+- **Styling**: Tailwind CSS
+- **Routing**: React Router v6
+- **Testing**: Vitest & React Testing Library
 
-### Database Overview
-The following tables are established:
-- `employees`: Stores employee information and status.
-- `employee_faces`: Stores encrypted face embeddings and references to images.
-- `attendance`: Tracks check-in/out times, similarity scores, and status.
-- `admin_users`: Stores admin credentials.
+---
 
-### Environment Setup
-1. Clone the repository.
-2. Copy `.env.example` to `.env` and modify as needed.
-3. Install dependencies:
+## 🚀 Environment Setup & Running Locally
+
+### 1. Backend Setup
+1. Copy `.env.example` to `.env` in the root folder.
+2. Install Python dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+3. Run the FastAPI server:
+   ```bash
+   uvicorn main:app --reload
+   ```
+   *The backend will be available at: `http://localhost:8000`*
 
-### Running the Application
-To run the FastAPI server locally:
-```bash
-uvicorn main:app --reload
-```
-The application will automatically initialize the database and tables upon startup.
+### 2. Frontend Setup
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install Node dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the Vite development server:
+   ```bash
+   npm run dev
+   ```
+   *The frontend will be available at: `http://localhost:3000` (or the port specified by Vite, e.g., 5173).*
 
-### Running Tests
-To run the test suite:
-```bash
-pytest
-```
+---
 
-### Current Status
-**All phases have been successfully completed:**
-- **Phase 1**: Database Setup & API Skeleton
-- **Phase 2**: Computer Vision Pipeline (Face Detection & Recognition)
-- **Phase 3**: FastAPI Backend Features (Auth, Employees, Attendance, Recognition)
-- **Phase 4**: Frontend UI Implementation (Glassmorphism, Kiosk, Dashboard)
-- **Phase 5**: Dockerization
+## 🌐 How to Use
 
-### How to use
-- **Admin Dashboard:** Go to `http://localhost:8000/pages/admin-login.html` (Default credentials: `admin` / `admin`)
-- **Employee Kiosk:** Go to `http://localhost:8000/pages/employee.html`
+Once both servers are running:
+- **Employee Kiosk (Face Scan):** Navigate to `http://localhost:3000/` or `http://localhost:3000/camera`
+- **Admin Dashboard:** Navigate to `http://localhost:3000/admin/login`
+  - *(Default credentials: `admin` / `admin` - or as configured in your DB)*
 
-### Docker Deployment
-To run the production-ready containerized environment:
+---
+
+## 🐳 Docker Deployment
+
+To run the entire production-ready containerized environment (Backend + AI + Frontend):
 ```bash
 docker-compose up --build
 ```
-
