@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
+import os
 from backend.core.config import settings
 from backend.db.database import init_db, engine
 from sqlalchemy import text
@@ -54,7 +55,31 @@ def health_check():
     }
     return health_status
 
-@app.get("/")
-def serve_index():
-    from fastapi.responses import FileResponse
-    return FileResponse("frontend/index.html")
+# --- Production Frontend Serving ---
+frontend_dist = os.path.join(os.path.dirname(__file__), "frontend", "dist")
+
+if os.path.isdir(frontend_dist):
+    # Mount assets specifically so they are resolved correctly
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    # Catch-all route for SPA (React Router)
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # Let FastAPI handle 404s for actual API requests that miss
+        if full_path.startswith("api/") or full_path == "health":
+            raise HTTPException(status_code=404, detail="Not Found")
+            
+        # If requesting a static file at root (e.g., favicon, vite.svg)
+        file_path = os.path.join(frontend_dist, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+            
+        # Otherwise, fall back to index.html for client-side routing
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+else:
+    # Development fallback
+    @app.get("/")
+    def serve_index():
+        return FileResponse("frontend/index.html")

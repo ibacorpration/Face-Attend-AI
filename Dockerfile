@@ -1,3 +1,12 @@
+# Stage 1: Build the React frontend
+FROM node:18-alpine AS frontend-builder
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ ./
+RUN npm run build
+
+# Stage 2: Build the FastAPI backend
 FROM python:3.10-slim
 
 # Set environment variables
@@ -21,6 +30,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY . .
+
+# Copy built frontend from Stage 1
+COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 
 # Create mount points
 RUN mkdir -p /app/data /app/ai/models
