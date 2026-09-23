@@ -4,7 +4,7 @@ import { employeeService, Employee } from '../../../services/employee.service';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { motion } from 'framer-motion';
 
-const StatCard = ({ title, value, subtext, icon, trend, bgColor, className = '' }: any) => (
+const StatCard = ({ title, value, subtext, icon, bgColor, className = '' }: any) => (
   <div className={`p-6 rounded-2xl shadow-sm border border-slate-100/10 flex items-center justify-between text-white ${bgColor} ${className}`}>
     <div>
       <p className="text-sm font-medium mb-1 opacity-90">{title}</p>
