@@ -4,6 +4,7 @@ import { Shield, ScanFace, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -11,6 +12,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [shake, setShake] = useState(0); // Trigger for shake animation
   
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -25,9 +27,11 @@ const AdminLogin = () => {
     try {
       const response = await authService.login(username, password);
       login(response.access_token);
+      toast.success('Login successful');
       navigate(from, { replace: true });
     } catch (err) {
       setError('Invalid username or password');
+      setShake(s => s + 1); // Trigger shake
     } finally {
       setIsLoading(false);
     }
@@ -35,7 +39,12 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-[#f4f7f6] flex items-center justify-center p-6">
-      <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 flex overflow-hidden w-full max-w-5xl h-[600px]">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="bg-white rounded-[2rem] shadow-sm border border-slate-100 flex overflow-hidden w-full max-w-5xl h-[600px]"
+      >
         
         {/* Left Side - Login Form */}
         <div className="w-full md:w-1/2 p-12 flex flex-col justify-center">
@@ -51,7 +60,12 @@ const AdminLogin = () => {
             <p className="text-slate-500">Sign in to your administrator account</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <motion.form 
+            onSubmit={handleLogin} 
+            className="space-y-6"
+            animate={shake ? { x: [-10, 10, -10, 10, 0] } : {}}
+            transition={{ duration: 0.4 }}
+          >
             {error && (
               <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm border border-red-100">
                 {error}
@@ -109,11 +123,11 @@ const AdminLogin = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full btn-primary py-3 flex justify-center items-center"
+              className="w-full btn-primary py-3 flex justify-center items-center transition-all duration-300 hover:bg-red-50 hover:text-red-500 hover:shadow-sm"
             >
               {isLoading ? 'Signing in...' : 'Login'}
             </button>
-          </form>
+          </motion.form>
 
           <div className="mt-6 text-center">
              <a href="#" className="text-sm text-[var(--primary)] hover:underline font-medium">Forgot password?</a>
@@ -144,7 +158,7 @@ const AdminLogin = () => {
            </motion.div>
         </div>
 
-      </div>
+      </motion.div>
     </div>
   );
 };

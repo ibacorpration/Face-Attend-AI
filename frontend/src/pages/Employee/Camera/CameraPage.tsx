@@ -73,12 +73,18 @@ const CameraPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black relative flex flex-col items-center justify-center overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-black relative flex flex-col items-center justify-center overflow-hidden"
+    >
       
       {/* Background Video */}
       <video 
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-70"
+        className="absolute inset-0 w-full h-full object-cover opacity-70 scale-x-[-1]"
         playsInline
         muted
       />

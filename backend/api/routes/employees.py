@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi.responses import FileResponse
+from pathlib import Path
 from sqlalchemy.orm import Session
 from typing import List
 from backend.db.session import get_db
@@ -65,3 +67,12 @@ def delete_employee(
     admin: AdminUser = Depends(get_current_admin),
 ):
     return employee_service.delete_employee(db, employee_id)
+
+@router.get("/{employee_id}/face/image")
+def get_employee_face_image(employee_id: int):
+    storage_dir = Path("storage/employee_images") / str(employee_id)
+    if storage_dir.exists() and storage_dir.is_dir():
+        for file in storage_dir.iterdir():
+            if file.is_file() and file.suffix.lower() in [".jpg", ".jpeg", ".png", ".webp"]:
+                return FileResponse(file)
+    raise HTTPException(status_code=404, detail="Face image not found")

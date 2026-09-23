@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { AdminLayout } from './components/common/AdminLayout';
@@ -15,6 +16,7 @@ import AttendancePage from './pages/Admin/Attendance/AttendancePage';
 function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-left" richColors />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
