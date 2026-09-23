@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, UserCheck, CalendarDays, LogIn, LogOut, ChevronDown, CheckCircle2, Clock, MoreHorizontal } from 'lucide-react';
+import { Users, UserCheck, CalendarDays, LogOut, ChevronDown, CheckCircle2, Clock, MoreHorizontal } from 'lucide-react';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { motion } from 'framer-motion';
@@ -160,7 +160,7 @@ export const AdminDashboard = () => {
           </div>
           
           <div className="space-y-3">
-            {attendance.filter(a => a.check_in && !a.check_out).slice(0, 3).map((record, i) => {
+            {attendance.filter(a => a.check_in && !a.check_out).slice(0, 3).map((record) => {
               const emp = employees.find(e => e.id === record.employee_id);
               return (
                 <Card key={record.id} className="p-4 flex items-center gap-4 hover:shadow-soft-lg">

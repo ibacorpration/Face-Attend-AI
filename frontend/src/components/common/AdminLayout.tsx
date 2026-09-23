@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
-import { Bell, Search, Menu, X } from 'lucide-react';
+import { Bell, Search, Menu } from 'lucide-react';
 import { toast } from 'sonner';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';

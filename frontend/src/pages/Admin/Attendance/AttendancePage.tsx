@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search, Calendar, Download, FileText, CheckCircle2, Clock, MapPin } from 'lucide-react';
+import { Search, Calendar, Download, FileText, MapPin } from 'lucide-react';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { motion } from 'framer-motion';

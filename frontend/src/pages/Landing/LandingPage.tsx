@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { ScanFace, Shield, ArrowRight, Video } from 'lucide-react';
+import { ScanFace, Shield, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
-import { Button } from '../../components/ui/Button';
 
 const LandingPage = () => {
   const navigate = useNavigate();

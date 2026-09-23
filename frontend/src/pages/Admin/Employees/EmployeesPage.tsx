@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Plus, Search, Edit2, Trash2, Camera, MoreVertical, X } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, Camera, Users, X } from 'lucide-react';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
@@ -104,7 +104,7 @@ export const EmployeesPage = () => {
       }
 
       if (faceImage) {
-        await employeeService.uploadFaceImage(savedEmployee.id, faceImage);
+        await employeeService.enrollFace(savedEmployee.id, faceImage);
         toast.success('Face data registered');
       }
 
@@ -199,7 +199,7 @@ export const EmployeesPage = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="font-bold text-base text-text-main truncate">{emp.full_name}</h4>
-                      {emp.face_encodings && emp.face_encodings.length > 0 ? (
+                      {(emp as any).face_encodings && (emp as any).face_encodings.length > 0 ? (
                         <Badge variant="success" className="px-1.5 py-0">
                           <Camera size={10} className="mr-1" /> Enrolled
                         </Badge>
