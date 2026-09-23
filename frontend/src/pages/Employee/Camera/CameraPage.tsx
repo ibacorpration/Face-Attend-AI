@@ -159,7 +159,7 @@ const CameraPage = () => {
         )}
       </AnimatePresence>
 
-    </div>
+    </motion.div>
   );
 };
 
