@@ -7,7 +7,6 @@ const navItems = [
   { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
   { path: '/admin/employees', icon: <Users size={20} />, label: 'Employees' },
   { path: '/admin/attendance', icon: <CalendarDays size={20} />, label: 'Attendance' },
-  { path: '/admin/reviews', icon: <ScanFace size={20} />, label: 'Recognition Reviews' },
   { path: '/admin/messages', icon: <MessageSquare size={20} />, label: 'Messages', badge: 3 },
   { path: '/admin/settings', icon: <Settings size={20} />, label: 'Settings' },
 ];
