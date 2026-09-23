@@ -51,7 +51,13 @@ function App() {
   return (
     <SmoothScroll>
       <AuthProvider>
-        <Toaster position="top-right" richColors theme="dark" />
+        <Toaster 
+          position="top-right" 
+          toastOptions={{
+            style: { marginTop: '20px' },
+            className: 'bg-sidebar border border-primary/50 text-white shadow-soft-lg rounded-2xl',
+          }} 
+        />
         <BrowserRouter>
           <AnimatedRoutes />
         </BrowserRouter>

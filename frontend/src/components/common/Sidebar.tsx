@@ -25,7 +25,7 @@ export const Sidebar: React.FC = () => {
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
           <Shield className="text-sidebar" size={18} />
         </div>
-        <span className="font-bold text-white text-lg">IBA Corpration</span>
+        <span className="font-bold text-white text-lg"> IBA Corpration </span>
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
@@ -35,10 +35,9 @@ export const Sidebar: React.FC = () => {
             to={item.path}
             end={item.path === '/admin'}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-full transition-colors font-medium ${
-                isActive
-                  ? 'bg-primary text-sidebar'
-                  : 'hover:bg-white/5 text-slate-400 hover:text-white'
+              `flex items-center gap-3 px-4 py-3 rounded-full transition-colors font-medium ${isActive
+                ? 'bg-primary text-sidebar'
+                : 'hover:bg-white/5 text-slate-400 hover:text-white'
               }`
             }
           >
