@@ -21,7 +21,7 @@ const LandingPage = () => {
           <div className="w-12 h-12 bg-sidebar rounded-[14px] flex items-center justify-center shadow-soft">
             <Shield className="text-primary" size={24} />
           </div>
-          <h1 className="text-3xl font-bold text-text-main tracking-tight">Eduplex<span className="text-primary">.</span></h1>
+          <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corpration<span className="text-primary">.</span></h1>
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold text-text-main mb-4 tracking-tight leading-tight">
           Smart Attendance <br />

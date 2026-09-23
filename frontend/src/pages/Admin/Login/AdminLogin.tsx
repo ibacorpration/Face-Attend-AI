@@ -63,7 +63,7 @@ const AdminLogin = () => {
               <Shield className="text-sidebar" size={32} />
             </div>
             <h2 className="text-2xl font-bold text-white text-center mb-2">Welcome Back</h2>
-            <p className="text-slate-400 text-center text-sm">Enter your credentials to access Eduplex.</p>
+            <p className="text-slate-400 text-center text-sm">Enter your credentials to access IBA Corpration.</p>
           </div>
 
           {/* Form */}

@@ -7,7 +7,7 @@ import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
-  '/admin': { title: 'Welcome back Admin 👋', subtitle: 'Explore your Eduplex dashboard' },
+  '/admin': { title: 'Welcome back Admin 👋', subtitle: 'Explore your IBA Corpration dashboard' },
   '/admin/employees': { title: 'My Team', subtitle: 'Manage your team members and roles' },
   '/admin/attendance': { title: 'Attendance Log', subtitle: 'Monitor daily check-ins and check-outs' },
   '/admin/messages': { title: 'Messages', subtitle: 'System notifications and alerts' },
