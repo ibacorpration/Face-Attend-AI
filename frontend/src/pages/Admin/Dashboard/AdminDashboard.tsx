@@ -21,7 +21,7 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
 };
 
-const StatCard = ({ title, value, subtext, rate, icon, type }: any) => (
+const StatCard = ({ title, value, subtext, rate, icon }: any) => (
   <Card tinted className="flex flex-col relative overflow-hidden group">
     <div className="flex justify-between items-start mb-4">
       <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
