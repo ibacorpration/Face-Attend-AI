@@ -55,9 +55,9 @@ export const Sidebar: React.FC = () => {
       <div className="p-4 border-t border-white/5">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white font-medium w-full text-left rounded-full hover:bg-white/5 transition-colors"
+          className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-error font-medium w-full text-left rounded-full hover:bg-error/10 transition-colors group"
         >
-          <LogOut size={20} />
+          <LogOut size={20} className="group-hover:text-error transition-colors" />
           <span>Logout</span>
         </button>
       </div>

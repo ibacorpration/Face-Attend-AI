@@ -7,6 +7,7 @@ import { AnimatedCounter } from '../../../components/ui/AnimatedCounter';
 import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -21,8 +22,8 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } }
 };
 
-const StatCard = ({ title, value, subtext, rate, icon }: any) => (
-  <Card tinted className="flex flex-col relative overflow-hidden group">
+const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
+  <Card tinted className={`flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:border-primary transition-colors' : ''}`} onClick={onClick}>
     <div className="flex justify-between items-start mb-4">
       <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
         {icon}
@@ -49,6 +50,7 @@ export const AdminDashboard = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,6 +90,24 @@ export const AdminDashboard = () => {
   const checkedIn = attendance.filter(a => a.check_in && !a.check_out).length;
   const checkedOut = attendance.filter(a => a.check_in && a.check_out).length;
 
+  const hourlyData = Array.from({ length: 7 }).map((_, i) => {
+    const hour = 8 + i; // 8 AM to 2 PM
+    const count = attendance.filter(a => {
+      if (!a.check_in) return false;
+      return new Date(a.check_in).getHours() === hour;
+    }).length;
+    return {
+      label: `${hour > 12 ? hour - 12 : hour}${hour >= 12 ? 'pm' : 'am'}`,
+      count,
+      isMax: false
+    };
+  });
+  const maxHourlyCount = Math.max(...hourlyData.map(d => d.count), 5);
+  const highestCountIndex = hourlyData.reduce((maxIndex, current, i, arr) => current.count > arr[maxIndex].count ? i : maxIndex, 0);
+  if (hourlyData[highestCountIndex].count > 0) {
+    hourlyData[highestCountIndex].isMax = true;
+  }
+
   return (
     <motion.div 
       variants={containerVariants}
@@ -107,6 +127,7 @@ export const AdminDashboard = () => {
               value={totalEmployees} 
               subtext="Members" 
               icon={<Users size={20} className="text-sidebar" />} 
+              onClick={() => navigate('/admin/employees')}
             />
             <StatCard 
               title="Active Today" 
@@ -114,12 +135,14 @@ export const AdminDashboard = () => {
               subtext="Checked in" 
               rate={`${((todayAttendance/activeEmployees)*100 || 0).toFixed(0)}%`}
               icon={<UserCheck size={20} className="text-sidebar" />} 
+              onClick={() => navigate('/admin/attendance')}
             />
             <StatCard 
-              title="Completed Shift" 
+              title="Checked in" 
               value={checkedOut} 
               subtext="Left" 
               icon={<LogOut size={20} className="text-sidebar" />} 
+              onClick={() => navigate('/admin/attendance')}
             />
           </div>
         </div>
@@ -129,21 +152,25 @@ export const AdminDashboard = () => {
            <div className="flex justify-between items-center mb-6">
              <h3 className="font-bold text-text-main text-lg">Hours Activity</h3>
              <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-text-main hover:bg-slate-50 transition-colors">
-               Weekly <ChevronDown size={14} />
+               Today <ChevronDown size={14} />
              </button>
            </div>
            
            <div className="flex-1 w-full flex items-end gap-3 overflow-hidden px-2 pb-2">
-             {[40, 70, 45, 90, 65, 80, 50].map((height, i) => (
-               <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
+             {hourlyData.map((data, i) => (
+               <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
+                 {/* Tooltip on hover */}
+                 <div className="absolute -top-8 bg-sidebar text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                   {data.count}
+                 </div>
                  <motion.div 
-                   className={`w-full rounded-t-md transition-colors ${i === 3 ? 'bg-primary' : 'bg-sidebar group-hover:bg-slate-700'}`}
+                   className={`w-full rounded-t-md transition-colors ${data.isMax ? 'bg-primary' : 'bg-sidebar group-hover:bg-slate-700'}`}
                    initial={{ height: 0 }}
-                   animate={{ height: `${height}%` }}
+                   animate={{ height: `${Math.max((data.count / maxHourlyCount) * 100, 2)}%` }}
                    transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
                  />
                  <span className="text-xs font-semibold text-text-secondary uppercase">
-                   {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][i]}
+                   {data.label}
                  </span>
                </div>
              ))}

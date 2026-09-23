@@ -12,6 +12,7 @@ import AdminLogin from './pages/Admin/Login/AdminLogin';
 import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
 import EmployeesPage from './pages/Admin/Employees/EmployeesPage';
 import AttendancePage from './pages/Admin/Attendance/AttendancePage';
+import MessagesPage from './pages/Admin/Messages/MessagesPage';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -33,13 +34,13 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<PageWrapper><LandingPage /></PageWrapper>} />
         <Route path="/camera" element={<PageWrapper><CameraPage /></PageWrapper>} />
         <Route path="/admin/login" element={<PageWrapper><AdminLogin /></PageWrapper>} />
-        
+
         {/* Admin Protected Routes */}
         <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
           <Route index element={<PageWrapper><AdminDashboard /></PageWrapper>} />
           <Route path="employees" element={<PageWrapper><EmployeesPage /></PageWrapper>} />
           <Route path="attendance" element={<PageWrapper><AttendancePage /></PageWrapper>} />
-          <Route path="messages" element={<PageWrapper><div className="bg-surface rounded-2xl shadow-sm border border-slate-100 p-12 text-center text-slate-500">No messages yet.</div></PageWrapper>} />
+          <Route path="messages" element={<PageWrapper><MessagesPage /></PageWrapper>} />
           <Route path="settings" element={<PageWrapper><div className="bg-surface rounded-2xl shadow-sm border border-slate-100 p-12 text-center text-slate-500">System settings coming soon.</div></PageWrapper>} />
         </Route>
       </Routes>
@@ -51,12 +52,12 @@ function App() {
   return (
     <SmoothScroll>
       <AuthProvider>
-        <Toaster 
-          position="top-right" 
+        <Toaster
+          position="top-right"
           toastOptions={{
-            style: { marginTop: '20px' },
+            style: { marginTop: '50px' },
             className: 'bg-sidebar border border-primary/50 text-white shadow-soft-lg rounded-2xl',
-          }} 
+          }}
         />
         <BrowserRouter>
           <AnimatedRoutes />

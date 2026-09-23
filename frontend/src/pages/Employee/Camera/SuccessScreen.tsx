@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { CheckCircle2, MessageSquare, Send } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, MessageSquare, Send, Reply } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RecognitionResult } from '../../../services/recognition.service';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { toast } from 'sonner';
+import { messageService, AdminMessage } from '../../../services/message.service';
 
 interface SuccessScreenProps {
   result: RecognitionResult;
@@ -15,6 +16,13 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
   const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [replies, setReplies] = useState<AdminMessage[]>([]);
+
+  useEffect(() => {
+    if (result.full_name) {
+      setReplies(messageService.getEmployeeReplies(result.full_name));
+    }
+  }, [result.full_name]);
 
   const handleContinue = () => {
     onContinue();
@@ -27,16 +35,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
     
     // Simulate API call and save to local storage for demo purposes
     setTimeout(() => {
-      const existingMessages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
-      existingMessages.push({
-        id: Date.now(),
-        employeeName: result.full_name,
-        department: result.department,
-        text: message,
-        date: new Date().toISOString()
-      });
-      localStorage.setItem('adminMessages', JSON.stringify(existingMessages));
-      
+      messageService.sendMessage(result.full_name || 'Employee', result.department || 'Staff', message);
       toast.success('Message sent to Admin');
       setMessage('');
       setIsSending(false);
@@ -67,6 +66,30 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
         <h2 className="text-primary font-bold text-lg mb-1 tracking-wide uppercase">Identity Confirmed</h2>
         <h1 className="text-3xl font-extrabold text-white mb-1 truncate w-full px-4">{result.full_name?.split(' ')[0] || 'Employee'}</h1>
         <p className="text-slate-400 text-sm font-medium mb-8">{result.department || 'Staff Member'}</p>
+
+        {/* Admin Replies */}
+        {replies.length > 0 && (
+          <div className="w-full space-y-3 mb-6">
+            {replies.map((reply) => (
+              <div key={reply.id} className="w-full bg-primary/10 rounded-2xl p-4 border border-primary/20 text-left">
+                <div className="flex items-center gap-2 text-sm font-bold text-primary mb-2">
+                  <Reply size={16} />
+                  Reply from Admin
+                </div>
+                <p className="text-white text-sm mb-3 pl-6 border-l-2 border-white/10 ml-2">{reply.text}</p>
+                <p className="text-primary-light font-medium text-sm bg-primary/10 p-3 rounded-xl">
+                  {reply.reply}
+                </p>
+                <div className="flex justify-end mt-2">
+                   <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white text-xs h-7" onClick={() => {
+                     messageService.deleteMessage(reply.id);
+                     setReplies(messageService.getEmployeeReplies(result.full_name || ''));
+                   }}>Dismiss</Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Message to Admin */}
         <div className="w-full bg-white/5 rounded-2xl p-5 mb-8 border border-white/10 text-left">
