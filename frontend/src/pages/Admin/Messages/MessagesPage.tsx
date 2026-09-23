@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, Reply, Trash2, CheckCircle2 } from 'lucide-react';
 import { messageService, AdminMessage } from '../../../services/message.service';
@@ -80,8 +80,8 @@ const MessagesPage = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="font-bold text-lg text-text-main">{msg.employeeName}</h3>
-                        <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-600">{msg.department}</Badge>
-                        {msg.status === 'unread' && <Badge variant="primary" className="text-xs">New</Badge>}
+                        <Badge variant="default" className="text-xs bg-slate-100 text-slate-600">{msg.department}</Badge>
+                        {msg.status === 'unread' && <Badge variant="success" className="text-xs bg-primary text-sidebar border-none">New</Badge>}
                         {msg.reply && <Badge className="text-xs bg-green-100 text-green-700">Replied</Badge>}
                         <span className="text-xs text-slate-400 ml-auto">
                           {new Date(msg.date).toLocaleString()}
