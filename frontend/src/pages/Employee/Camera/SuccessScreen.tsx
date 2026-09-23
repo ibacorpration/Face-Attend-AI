@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, User, MessageSquare, Send } from 'lucide-react';
+import { CheckCircle2, MessageSquare, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RecognitionResult } from '../../../services/recognition.service';
 import { useNavigate } from 'react-router-dom';
