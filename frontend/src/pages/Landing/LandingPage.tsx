@@ -24,12 +24,8 @@ const LandingPage = () => {
           <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corpration<span className="text-primary">.</span></h1>
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold text-text-main mb-4 tracking-tight leading-tight">
-          Smart Attendance <br />
-          <span className="text-slate-400">Reimagined.</span>
+          Smart Attendance
         </h2>
-        <p className="text-text-secondary max-w-lg mx-auto text-lg">
-          Experience seamless check-ins powered by advanced face recognition.
-        </p>
       </motion.div>
 
       <motion.div 
