@@ -3,6 +3,7 @@ import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { AdminLayout } from './components/common/AdminLayout';
+import { SmoothScroll } from './components/common/SmoothScroll';
 
 import LandingPage from './pages/Landing/LandingPage';
 import CameraPage from './pages/Employee/Camera/CameraPage';
@@ -15,9 +16,10 @@ import AttendancePage from './pages/Admin/Attendance/AttendancePage';
 
 function App() {
   return (
-    <AuthProvider>
-      <Toaster position="top-left" richColors />
-      <BrowserRouter>
+    <SmoothScroll>
+      <AuthProvider>
+        <Toaster position="top-left" richColors />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/camera" element={<CameraPage />} />
@@ -35,6 +37,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </SmoothScroll>
   );
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Bell, ChevronDown } from 'lucide-react';
+import { toast } from 'sonner';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
   '/admin': { title: 'Dashboard', subtitle: 'System overview and key statistics' },
@@ -17,7 +18,7 @@ export const AdminLayout: React.FC = () => {
   const headerInfo = routeTitles[location.pathname] || { title: 'Admin', subtitle: '' };
 
   return (
-    <div className="flex h-screen bg-[#f8fafc] overflow-hidden">
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         
@@ -29,7 +30,10 @@ export const AdminLayout: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-6">
-            <button className="relative text-slate-400 hover:text-slate-600 transition-colors">
+            <button 
+              onClick={() => toast.info('No new notifications')}
+              className="relative text-slate-400 hover:text-slate-600 transition-colors"
+            >
               <Bell size={20} />
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
             </button>
