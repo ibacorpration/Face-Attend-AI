@@ -1,86 +1,81 @@
 import { useNavigate } from 'react-router-dom';
-import { ScanFace, Shield, ArrowRight } from 'lucide-react';
+import { ScanFace, Shield, ArrowRight, Video } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Card } from '../../components/ui/Card';
+import { Button } from '../../components/ui/Button';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#f4f7f6] flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Background decorative elements matching the reference's light, calm, spacious feel */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-100/40 blur-3xl" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-teal-100/40 blur-3xl" />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
+      {/* Decorative background matching Eduplex */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
 
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center z-10 mb-12"
       >
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-[var(--primary)] rounded-xl flex items-center justify-center shadow-sm">
-            <Shield className="text-white" size={24} /> {/* Placeholder for logo */}
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <div className="w-12 h-12 bg-sidebar rounded-[14px] flex items-center justify-center shadow-soft">
+            <Shield className="text-primary" size={24} />
           </div>
-          <h1 className="text-2xl font-bold text-slate-800">FaceAttend AI</h1>
+          <h1 className="text-3xl font-bold text-text-main tracking-tight">Eduplex<span className="text-primary">.</span></h1>
         </div>
-        <h2 className="text-xl font-semibold text-slate-700 mb-2">Smart Face Recognition Attendance</h2>
-        <p className="text-sm text-slate-400 flex items-center justify-center gap-2">
-          Secure <span className="w-1 h-1 rounded-full bg-slate-300"></span> 
-          Fast <span className="w-1 h-1 rounded-full bg-slate-300"></span> 
-          Accurate
+        <h2 className="text-4xl md:text-5xl font-extrabold text-text-main mb-4 tracking-tight leading-tight">
+          Smart Attendance <br />
+          <span className="text-slate-400">Reimagined.</span>
+        </h2>
+        <p className="text-text-secondary max-w-lg mx-auto text-lg">
+          Experience seamless check-ins powered by advanced face recognition.
         </p>
       </motion.div>
 
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="z-10 bg-white p-8 rounded-3xl shadow-sm border border-slate-100 w-full max-w-3xl flex flex-col md:flex-row items-center gap-8 relative"
+        transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="z-10 w-full max-w-3xl flex flex-col md:flex-row gap-6 relative"
       >
-        {/* Top center icon in the reference */}
-        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
-          <ScanFace className="text-[var(--primary)]" size={32} />
-        </div>
-
         {/* Employee Card - Primary Action */}
-        <button 
-          onClick={() => navigate('/camera')}
-          className="flex-1 w-full text-left bg-gradient-to-br from-teal-400 to-teal-600 rounded-2xl p-8 text-white relative overflow-hidden group transition-transform hover:-translate-y-1 hover:shadow-lg"
-        >
-          {/* Decorative circles */}
-          <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-xl transition-transform group-hover:scale-150" />
-          
-          <div className="relative z-10">
-            <h3 className="text-2xl font-bold mb-3">Employee</h3>
-            <p className="text-teal-50 text-sm mb-12 leading-relaxed">
-              Check in / Check out<br/>
-              using face recognition
+        <Card tinted className="flex-1 p-8 relative overflow-hidden group cursor-pointer border-2 border-transparent hover:border-primary/50 transition-colors" onClick={() => navigate('/camera')}>
+          <div className="relative z-10 flex flex-col h-full">
+            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm text-sidebar">
+              <ScanFace size={28} />
+            </div>
+            <h3 className="text-2xl font-bold text-text-main mb-3">Camera Kiosk</h3>
+            <p className="text-text-secondary mb-10 flex-grow">
+              Access the live camera feed for instant employee check-in and check-out.
             </p>
-            <div className="w-10 h-10 bg-white text-teal-600 rounded-full flex items-center justify-center shadow-sm transition-transform group-hover:translate-x-2">
-              <ArrowRight size={20} />
+            <div className="flex items-center justify-between mt-auto">
+              <span className="font-bold text-sm text-text-main group-hover:text-sidebar transition-colors">Launch Camera</span>
+              <div className="w-10 h-10 bg-sidebar text-primary rounded-full flex items-center justify-center transition-transform group-hover:translate-x-2">
+                <ArrowRight size={20} />
+              </div>
             </div>
           </div>
-        </button>
+        </Card>
 
         {/* Admin Card - Secondary Action */}
-        <button 
-          onClick={() => navigate('/admin/login')}
-          className="flex-1 w-full text-left bg-slate-50 border border-slate-100 rounded-2xl p-8 text-slate-800 relative group transition-transform hover:-translate-y-1 hover:shadow-md"
-        >
+        <Card className="flex-1 p-8 relative overflow-hidden group cursor-pointer border-2 border-transparent hover:border-sidebar/10 transition-colors" onClick={() => navigate('/admin/login')}>
           <div className="relative z-10 flex flex-col h-full">
-            <div className="mb-4">
-              <Shield className="text-slate-400" size={32} />
+            <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 text-slate-600">
+              <Shield size={28} />
             </div>
-            <h3 className="text-2xl font-bold mb-3">Admin</h3>
-            <p className="text-slate-500 text-sm mb-6 leading-relaxed flex-grow">
-              Manage employees,<br/>
-              attendance and system
+            <h3 className="text-2xl font-bold text-text-main mb-3">Admin Portal</h3>
+            <p className="text-text-secondary mb-10 flex-grow">
+              Manage your team, track attendance logs, and configure system settings.
             </p>
-            <div className="w-10 h-10 bg-white border border-slate-200 text-slate-600 rounded-full flex items-center justify-center shadow-sm transition-transform group-hover:translate-x-2 mt-auto">
-              <ArrowRight size={20} />
+            <div className="flex items-center justify-between mt-auto">
+              <span className="font-bold text-sm text-text-main group-hover:text-sidebar transition-colors">Sign In</span>
+              <div className="w-10 h-10 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-2 group-hover:bg-sidebar group-hover:text-white">
+                <ArrowRight size={20} />
+              </div>
             </div>
           </div>
-        </button>
-
+        </Card>
       </motion.div>
     </div>
   );

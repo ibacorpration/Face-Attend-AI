@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Shield, ScanFace, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Shield, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { Input } from '../../../components/ui/Input';
+import { Button } from '../../../components/ui/Button';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [shake, setShake] = useState(0); // Trigger for shake animation
+  const [shake, setShake] = useState(0); 
   
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,143 +22,112 @@ const AdminLogin = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
     try {
       const response = await authService.login(username, password);
       login(response.access_token);
-      toast.success('Login successful');
+      toast.success('Successfully logged in');
       navigate(from, { replace: true });
-    } catch (err) {
-      setError('Invalid username or password');
-      setShake(s => s + 1); // Trigger shake
+    } catch (err: any) {
+      setShake(s => s + 1);
+      toast.error(err.response?.data?.detail || 'Invalid username or password');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f7f6] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans">
+      {/* Decorative Elements */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
+
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-[2rem] shadow-sm border border-slate-100 flex overflow-hidden w-full max-w-5xl h-[600px]"
+        animate={{ x: shake > 0 ? [-10, 10, -10, 10, 0] : 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md relative z-10"
       >
-        
-        {/* Left Side - Login Form */}
-        <div className="w-full md:w-1/2 p-12 flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-12">
-            <div className="w-8 h-8 bg-[var(--primary)] rounded-lg flex items-center justify-center">
-              <Shield className="text-white" size={18} />
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="bg-sidebar rounded-[32px] p-10 shadow-soft-lg border border-sidebar/50"
+        >
+          {/* Logo / Header */}
+          <div className="flex flex-col items-center mb-10">
+            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+              <Shield className="text-sidebar" size={32} />
             </div>
-            <span className="font-bold text-slate-800 text-lg">FaceAttend AI</span>
+            <h2 className="text-2xl font-bold text-white text-center mb-2">Welcome Back</h2>
+            <p className="text-slate-400 text-center text-sm">Enter your credentials to access Eduplex.</p>
           </div>
 
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold text-slate-800 mb-2">Admin Access</h1>
-            <p className="text-slate-500">Sign in to your administrator account</p>
-          </div>
-
-          <motion.form 
-            onSubmit={handleLogin} 
-            className="space-y-6"
-            animate={shake ? { x: [-10, 10, -10, 10, 0] } : {}}
-            transition={{ duration: 0.4 }}
-          >
-            {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm border border-red-100">
-                {error}
-              </div>
-            )}
-            
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Username</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User size={18} className="text-slate-400" />
-                </div>
-                <input
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2 pl-1">Username</label>
+                <Input
                   type="text"
+                  placeholder="Enter username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="input-field pl-10"
-                  placeholder="Enter your username"
+                  icon={<User size={18} />}
                   required
+                  className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-primary focus-visible:border-primary"
                 />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock size={18} className="text-slate-400" />
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2 pl-1">Password</label>
+                <div className="relative">
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    icon={<Lock size={18} />}
+                    required
+                    className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-primary focus-visible:border-primary pr-12"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
                 </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field pl-10 pr-10"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPassword ? <EyeOff size={18} className="text-slate-400 hover:text-slate-600" /> : <Eye size={18} className="text-slate-400 hover:text-slate-600" />}
-                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="rounded border-slate-300 text-[var(--primary)] focus:ring-[var(--primary)]" />
-                <span className="text-sm text-slate-600">Remember me</span>
+            <div className="flex items-center justify-between mt-2 mb-8">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <div className="relative flex items-center justify-center w-5 h-5 border border-white/20 rounded bg-white/5 group-hover:border-primary transition-colors">
+                   <input type="checkbox" className="opacity-0 absolute w-full h-full cursor-pointer" />
+                </div>
+                <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Remember me</span>
               </label>
+              <a href="#" className="text-sm font-medium text-primary hover:text-primary-light transition-colors">Forgot Password?</a>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={isLoading}
-              className="w-full btn-primary py-3 flex justify-center items-center transition-all duration-300 hover:bg-red-50 hover:text-red-500 hover:shadow-sm"
+              className="w-full h-12 text-base font-bold bg-primary text-sidebar hover:bg-primary-light rounded-full"
             >
-              {isLoading ? 'Signing in...' : 'Login'}
-            </button>
-          </motion.form>
-
-          <div className="mt-6 text-center">
-             <a href="#" className="text-sm text-[var(--primary)] hover:underline font-medium">Forgot password?</a>
-          </div>
-        </div>
-
-        {/* Right Side - Illustration */}
-        <div className="hidden md:flex w-1/2 bg-slate-50 flex-col items-center justify-center p-12 border-l border-slate-100 relative overflow-hidden">
-           {/* Abstract shapes matching the light, blue/cyan theme */}
-           <div className="absolute top-20 right-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-60"></div>
-           <div className="absolute bottom-20 left-20 w-64 h-64 bg-teal-100 rounded-full blur-3xl opacity-60"></div>
-           
-           <motion.div 
-             initial={{ y: 20, opacity: 0 }}
-             animate={{ y: 0, opacity: 1 }}
-             transition={{ delay: 0.2 }}
-             className="relative z-10 text-center flex flex-col items-center"
-           >
-              {/* Illustration placeholder replacing the specific image */}
-              <div className="w-64 h-48 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center relative mb-8">
-                 <div className="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-xl shadow-sm border border-slate-100 flex items-center justify-center">
-                    <Shield className="text-[var(--primary)]" size={24} />
-                 </div>
-                 <ScanFace className="text-blue-500" size={64} strokeWidth={1} />
-              </div>
-              <h2 className="text-xl font-bold text-slate-800 mb-2">Secure Administration</h2>
-              <p className="text-slate-500 text-sm max-w-xs text-center">Manage your employees, attendance and system settings.</p>
-           </motion.div>
-        </div>
-
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 border-2 border-sidebar/20 border-t-sidebar rounded-full animate-spin" />
+                  <span>Signing in...</span>
+                </div>
+              ) : (
+                'Sign In'
+              )}
+            </Button>
+          </form>
+        </motion.div>
       </motion.div>
     </div>
   );

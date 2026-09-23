@@ -1,9 +1,22 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Plus, Search, Edit2, Trash2, Camera, User, X } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, Camera, MoreVertical, X } from 'lucide-react';
 import { employeeService, Employee } from '../../../services/employee.service';
-import { Modal } from '../../../components/ui/Modal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import { Card } from '../../../components/ui/Card';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { Badge } from '../../../components/ui/Badge';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 }
+};
 
 export const EmployeesPage = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -42,7 +55,7 @@ export const EmployeesPage = () => {
       setEmployees(data);
     } catch (error) {
       console.error('Failed to fetch employees', error);
-      toast.error('Failed to fetch employees');
+      toast.error('Failed to load team data');
     } finally {
       setIsLoading(false);
     }
@@ -74,42 +87,38 @@ export const EmployeesPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.full_name) {
+      toast.error('Full name is required');
+      return;
+    }
+
     setIsSubmitting(true);
     try {
+      let savedEmployee;
       if (editingEmployee) {
-        await employeeService.updateEmployee(editingEmployee.id, {
-          full_name: formData.full_name,
-          department: formData.department,
-          phone: formData.phone,
-          status: formData.status
-        });
-        toast.success('Employee updated successfully');
+        savedEmployee = await employeeService.updateEmployee(editingEmployee.id, formData);
+        toast.success('Member updated successfully');
       } else {
-        const generatedCode = `EMP-${Date.now()}`;
-        const newEmp = await employeeService.createEmployee({
-          employee_code: generatedCode,
-          full_name: formData.full_name,
-          department: formData.department,
-          phone: formData.phone,
-          status: 'active'
-        });
-        
-        if (faceImage && newEmp) {
-          await employeeService.enrollFace(newEmp.id, faceImage);
-        }
-        toast.success('Employee added successfully');
+        savedEmployee = await employeeService.createEmployee(formData);
+        toast.success('Member added successfully');
       }
-      await fetchEmployees();
+
+      if (faceImage) {
+        await employeeService.uploadFaceImage(savedEmployee.id, faceImage);
+        toast.success('Face data registered');
+      }
+
       handleCloseModal();
-    } catch (error) {
+      await fetchEmployees();
+    } catch (error: any) {
       console.error('Failed to save employee', error);
-      toast.error('Failed to save employee data.');
+      toast.error(error.response?.data?.detail || 'Failed to save member details');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const openDeleteModal = (id: number) => {
+  const handleDeleteClick = (id: number) => {
     setEmployeeToDelete(id);
     setDeleteModalOpen(true);
   };
@@ -118,11 +127,10 @@ export const EmployeesPage = () => {
     if (employeeToDelete) {
       try {
         await employeeService.deleteEmployee(employeeToDelete);
-        toast.success('Employee deleted successfully');
+        toast.success('Member removed');
         await fetchEmployees();
       } catch (error) {
-        console.error('Failed to delete employee', error);
-        toast.error('Failed to delete employee.');
+        toast.error('Failed to remove member');
       } finally {
         setDeleteModalOpen(false);
         setEmployeeToDelete(null);
@@ -136,242 +144,217 @@ export const EmployeesPage = () => {
   );
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      className="bg-white rounded-2xl shadow-sm border border-slate-100 h-full flex flex-col overflow-hidden relative"
-    >
-      <div className="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-          <input
-            type="text"
-            placeholder="Search employees..."
+    <div className="flex flex-col h-full gap-6 max-w-6xl mx-auto">
+      {/* Header Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="w-full sm:w-96">
+          <Input 
+            placeholder="Search by name or phone..." 
+            icon={<Search size={18} />} 
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] transition-shadow text-sm"
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
-        <button onClick={() => handleOpenModal()} className="btn-primary flex items-center justify-center gap-2 whitespace-nowrap">
-          <Plus size={18} />
-          <span>Add Employee</span>
-        </button>
+        <Button variant="primary" onClick={() => handleOpenModal()}>
+          <Plus size={18} className="mr-2" />
+          Add Team Member
+        </Button>
       </div>
 
-      <div className="flex-1 overflow-auto">
-        <table className="w-full text-left text-sm text-slate-600">
-          <thead className="bg-slate-50 text-slate-500 font-medium sticky top-0 border-b border-slate-100">
-            <tr>
-              <th className="px-6 py-4">Employee</th>
-              <th className="px-6 py-4">Phone</th>
-              <th className="px-6 py-4">Department</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4">Face Enrollment</th>
-              <th className="px-6 py-4">Created Date</th>
-              <th className="px-6 py-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {isLoading ? (
-              <tr>
-                <td colSpan={7} className="text-center py-12 text-slate-400">Loading...</td>
-              </tr>
-            ) : filteredEmployees.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="text-center py-12 text-slate-400">No employees found.</td>
-              </tr>
-            ) : (
-              filteredEmployees.map(emp => (
-                <tr key={emp.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
-                      <img 
-                        src={`http://localhost:8000/api/v1/employees/${emp.id}/face/image`}
-                        onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }}
-                        className="w-full h-full object-cover"
-                        alt={emp.full_name}
-                      />
-                      <User size={18} className="text-slate-400 hidden" />
+      {/* Employee List */}
+      <div className="flex-1 overflow-y-auto pb-8">
+        {isLoading ? (
+          <div className="space-y-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 bg-white rounded-[20px] animate-pulse shadow-sm border border-slate-100" />
+            ))}
+          </div>
+        ) : filteredEmployees.length === 0 ? (
+          <div className="text-center py-20 text-text-secondary">
+            <Users size={48} className="mx-auto mb-4 opacity-20" />
+            <p>No team members found.</p>
+          </div>
+        ) : (
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
+            {filteredEmployees.map(emp => (
+              <motion.div key={emp.id} variants={itemVariants}>
+                <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
+                  <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
+                    <img 
+                      src={`http://localhost:8000/api/v1/employees/${emp.id}/face/image`}
+                      onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }}
+                      className="w-full h-full object-cover"
+                      alt={emp.full_name}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-bold bg-slate-50 text-xl hidden">
+                      {emp.full_name.charAt(0).toUpperCase()}
                     </div>
-                    <span className="font-medium text-slate-800">{emp.full_name}</span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">{emp.phone || '—'}</td>
-                  <td className="px-6 py-4 text-slate-500">{emp.department || '—'}</td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      emp.status.toLowerCase() === 'active' 
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-slate-100 text-slate-700'
-                    }`}>
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h4 className="font-bold text-base text-text-main truncate">{emp.full_name}</h4>
+                      {emp.face_encodings && emp.face_encodings.length > 0 ? (
+                        <Badge variant="success" className="px-1.5 py-0">
+                          <Camera size={10} className="mr-1" /> Enrolled
+                        </Badge>
+                      ) : (
+                        <Badge variant="warning" className="px-1.5 py-0">Pending Face</Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-text-secondary">
+                      <span>{emp.department || 'No Dept'}</span>
+                      <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                      <span>{emp.phone || 'No Phone'}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-2 shrink-0">
+                    <Badge variant={emp.status.toLowerCase() === 'active' ? 'success' : 'default'} dot>
                       {emp.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-full">
-                      <Camera size={14} />
-                      Enrolled
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {new Date(emp.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="flex justify-end gap-2">
-                      <button 
-                        onClick={() => handleOpenModal(emp)}
-                        className="p-2 text-slate-400 hover:text-[var(--primary)] hover:bg-teal-50 rounded-lg transition-colors"
-                        title="Edit Employee"
-                      >
+                    </Badge>
+                    <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button onClick={() => handleOpenModal(emp)} className="p-2 text-slate-400 hover:text-primary transition-colors">
                         <Edit2 size={16} />
                       </button>
-                      <button 
-                        onClick={() => openDeleteModal(emp.id)}
-                        className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete Employee"
-                      >
+                      <button onClick={() => handleDeleteClick(emp.id)} className="p-2 text-slate-400 hover:text-error transition-colors">
                         <Trash2 size={16} />
                       </button>
                     </div>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      <Modal 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-        title={editingEmployee ? 'Edit Employee' : 'Add Employee'}
-      >
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Full Name *</label>
-            <input 
-              required 
-              type="text" 
-              className="input-field"
-              value={formData.full_name}
-              onChange={(e) => setFormData({...formData, full_name: e.target.value})}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Phone</label>
-            <input 
-              type="text" 
-              className="input-field"
-              value={formData.phone}
-              onChange={(e) => setFormData({...formData, phone: e.target.value})}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Department</label>
-            <input 
-              type="text" 
-              className="input-field"
-              value={formData.department}
-              onChange={(e) => setFormData({...formData, department: e.target.value})}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Salary</label>
-            <input 
-              type="text" 
-              className="input-field"
-              value={formData.salary}
-              onChange={(e) => setFormData({...formData, salary: e.target.value})}
-            />
-          </div>
-          
-          {editingEmployee && (
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Status</label>
-              <select 
-                className="input-field"
-                value={formData.status}
-                onChange={(e) => setFormData({...formData, status: e.target.value})}
-              >
-                <option value="active">Active</option>
-                <option value="disable">Disable</option>
-              </select>
-            </div>
-          )}
-
-          {!editingEmployee && (
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Upload Face Image</label>
-              <input 
-                type="file" 
-                ref={fileInputRef}
-                accept="image/*"
-                className="input-field py-2"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setFaceImage(e.target.files[0]);
-                  }
-                }}
-              />
-            </div>
-          )}
-          
-          <div className="pt-4 flex justify-end gap-3 border-t border-slate-100">
-            <button type="button" onClick={handleCloseModal} className="btn-secondary">Cancel</button>
-            <button type="submit" disabled={isSubmitting} className="btn-primary">
-              {isSubmitting ? 'Saving...' : 'Save Employee'}
-            </button>
-          </div>
-        </form>
-      </Modal>
-
-      {/* Custom Delete Confirmation Modal */}
-      <AnimatePresence>
-        {deleteModalOpen && (
-          <motion.div 
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div 
-              className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden relative"
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <button 
-                onClick={() => setDeleteModalOpen(false)}
-                className="absolute top-4 left-4 p-1 text-slate-400 hover:text-slate-600 rounded-full transition-colors"
-              >
-                <X size={20} />
-              </button>
-              
-              <div className="p-6 pt-12 text-center">
-                <h3 className="text-xl font-bold text-slate-800 mb-2">Delete Employee?</h3>
-                <p className="text-slate-500 mb-8">Are you sure you want to delete this employee? This action cannot be undone.</p>
-                
-                <div className="flex gap-3 w-full">
-                  <button 
-                    onClick={() => setDeleteModalOpen(false)} 
-                    className="flex-1 btn-secondary py-2.5 rounded-xl border border-slate-200 font-medium text-slate-600 hover:bg-slate-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    onClick={confirmDelete}
-                    className="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 px-4 rounded-xl transition-all shadow-sm shadow-red-500/20 hover:shadow-md hover:shadow-red-500/30"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
           </motion.div>
         )}
+      </div>
+
+      {/* Modals */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-sidebar/80 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-surface rounded-[24px] shadow-soft-lg w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
+                <div>
+                  <h3 className="text-xl font-bold text-text-main">{editingEmployee ? 'Edit Member' : 'Add Member'}</h3>
+                  <p className="text-sm text-text-secondary mt-1">Fill out the details below.</p>
+                </div>
+                <button onClick={handleCloseModal} className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-text-main hover:bg-slate-100 transition-colors">
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="p-8 overflow-y-auto">
+                <form id="employeeForm" onSubmit={handleSubmit} className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-semibold text-text-main mb-2">Full Name</label>
+                    <Input 
+                      required 
+                      value={formData.full_name} 
+                      onChange={e => setFormData({...formData, full_name: e.target.value})} 
+                      placeholder="e.g. Taylor Smith" 
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-semibold text-text-main mb-2">Phone</label>
+                      <Input 
+                        value={formData.phone} 
+                        onChange={e => setFormData({...formData, phone: e.target.value})} 
+                        placeholder="e.g. 555-0123" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-text-main mb-2">Department</label>
+                      <Input 
+                        value={formData.department} 
+                        onChange={e => setFormData({...formData, department: e.target.value})} 
+                        placeholder="e.g. Design" 
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm font-semibold text-text-main mb-2">Status</label>
+                      <select 
+                        value={formData.status} 
+                        onChange={e => setFormData({...formData, status: e.target.value})}
+                        className="w-full h-11 px-4 rounded-full border border-slate-200 bg-white text-sm text-text-main focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors appearance-none"
+                      >
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-text-main mb-2">Face Image</label>
+                    <div 
+                      className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-colors ${faceImage ? 'border-primary bg-surface-tint' : 'border-slate-200 hover:border-primary/50 hover:bg-slate-50'}`}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        ref={fileInputRef} 
+                        onChange={(e) => { if(e.target.files && e.target.files[0]) setFaceImage(e.target.files[0]) }} 
+                        className="hidden" 
+                      />
+                      <Camera size={32} className={`mx-auto mb-3 ${faceImage ? 'text-primary-dark' : 'text-slate-300'}`} />
+                      {faceImage ? (
+                        <p className="text-sm font-medium text-primary-dark">{faceImage.name}</p>
+                      ) : (
+                        <div>
+                          <p className="text-sm font-medium text-text-main">Click to upload photo</p>
+                          <p className="text-xs text-text-secondary mt-1">PNG, JPG up to 5MB</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+              <div className="px-8 py-5 border-t border-slate-100 flex justify-end gap-3 bg-slate-50 sticky bottom-0">
+                <Button type="button" variant="ghost" onClick={handleCloseModal}>Cancel</Button>
+                <Button type="submit" form="employeeForm" variant="primary" disabled={isSubmitting}>
+                  {isSubmitting ? 'Saving...' : 'Save Member'}
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {deleteModalOpen && (
+          <div className="fixed inset-0 bg-sidebar/80 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-[24px] p-8 max-w-sm w-full text-center shadow-soft-lg"
+            >
+              <div className="w-16 h-16 bg-rose-100 text-error rounded-full flex items-center justify-center mx-auto mb-5">
+                <Trash2 size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-text-main mb-2">Remove Member?</h3>
+              <p className="text-sm text-text-secondary mb-8">This action cannot be undone. This will permanently delete the member and their face data.</p>
+              <div className="flex gap-3">
+                <Button className="flex-1" variant="ghost" onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
+                <Button className="flex-1" variant="danger" onClick={confirmDelete}>Remove</Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 

@@ -8,18 +8,32 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#008b8b', // teal/cyan primary accent
-          light: '#20b2aa',
-          dark: '#006666'
+          DEFAULT: '#C6F135', // Lime Green accent
+          light: '#D4FF3F',
+          dark: '#B0D92B',
+          foreground: '#111112'
         },
-        surface: '#ffffff',
-        background: '#f4f7f6',
+        sidebar: '#111112',
+        surface: {
+          DEFAULT: '#ffffff',
+          tint: '#E4F5A8' // Lighter tint of lime accent for cards
+        },
+        background: '#F7F7FB',
+        text: {
+          main: '#16161A',
+          secondary: '#8A8A94',
+          inverse: '#ffffff'
+        },
         success: '#10b981',
         warning: '#f59e0b',
         error: '#ef4444',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+        'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.08)',
       }
     },
   },

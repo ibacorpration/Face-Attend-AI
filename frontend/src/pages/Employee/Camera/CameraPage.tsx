@@ -78,28 +78,28 @@ const CameraPage = () => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen bg-black relative flex flex-col items-center justify-center overflow-hidden"
+      className="min-h-screen bg-[#0d0d0f] relative flex flex-col items-center justify-center overflow-hidden font-sans"
     >
       
       {/* Background Video */}
       <video 
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-70 scale-x-[-1]"
+        className="absolute inset-0 w-full h-full object-cover opacity-60 scale-x-[-1]"
         playsInline
         muted
       />
 
       {/* Top Bar Overlay */}
       <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-10">
-        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700 rounded-full px-4 py-2 flex items-center gap-2">
-          <ScanFace className="text-teal-400" size={18} />
-          <span className="text-white text-sm font-medium">{isProcessing ? 'AI Analyzing...' : 'Camera Active'}</span>
+        <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full px-5 py-2.5 flex items-center gap-3 shadow-lg">
+          <ScanFace className="text-primary" size={20} />
+          <span className="text-white text-sm font-bold tracking-wide">{isProcessing ? 'AI Analyzing...' : 'Camera Active'}</span>
         </div>
         
         {lastScore !== null && (
-          <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700 rounded-full px-4 py-2 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-            <span className="text-white text-sm font-medium">{lastScore}%</span>
+          <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full px-5 py-2.5 flex items-center gap-3 shadow-lg">
+            <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+            <span className="text-white text-sm font-bold tracking-wide">{lastScore}% Match</span>
           </div>
         )}
       </div>
@@ -110,18 +110,18 @@ const CameraPage = () => {
         {/* Frame Brackets */}
         <div className="relative w-64 h-64 md:w-80 md:h-80 mb-12">
           {/* Top Left */}
-          <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-teal-400 rounded-tl-xl" />
+          <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-2xl" />
           {/* Top Right */}
-          <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-teal-400 rounded-tr-xl" />
+          <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-2xl" />
           {/* Bottom Left */}
-          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-teal-400 rounded-bl-xl" />
+          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-2xl" />
           {/* Bottom Right */}
-          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-teal-400 rounded-br-xl" />
+          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-2xl" />
           
           {/* Scanning Line Animation */}
           {isProcessing && (
             <motion.div 
-              className="absolute left-0 right-0 h-1 bg-teal-400/50 shadow-[0_0_15px_rgba(45,212,191,0.5)]"
+              className="absolute left-0 right-0 h-1 bg-primary/70 shadow-[0_0_20px_rgba(198,241,53,0.8)]"
               initial={{ top: 0, opacity: 0 }}
               animate={{ top: ['0%', '100%', '0%'], opacity: [0, 1, 1, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -130,14 +130,16 @@ const CameraPage = () => {
         </div>
 
         {/* Status Message */}
-        <div className="bg-slate-900/60 backdrop-blur-md border border-slate-700 rounded-2xl p-6 text-center w-80">
-          <div className="flex justify-center mb-3">
-            <ScanFace className="text-teal-400" size={32} />
+        <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-[24px] p-8 text-center w-80 shadow-2xl">
+          <div className="flex justify-center mb-4">
+            <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center">
+              <ScanFace className="text-primary" size={32} />
+            </div>
           </div>
-          <h3 className="text-white font-semibold text-lg mb-1">
+          <h3 className="text-white font-bold text-xl mb-2">
             {isProcessing ? 'Recognizing...' : 'Align your face'}
           </h3>
-          <p className="text-slate-400 text-sm">
+          <p className="text-slate-400 text-sm font-medium">
             {status}
           </p>
         </div>
@@ -151,10 +153,10 @@ const CameraPage = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-error text-white px-6 py-3 rounded-full flex items-center gap-2 shadow-lg"
           >
             <AlertCircle size={20} />
-            <span className="font-medium">{error}</span>
+            <span className="font-bold text-sm">{error}</span>
           </motion.div>
         )}
       </AnimatePresence>

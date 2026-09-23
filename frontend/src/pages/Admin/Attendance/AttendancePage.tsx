@@ -1,7 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Search, Calendar, Download, FileText } from 'lucide-react';
+import { Search, Calendar, Download, FileText, CheckCircle2, Clock, MapPin } from 'lucide-react';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { employeeService, Employee } from '../../../services/employee.service';
+import { motion } from 'framer-motion';
+import { Card } from '../../../components/ui/Card';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { Badge } from '../../../components/ui/Badge';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 }
+};
 
 export const AttendancePage = () => {
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
@@ -49,125 +64,146 @@ export const AttendancePage = () => {
 
   const getEmployeeName = (id: number) => {
     const emp = employees.find(e => e.id === id);
-    return emp ? emp.full_name : `Unknown (ID: ${id})`;
+    return emp ? emp.full_name : 'Unknown';
   };
 
-  const filteredRecords = attendance.filter(record => {
-    const empName = getEmployeeName(record.employee_id).toLowerCase();
-    const matchesSearch = empName.includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'All' || record.status.toLowerCase() === statusFilter.toLowerCase();
-    return matchesSearch && matchesStatus;
+  const getEmployeeImage = (id: number) => {
+    return `http://localhost:8000/api/v1/employees/${id}/face/image`;
+  };
+
+  const filteredData = attendance.filter(record => {
+    const nameMatch = getEmployeeName(record.employee_id).toLowerCase().includes(searchTerm.toLowerCase());
+    
+    let statusMatch = true;
+    if (statusFilter === 'Present') statusMatch = record.check_in !== null;
+    if (statusFilter === 'Checked Out') statusMatch = record.check_out !== null;
+    if (statusFilter === 'In Progress') statusMatch = record.check_in !== null && record.check_out === null;
+
+    return nameMatch && statusMatch;
   });
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 h-full flex flex-col overflow-hidden">
-      <div className="p-6 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row items-center gap-4 flex-1">
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input
-              type="text"
-              placeholder="Search employee..."
+    <div className="flex flex-col h-full gap-6 max-w-6xl mx-auto">
+      
+      {/* Filters & Actions */}
+      <Card className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 sticky top-0 z-10">
+        <div className="flex flex-1 flex-col sm:flex-row gap-4">
+          <div className="w-full sm:w-64">
+            <Input 
+              placeholder="Search employee..." 
+              icon={<Search size={18} />} 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] text-sm"
             />
           </div>
-          
-          <div className="relative w-full sm:w-48">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input
-              type="date"
+          <div className="relative">
+            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <input 
+              type="date" 
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] text-sm"
+              className="h-11 pl-11 pr-4 rounded-full border border-slate-200 bg-white text-sm text-text-main focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-shadow cursor-pointer"
             />
           </div>
-
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full sm:w-40 px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)] text-sm bg-white"
+            className="h-11 px-4 rounded-full border border-slate-200 bg-white text-sm text-text-main focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-shadow appearance-none"
           >
-            <option value="All">All Statuses</option>
-            <option value="present">Present</option>
-            <option value="absent">Absent</option>
-            <option value="late">Late</option>
+            <option>All</option>
+            <option>Present</option>
+            <option>In Progress</option>
+            <option>Checked Out</option>
           </select>
         </div>
+        
+        <Button variant="secondary" onClick={handleExport}>
+          <Download size={18} className="mr-2" />
+          Export CSV
+        </Button>
+      </Card>
 
-        <button onClick={handleExport} className="btn-secondary flex items-center justify-center gap-2 whitespace-nowrap">
-          <Download size={18} />
-          <span>Export CSV</span>
-        </button>
-      </div>
+      {/* Attendance List */}
+      <div className="flex-1 overflow-y-auto pb-8">
+        {isLoading ? (
+          <div className="space-y-4">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="h-20 bg-white rounded-[20px] animate-pulse shadow-sm border border-slate-100" />
+            ))}
+          </div>
+        ) : filteredData.length === 0 ? (
+          <div className="text-center py-20 text-text-secondary bg-white rounded-[20px] border border-slate-100">
+            <FileText size={48} className="mx-auto mb-4 opacity-20" />
+            <p className="font-medium text-text-main">No attendance records found</p>
+            <p className="text-sm mt-1">Try adjusting your date or filters.</p>
+          </div>
+        ) : (
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="space-y-3"
+          >
+            {filteredData.map(record => {
+              const status = record.check_out ? 'Completed' : (record.check_in ? 'In Progress' : 'Absent');
+              const statusVariant = record.check_out ? 'success' : (record.check_in ? 'warning' : 'default');
 
-      <div className="flex-1 overflow-auto">
-        <table className="w-full text-left text-sm text-slate-600">
-          <thead className="bg-slate-50 text-slate-500 font-medium sticky top-0 border-b border-slate-100">
-            <tr>
-              <th className="px-6 py-4">Employee</th>
-              <th className="px-6 py-4">Date</th>
-              <th className="px-6 py-4">Check-in</th>
-              <th className="px-6 py-4">Check-out</th>
-              <th className="px-6 py-4">Duration</th>
-              <th className="px-6 py-4">Status</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {isLoading ? (
-              <tr>
-                <td colSpan={6} className="text-center py-12 text-slate-400">Loading records...</td>
-              </tr>
-            ) : filteredRecords.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="text-center py-16">
-                  <div className="flex flex-col items-center justify-center">
-                     <FileText size={48} className="text-slate-200 mb-4" />
-                     <p className="text-slate-500 font-medium">No attendance records found</p>
-                     <p className="text-slate-400 text-xs mt-1">Try changing the date or search filters</p>
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              filteredRecords.map(record => (
-                <tr key={record.id} className="hover:bg-slate-50/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-slate-800">
-                    {getEmployeeName(record.employee_id)}
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">{record.date}</td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {record.check_in ? new Date(record.check_in).toLocaleTimeString() : '—'}
-                  </td>
-                  <td className="px-6 py-4 text-slate-500">
-                    {record.check_out ? new Date(record.check_out).toLocaleTimeString() : '—'}
-                  </td>
-                  <td className="px-6 py-4 text-slate-500 font-medium">
-                    {calculateDuration(record.check_in, record.check_out)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      record.status.toLowerCase() === 'present' 
-                        ? 'bg-green-100 text-green-700'
-                        : record.status.toLowerCase() === 'late'
-                        ? 'bg-amber-100 text-amber-700'
-                        : 'bg-red-100 text-red-700'
-                    }`}>
-                      {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
-                    </span>
-                    {record.needs_review && (
-                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700">
-                        REVIEW
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              return (
+                <motion.div key={record.id} variants={itemVariants}>
+                  <Card className="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-soft-lg group">
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div className="w-12 h-12 rounded-2xl bg-surface-tint flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
+                        <img 
+                          src={getEmployeeImage(record.employee_id)} 
+                          className="w-full h-full object-cover" 
+                          onError={e => e.currentTarget.style.display = 'none'} 
+                          alt="" 
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-sm text-text-main truncate">{getEmployeeName(record.employee_id)}</h4>
+                        <p className="text-xs text-text-secondary truncate mt-0.5 flex items-center gap-1">
+                          <MapPin size={12} /> HQ Office
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between sm:justify-end gap-6 sm:w-2/3">
+                      <div className="text-left sm:text-right">
+                        <p className="text-xs text-text-secondary mb-1">Check In</p>
+                        <p className="font-semibold text-sm text-text-main flex items-center gap-1">
+                          {record.check_in ? new Date(record.check_in).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'}
+                        </p>
+                      </div>
+                      
+                      <div className="w-16 h-px bg-slate-200 hidden sm:block"></div>
+                      
+                      <div className="text-left sm:text-right">
+                        <p className="text-xs text-text-secondary mb-1">Check Out</p>
+                        <p className="font-semibold text-sm text-text-main flex items-center gap-1">
+                          {record.check_out ? new Date(record.check_out).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'}
+                        </p>
+                      </div>
+
+                      <div className="text-left sm:text-right w-24">
+                        <p className="text-xs text-text-secondary mb-1">Duration</p>
+                        <p className="font-semibold text-sm text-text-main">
+                          {calculateDuration(record.check_in, record.check_out)}
+                        </p>
+                      </div>
+
+                      <div className="w-24 flex justify-end">
+                        <Badge variant={statusVariant} dot>
+                          {status}
+                        </Badge>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        )}
       </div>
     </div>
   );
