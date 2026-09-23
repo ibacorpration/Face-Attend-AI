@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Shield, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import { toast } from 'sonner';
 import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
@@ -12,13 +12,14 @@ const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shake, setShake] = useState(0); 
   
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/admin';
+  const controls = useAnimation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +31,10 @@ const AdminLogin = () => {
       toast.success('Successfully logged in');
       navigate(from, { replace: true });
     } catch (err: any) {
-      setShake(s => s + 1);
+      controls.start({
+        x: [-10, 10, -10, 10, 0],
+        transition: { duration: 0.4 }
+      });
       toast.error(err.response?.data?.detail || 'Invalid username or password');
     } finally {
       setIsLoading(false);
@@ -44,8 +48,7 @@ const AdminLogin = () => {
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
 
       <motion.div 
-        animate={{ x: shake > 0 ? [-10, 10, -10, 10, 0] : 0 }}
-        transition={{ duration: 0.4 }}
+        animate={controls}
         className="w-full max-w-md relative z-10"
       >
         <motion.div 
@@ -104,8 +107,13 @@ const AdminLogin = () => {
 
             <div className="flex items-center justify-between mt-2 mb-8">
               <label className="flex items-center gap-2 cursor-pointer group">
-                <div className="relative flex items-center justify-center w-5 h-5 border border-white/20 rounded bg-white/5 group-hover:border-primary transition-colors">
-                   <input type="checkbox" className="opacity-0 absolute w-full h-full cursor-pointer" />
+                <div className={`relative flex items-center justify-center w-5 h-5 border rounded transition-colors ${rememberMe ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 group-hover:border-primary'}`}>
+                   <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="opacity-0 absolute w-full h-full cursor-pointer" />
+                   {rememberMe && (
+                     <svg className="w-3 h-3 text-sidebar" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                     </svg>
+                   )}
                 </div>
                 <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Remember me</span>
               </label>

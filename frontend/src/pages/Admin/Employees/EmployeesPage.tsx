@@ -339,16 +339,16 @@ export const EmployeesPage = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-[24px] p-8 max-w-sm w-full text-center shadow-soft-lg"
+              className="bg-sidebar rounded-[32px] p-10 max-w-sm w-full text-center shadow-soft-lg border border-sidebar/50"
             >
-              <div className="w-16 h-16 bg-rose-100 text-error rounded-full flex items-center justify-center mx-auto mb-5">
-                <Trash2 size={24} />
+              <div className="w-20 h-20 bg-error/10 text-error rounded-[24px] flex items-center justify-center mx-auto mb-6">
+                <Trash2 size={32} />
               </div>
-              <h3 className="text-xl font-bold text-text-main mb-2">Remove Member?</h3>
-              <p className="text-sm text-text-secondary mb-8">This action cannot be undone. This will permanently delete the member and their face data.</p>
+              <h3 className="text-2xl font-bold text-white mb-3">Remove Member?</h3>
+              <p className="text-sm text-slate-400 mb-8 leading-relaxed">This action cannot be undone. This will permanently delete the member and their face data.</p>
               <div className="flex gap-3">
-                <Button className="flex-1" variant="ghost" onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
-                <Button className="flex-1" variant="danger" onClick={confirmDelete}>Remove</Button>
+                <Button className="flex-1 bg-white/5 text-white hover:bg-white/10" variant="ghost" onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
+                <Button className="flex-1 bg-error text-white hover:bg-error/90" variant="primary" onClick={confirmDelete}>Remove</Button>
               </div>
             </motion.div>
           </div>

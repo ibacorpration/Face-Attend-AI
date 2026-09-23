@@ -1,9 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut, Shield, Download } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { Button } from '../ui/Button';
-
 const navItems = [
   { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
   { path: '/admin/employees', icon: <Users size={20} />, label: 'Employees' },
@@ -18,7 +16,7 @@ export const Sidebar: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/admin/login');
+    navigate('/');
   };
 
   return (
@@ -27,7 +25,7 @@ export const Sidebar: React.FC = () => {
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
           <Shield className="text-sidebar" size={18} />
         </div>
-        <span className="font-bold text-white text-lg">Eduplex</span>
+        <span className="font-bold text-white text-lg">IBA Corporation</span>
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
@@ -56,18 +54,6 @@ export const Sidebar: React.FC = () => {
       </div>
 
       <div className="p-4 border-t border-white/5">
-        <div className="bg-surface-tint rounded-2xl p-4 mb-4 text-sidebar text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-16 h-16 bg-primary/20 rounded-bl-full -mr-4 -mt-4"></div>
-          <div className="w-10 h-10 bg-sidebar rounded-full flex items-center justify-center mx-auto mb-3">
-            <Download className="text-primary" size={18} />
-          </div>
-          <h4 className="font-bold mb-1 text-sm">Download App</h4>
-          <p className="text-xs text-sidebar/70 mb-3">Get our mobile app</p>
-          <Button variant="primary" size="sm" className="w-full h-8 text-xs bg-sidebar text-primary hover:bg-sidebar/90">
-            Download Now
-          </Button>
-        </div>
-
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white font-medium w-full text-left rounded-full hover:bg-white/5 transition-colors"

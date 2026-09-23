@@ -51,7 +51,7 @@ function App() {
   return (
     <SmoothScroll>
       <AuthProvider>
-        <Toaster position="top-left" richColors theme="light" />
+        <Toaster position="top-right" richColors theme="dark" />
         <BrowserRouter>
           <AnimatedRoutes />
         </BrowserRouter>

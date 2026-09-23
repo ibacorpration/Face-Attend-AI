@@ -44,7 +44,7 @@ const LandingPage = () => {
             <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm text-sidebar">
               <ScanFace size={28} />
             </div>
-            <h3 className="text-2xl font-bold text-text-main mb-3">Camera Kiosk</h3>
+            <h3 className="text-2xl font-bold text-text-main mb-3">Face Attend</h3>
             <p className="text-text-secondary mb-10 flex-grow">
               Access the live camera feed for instant employee check-in and check-out.
             </p>
@@ -63,7 +63,7 @@ const LandingPage = () => {
             <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 text-slate-600">
               <Shield size={28} />
             </div>
-            <h3 className="text-2xl font-bold text-text-main mb-3">Admin Portal</h3>
+            <h3 className="text-2xl font-bold text-text-main mb-3">Admin</h3>
             <p className="text-text-secondary mb-10 flex-grow">
               Manage your team, track attendance logs, and configure system settings.
             </p>
