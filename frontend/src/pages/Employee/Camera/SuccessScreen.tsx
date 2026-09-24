@@ -40,7 +40,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
     setIsSending(true);
-    
+
     try {
       await messageService.sendMessage(result.full_name || 'Employee', result.department || 'Staff', message);
       toast.success('Message sent to Admin');
@@ -54,18 +54,18 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="min-h-screen bg-[#0d0d0f] flex flex-col items-center justify-center p-4 relative font-sans overflow-hidden"
     >
       <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px]" />
       <div className="absolute bottom-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/20 blur-[100px]" />
-      
+
       <div className="bg-sidebar rounded-[32px] p-10 shadow-2xl border border-white/10 w-full max-w-md text-center relative z-10 flex flex-col items-center">
-        
+
         {/* Animated Checkmark */}
-        <motion.div 
+        <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
@@ -92,11 +92,11 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
                   {reply.reply}
                 </p>
                 <div className="flex justify-end mt-2">
-                   <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white text-xs h-7" onClick={async () => {
-                     await messageService.deleteMessage(reply.id);
-                     const updatedReplies = await messageService.getEmployeeReplies(result.full_name || '');
-                     setReplies(updatedReplies);
-                   }}>Dismiss</Button>
+                  <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white text-xs h-7" onClick={async () => {
+                    await messageService.deleteMessage(reply.id);
+                    const updatedReplies = await messageService.getEmployeeReplies(result.full_name || '');
+                    setReplies(updatedReplies);
+                  }}>Dismiss</Button>
                 </div>
               </div>
             ))}
@@ -112,13 +112,13 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Running late, forgot ID badge, etc..."
+            placeholder="Note..."
             className="w-full h-24 bg-black/50 border border-white/10 rounded-xl p-3 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none transition-all"
           />
           <div className="mt-3 flex justify-end">
-            <Button 
-              size="sm" 
-              onClick={handleSendMessage} 
+            <Button
+              size="sm"
+              onClick={handleSendMessage}
               disabled={!message.trim() || isSending}
               className="bg-white/10 text-white hover:bg-white/20 border-0"
             >
@@ -131,7 +131,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
           </div>
         </div>
 
-        <Button 
+        <Button
           onClick={handleContinue}
           className="w-full h-14 bg-primary text-sidebar hover:bg-primary-light text-lg font-bold"
         >
