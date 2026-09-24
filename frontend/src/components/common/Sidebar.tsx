@@ -15,8 +15,10 @@ export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
     navigate('/');
+    setTimeout(() => {
+      logout();
+    }, 10);
   };
 
   return (
