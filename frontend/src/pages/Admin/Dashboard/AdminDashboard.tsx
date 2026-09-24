@@ -43,6 +43,9 @@ const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
         {subtext && <span className="text-xs font-medium text-text-secondary">{subtext}</span>}
       </div>
     </div>
+  </Card>
+);
+
 import { DashboardOverviewChart } from '../../../components/dashboard/DashboardOverviewChart';
 
 export const AdminDashboard = () => {
