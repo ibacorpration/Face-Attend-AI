@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from pydantic import BaseModel
 from datetime import datetime
-from backend.db.database import get_db
+from backend.db.session import get_db
 from backend.db.models import Message
 
 router = APIRouter()
