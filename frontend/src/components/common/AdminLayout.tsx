@@ -39,26 +39,6 @@ export const AdminLayout: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Request Notification Permission
-  useEffect(() => {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-  }, []);
-
-  // Trigger Notification when unreadCount increases
-  useEffect(() => {
-    if (unreadCount > prevCount.current && prevCount.current !== 0) {
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('تنبيه جديد', {
-          body: 'رسالة جديدة من أحد الموظفين!',
-          icon: '/vite.svg'
-        });
-      }
-    }
-    prevCount.current = unreadCount;
-  }, [unreadCount]);
-
   return (
     <div className="flex h-screen bg-background overflow-hidden font-sans text-text-main">
       
