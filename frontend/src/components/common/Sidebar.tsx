@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut, Shield } from 'lucide-react';
-import { useAuth } from '../../hooks/useAuth';
 const navItems = [
   { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
   { path: '/admin/employees', icon: <Users size={20} />, label: 'Employees' },
@@ -11,10 +10,9 @@ const navItems = [
 ];
 
 export const Sidebar: React.FC = () => {
-  const { logout } = useAuth();
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('auth_token');
     window.location.href = '/';
   };
 
