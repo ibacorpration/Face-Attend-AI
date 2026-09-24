@@ -23,24 +23,24 @@ const itemVariants = {
 };
 
 const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
-  <Card tinted className={`flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:border-primary transition-colors' : ''}`} onClick={onClick}>
+  <Card className={`flex flex-col relative overflow-hidden group bg-sidebar border border-white/5 ${onClick ? 'cursor-pointer hover:bg-primary/10 hover:border-primary/50 transition-all duration-300' : ''}`} onClick={onClick}>
     <div className="flex justify-between items-start mb-4">
-      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shadow-sm">
         {icon}
       </div>
       {rate && (
-        <Badge variant="default" className="bg-white text-text-main">
+        <Badge variant="default" className="bg-primary/20 text-primary border border-primary/30">
           {rate}
         </Badge>
       )}
     </div>
     <div>
-      <p className="text-sm font-semibold text-text-main mb-1">{title}</p>
+      <p className="text-sm font-semibold text-slate-400 mb-1 group-hover:text-slate-300 transition-colors">{title}</p>
       <div className="flex items-baseline gap-2">
-        <h3 className="text-3xl font-bold text-text-main">
+        <h3 className="text-3xl font-bold text-white group-hover:text-primary transition-colors">
           <AnimatedCounter value={value} duration={1.5} />
         </h3>
-        {subtext && <span className="text-xs font-medium text-text-secondary">{subtext}</span>}
+        {subtext && <span className="text-xs font-medium text-slate-500 group-hover:text-slate-400 transition-colors">{subtext}</span>}
       </div>
     </div>
   </Card>
@@ -126,7 +126,7 @@ export const AdminDashboard = () => {
               title="Total Team" 
               value={totalEmployees} 
               subtext="Members" 
-              icon={<Users size={20} className="text-sidebar" />} 
+              icon={<Users size={20} className="text-primary" />} 
               onClick={() => navigate('/admin/employees')}
             />
             <StatCard 
@@ -134,14 +134,14 @@ export const AdminDashboard = () => {
               value={todayAttendance} 
               subtext="Checked in" 
               rate={`${((todayAttendance/activeEmployees)*100 || 0).toFixed(0)}%`}
-              icon={<UserCheck size={20} className="text-sidebar" />} 
+              icon={<UserCheck size={20} className="text-primary" />} 
               onClick={() => navigate('/admin/attendance')}
             />
             <StatCard 
               title="Checked in" 
               value={checkedOut} 
               subtext="Left" 
-              icon={<LogOut size={20} className="text-sidebar" />} 
+              icon={<LogOut size={20} className="text-primary" />} 
               onClick={() => navigate('/admin/attendance')}
             />
           </div>

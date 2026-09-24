@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Shield, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Shield, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
 import { motion, useAnimation } from 'framer-motion';
@@ -43,6 +43,17 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans">
+      {/* Back Button */}
+      <div className="absolute top-8 left-8 z-20">
+        <button 
+          onClick={() => navigate('/')}
+          className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors shadow-lg"
+          title="Back to Landing Page"
+        >
+          <ArrowLeft size={20} />
+        </button>
+      </div>
+
       {/* Decorative Elements */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
