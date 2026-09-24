@@ -99,7 +99,11 @@ export const EmployeesPage = () => {
         savedEmployee = await employeeService.updateEmployee(editingEmployee.id, formData);
         toast.success('Member updated successfully');
       } else {
-        savedEmployee = await employeeService.createEmployee(formData);
+        const createData = {
+          ...formData,
+          employee_code: `EMP-${Math.floor(1000 + Math.random() * 9000)}`
+        };
+        savedEmployee = await employeeService.createEmployee(createData);
         toast.success('Member added successfully');
       }
 
@@ -112,7 +116,9 @@ export const EmployeesPage = () => {
       await fetchEmployees();
     } catch (error: any) {
       console.error('Failed to save employee', error);
-      toast.error(error.response?.data?.detail || 'Failed to save member details');
+      const errDetail = error.response?.data?.detail;
+      const errMsg = Array.isArray(errDetail) ? errDetail[0].msg : (errDetail || 'Failed to save member details');
+      toast.error(typeof errMsg === 'string' ? errMsg : 'Failed to save member details');
     } finally {
       setIsSubmitting(false);
     }
