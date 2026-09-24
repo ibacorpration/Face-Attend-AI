@@ -68,7 +68,7 @@ export const AttendancePage = () => {
   };
 
   const getEmployeeImage = (id: number) => {
-    return `http://localhost:8000/api/v1/employees/${id}/face/image`;
+    return `/api/v1/employees/${id}/face/image`;
   };
 
   const filteredData = attendance.filter(record => {

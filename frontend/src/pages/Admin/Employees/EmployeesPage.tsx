@@ -186,7 +186,7 @@ export const EmployeesPage = () => {
                 <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     <img 
-                      src={`http://localhost:8000/api/v1/employees/${emp.id}/face/image`}
+                      src={`/api/v1/employees/${emp.id}/face/image`}
                       onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }}
                       className="w-full h-full object-cover"
                       alt={emp.full_name}

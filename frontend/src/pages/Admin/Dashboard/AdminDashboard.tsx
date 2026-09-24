@@ -192,7 +192,7 @@ export const AdminDashboard = () => {
               return (
                 <Card key={record.id} className="p-4 flex items-center gap-4 hover:shadow-soft-lg">
                   <div className="w-12 h-12 rounded-xl bg-surface-tint flex items-center justify-center overflow-hidden">
-                    <img src={`http://localhost:8000/api/v1/employees/${emp?.id}/face/image`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
+                    <img src={`/api/v1/employees/${emp?.id}/face/image`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-sm text-text-main">{emp?.full_name}</h4>
