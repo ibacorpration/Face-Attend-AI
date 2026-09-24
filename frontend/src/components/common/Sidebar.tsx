@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 const navItems = [
@@ -12,7 +12,6 @@ const navItems = [
 
 export const Sidebar: React.FC = () => {
   const { logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
