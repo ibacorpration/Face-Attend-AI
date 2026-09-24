@@ -20,7 +20,6 @@ export const AdminLayout: React.FC = () => {
   const headerInfo = routeTitles[location.pathname] || { title: 'Dashboard', subtitle: '' };
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const prevCount = React.useRef(0);
 
   const fetchUnread = async () => {
     try {
