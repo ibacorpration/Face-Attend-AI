@@ -21,8 +21,8 @@ async def lifespan(app: FastAPI):
     try:
         if not db.query(AdminUser).first():
             default_admin = AdminUser(
-                username="admin", 
-                password_hash=get_password_hash("123")
+                username=settings.FIRST_SUPERUSER, 
+                password_hash=get_password_hash(settings.FIRST_SUPERUSER_PASSWORD)
             )
             db.add(default_admin)
             db.commit()

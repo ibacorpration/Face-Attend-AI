@@ -12,6 +12,9 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
+    FIRST_SUPERUSER: str = "admin"
+    FIRST_SUPERUSER_PASSWORD: str = "123"
+
     AI_MODEL_PATH: str = "ai/models/w600k_r50.onnx"
     AI_MODEL_VERSION: str = "arcface-w600k-r50-v1"
     FACE_DETECTOR_MODEL_PATH: str = "ai/models/face_detection_yunet.onnx"
