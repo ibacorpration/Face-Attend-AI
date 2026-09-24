@@ -19,9 +19,17 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
   const [replies, setReplies] = useState<AdminMessage[]>([]);
 
   useEffect(() => {
-    if (result.full_name) {
-      setReplies(messageService.getEmployeeReplies(result.full_name));
-    }
+    const fetchReplies = async () => {
+      if (result.full_name) {
+        try {
+          const fetchedReplies = await messageService.getEmployeeReplies(result.full_name);
+          setReplies(fetchedReplies);
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+    fetchReplies();
   }, [result.full_name]);
 
   const handleContinue = () => {
@@ -29,17 +37,20 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
     navigate('/');
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!message.trim()) return;
     setIsSending(true);
     
-    // Simulate API call and save to local storage for demo purposes
-    setTimeout(() => {
-      messageService.sendMessage(result.full_name || 'Employee', result.department || 'Staff', message);
+    try {
+      await messageService.sendMessage(result.full_name || 'Employee', result.department || 'Staff', message);
       toast.success('Message sent to Admin');
       setMessage('');
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to send message');
+    } finally {
       setIsSending(false);
-    }, 600);
+    }
   };
 
   return (
@@ -81,9 +92,10 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
                   {reply.reply}
                 </p>
                 <div className="flex justify-end mt-2">
-                   <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white text-xs h-7" onClick={() => {
-                     messageService.deleteMessage(reply.id);
-                     setReplies(messageService.getEmployeeReplies(result.full_name || ''));
+                   <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white text-xs h-7" onClick={async () => {
+                     await messageService.deleteMessage(reply.id);
+                     const updatedReplies = await messageService.getEmployeeReplies(result.full_name || '');
+                     setReplies(updatedReplies);
                    }}>Dismiss</Button>
                 </div>
               </div>

@@ -58,3 +58,15 @@ class AdminUser(Base):
     username: Mapped[str] = mapped_column(String, unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+class Message(Base):
+    __tablename__ = "messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    employee_name: Mapped[str] = mapped_column(String)
+    department: Mapped[str] = mapped_column(String)
+    text: Mapped[str] = mapped_column(String)
+    date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    is_read: Mapped[bool] = mapped_column(Boolean, default=False)
+    reply: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+

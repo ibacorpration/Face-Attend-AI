@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Bell, Search, Menu } from 'lucide-react';
 import { toast } from 'sonner';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
+import { messageService } from '../../../services/message.service';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
   '/admin': { title: 'Welcome', subtitle: 'Explore your IBA Corpration dashboard' },
@@ -16,8 +17,27 @@ const routeTitles: Record<string, { title: string; subtitle: string }> = {
 
 export const AdminLayout: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const headerInfo = routeTitles[location.pathname] || { title: 'Dashboard', subtitle: '' };
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const fetchUnread = async () => {
+    try {
+      const count = await messageService.getUnreadCount();
+      setUnreadCount(count);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnread();
+    const interval = setInterval(() => {
+      fetchUnread();
+    }, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="flex h-screen bg-background overflow-hidden font-sans text-text-main">
@@ -65,11 +85,15 @@ export const AdminLayout: React.FC = () => {
             </div>
 
             <button 
-              onClick={() => toast.info('No new notifications')}
+              onClick={() => navigate('/admin/messages')}
               className="relative w-11 h-11 bg-white rounded-full flex items-center justify-center text-text-secondary hover:text-text-main hover:shadow-soft transition-all"
             >
               <Bell size={20} />
-              <span className="absolute top-3 right-3 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+              {unreadCount > 0 && (
+                <span className="absolute top-1.5 right-1.5 min-w-4 h-4 bg-error rounded-full flex items-center justify-center text-[10px] font-bold text-white border-2 border-white px-1">
+                  {unreadCount}
+                </span>
+              )}
             </button>
             
             <div className="flex items-center gap-3 cursor-pointer">

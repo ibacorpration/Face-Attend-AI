@@ -12,30 +12,37 @@ const MessagesPage = () => {
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [replyText, setReplyText] = useState('');
 
-  const loadMessages = () => {
-    // Sort so newest are first
-    const msgs = messageService.getMessages().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    setMessages(msgs);
+  const loadMessages = async () => {
+    try {
+      const msgs = await messageService.getMessages();
+      setMessages(msgs);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
     loadMessages();
+    const interval = setInterval(() => {
+      loadMessages();
+    }, 5000); // Poll every 5 seconds
+    return () => clearInterval(interval);
   }, []);
 
-  const handleMarkAsRead = (id: number) => {
-    messageService.markAsRead(id);
+  const handleMarkAsRead = async (id: number) => {
+    await messageService.markAsRead(id);
     loadMessages();
   };
 
-  const handleDelete = (id: number) => {
-    messageService.deleteMessage(id);
+  const handleDelete = async (id: number) => {
+    await messageService.deleteMessage(id);
     loadMessages();
     toast.success('Message deleted');
   };
 
-  const handleSendReply = (id: number) => {
+  const handleSendReply = async (id: number) => {
     if (!replyText.trim()) return;
-    messageService.replyToMessage(id, replyText);
+    await messageService.replyToMessage(id, replyText);
     toast.success('Reply sent successfully');
     setReplyingTo(null);
     setReplyText('');

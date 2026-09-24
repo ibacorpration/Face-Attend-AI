@@ -1,3 +1,5 @@
+import api from './api';
+
 export interface AdminMessage {
   id: number;
   employeeName: string;
@@ -10,54 +12,42 @@ export interface AdminMessage {
 }
 
 export const messageService = {
-  getMessages: (): AdminMessage[] => {
-    const msgs = localStorage.getItem('adminMessages');
-    return msgs ? JSON.parse(msgs) : [];
+  getMessages: async (): Promise<AdminMessage[]> => {
+    const res = await api.get('/messages/');
+    return res.data.map((m: any) => ({
+      ...m,
+      status: m.isRead ? 'read' : 'unread',
+      replyTimestamp: m.reply ? m.date : null
+    }));
   },
   
-  sendMessage: (employeeName: string, department: string, text: string): void => {
-    const msgs = messageService.getMessages();
-    msgs.push({
-      id: Date.now(),
-      employeeName,
-      department,
-      text,
-      date: new Date().toISOString(),
-      status: 'unread',
-      reply: null,
-      replyTimestamp: null
-    });
-    localStorage.setItem('adminMessages', JSON.stringify(msgs));
+  sendMessage: async (employeeName: string, department: string, text: string): Promise<void> => {
+    await api.post('/messages/', { employeeName, department, text });
   },
   
-  markAsRead: (id: number): void => {
-    const msgs = messageService.getMessages();
-    const index = msgs.findIndex(m => m.id === id);
-    if (index !== -1) {
-      msgs[index].status = 'read';
-      localStorage.setItem('adminMessages', JSON.stringify(msgs));
-    }
+  markAsRead: async (id: number): Promise<void> => {
+    await api.put(`/messages/${id}/read`);
   },
   
-  replyToMessage: (id: number, replyText: string): void => {
-    const msgs = messageService.getMessages();
-    const index = msgs.findIndex(m => m.id === id);
-    if (index !== -1) {
-      msgs[index].reply = replyText;
-      msgs[index].replyTimestamp = new Date().toISOString();
-      msgs[index].status = 'read';
-      localStorage.setItem('adminMessages', JSON.stringify(msgs));
-    }
+  replyToMessage: async (id: number, replyText: string): Promise<void> => {
+    await api.put(`/messages/${id}/reply`, { replyText });
   },
 
-  getEmployeeReplies: (employeeName: string): AdminMessage[] => {
-    const msgs = messageService.getMessages();
-    return msgs.filter(m => m.employeeName === employeeName && m.reply !== null);
+  getEmployeeReplies: async (employeeName: string): Promise<AdminMessage[]> => {
+    const res = await api.get(`/messages/employee/${employeeName}`);
+    return res.data.map((m: any) => ({
+      ...m,
+      status: m.isRead ? 'read' : 'unread',
+      replyTimestamp: m.reply ? m.date : null
+    }));
   },
   
-  deleteMessage: (id: number): void => {
-    let msgs = messageService.getMessages();
-    msgs = msgs.filter(m => m.id !== id);
-    localStorage.setItem('adminMessages', JSON.stringify(msgs));
+  deleteMessage: async (id: number): Promise<void> => {
+    await api.delete(`/messages/${id}`);
+  },
+
+  getUnreadCount: async (): Promise<number> => {
+    const res = await api.get('/messages/unread-count');
+    return res.data.count;
   }
 };
