@@ -16,7 +16,7 @@ export default {
         sidebar: '#111112',
         surface: {
           DEFAULT: '#ffffff',
-          tint: '#E4F5A8' // Lighter tint of lime accent for cards
+          tint: '#D4FF3F' // Lighter tint of lime accent for cards
         },
         background: '#F7F7FB',
         text: {
