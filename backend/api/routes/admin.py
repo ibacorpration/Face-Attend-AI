@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from datetime import date, timedelta
 from typing import List, Dict, Any
-from backend.db.database import get_db
+from backend.db.session import get_db
 from backend.db.models import Employee, Attendance
 
 router = APIRouter()
