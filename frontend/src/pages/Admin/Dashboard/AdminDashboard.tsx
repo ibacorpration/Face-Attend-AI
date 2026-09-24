@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, UserCheck, CalendarDays, LogOut, ChevronDown, CheckCircle2, Clock, MoreHorizontal } from 'lucide-react';
+import { Users, UserCheck, CalendarDays, LogOut, CheckCircle2, Clock, MoreHorizontal } from 'lucide-react';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { motion } from 'framer-motion';
@@ -92,18 +92,7 @@ export const AdminDashboard = () => {
   const checkedIn = attendance.filter(a => a.check_in && !a.check_out).length;
   const checkedOut = attendance.filter(a => a.check_in && a.check_out).length;
 
-  const hourlyData = Array.from({ length: 7 }).map((_, i) => {
-    const hour = 8 + i; // 8 AM to 2 PM
-    const count = attendance.filter(a => {
-      if (!a.check_in) return false;
-      return new Date(a.check_in).getHours() === hour;
-    }).length;
-    return {
-      label: `${hour > 12 ? hour - 12 : hour}${hour >= 12 ? 'pm' : 'am'}`,
-      count,
-      isMax: false
-    };
-  });
+
 
 
   return (
