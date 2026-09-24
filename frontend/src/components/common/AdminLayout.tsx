@@ -20,6 +20,7 @@ export const AdminLayout: React.FC = () => {
   const headerInfo = routeTitles[location.pathname] || { title: 'Dashboard', subtitle: '' };
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const prevCount = React.useRef(0);
 
   const fetchUnread = async () => {
     try {
@@ -37,6 +38,26 @@ export const AdminLayout: React.FC = () => {
     }, 5000); // Poll every 5 seconds
     return () => clearInterval(interval);
   }, []);
+
+  // Request Notification Permission
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  // Trigger Notification when unreadCount increases
+  useEffect(() => {
+    if (unreadCount > prevCount.current && prevCount.current !== 0) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('تنبيه جديد', {
+          body: 'رسالة جديدة من أحد الموظفين!',
+          icon: '/vite.svg'
+        });
+      }
+    }
+    prevCount.current = unreadCount;
+  }, [unreadCount]);
 
   return (
     <div className="flex h-screen bg-background overflow-hidden font-sans text-text-main">
