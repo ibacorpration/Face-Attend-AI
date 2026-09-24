@@ -23,9 +23,13 @@ const itemVariants = {
 };
 
 const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
-  <Card className={`flex flex-col relative overflow-hidden group bg-sidebar border border-white/5 ${onClick ? 'cursor-pointer hover:bg-primary/10 hover:border-primary/50 transition-all duration-300' : ''}`} onClick={onClick}>
+  <Card 
+    className={`flex flex-col relative overflow-hidden group !bg-sidebar !border-primary/20 ${onClick ? 'cursor-pointer hover:!bg-primary/10 hover:!border-primary/60 transition-all duration-150' : ''}`} 
+    onClick={onClick}
+    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+  >
     <div className="flex justify-between items-start mb-4">
-      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shadow-sm">
+      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shadow-sm text-primary">
         {icon}
       </div>
       {rate && (
@@ -35,12 +39,12 @@ const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
       )}
     </div>
     <div>
-      <p className="text-sm font-semibold text-slate-400 mb-1 group-hover:text-slate-300 transition-colors">{title}</p>
+      <p className="text-sm font-semibold text-primary/80 mb-1 group-hover:text-primary transition-colors">{title}</p>
       <div className="flex items-baseline gap-2">
-        <h3 className="text-3xl font-bold text-white group-hover:text-primary transition-colors">
+        <h3 className="text-3xl font-bold text-primary group-hover:text-primary-light transition-colors drop-shadow-sm">
           <AnimatedCounter value={value} duration={1.5} />
         </h3>
-        {subtext && <span className="text-xs font-medium text-slate-500 group-hover:text-slate-400 transition-colors">{subtext}</span>}
+        {subtext && <span className="text-xs font-medium text-primary/60 group-hover:text-primary/80 transition-colors">{subtext}</span>}
       </div>
     </div>
   </Card>
@@ -74,8 +78,8 @@ export const AdminDashboard = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <motion.div 
-          animate={{ rotate: 360 }} 
+        <motion.div
+          animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
           className="w-10 h-10 border-4 border-slate-200 border-t-primary rounded-full"
         />
@@ -86,7 +90,7 @@ export const AdminDashboard = () => {
   const totalEmployees = employees.length;
   const activeEmployees = employees.filter(e => e.status === 'active' || e.status === 'Active').length;
   const todayAttendance = attendance.length;
-  
+
   const checkedIn = attendance.filter(a => a.check_in && !a.check_out).length;
   const checkedOut = attendance.filter(a => a.check_in && a.check_out).length;
 
@@ -109,7 +113,7 @@ export const AdminDashboard = () => {
   }
 
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="show"
@@ -117,31 +121,31 @@ export const AdminDashboard = () => {
     >
       {/* Left Column */}
       <div className="flex-1 space-y-6 lg:space-y-8">
-        
+
         {/* Top Cards */}
         <div>
           <h2 className="text-lg font-bold text-text-main mb-4">Overview</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <StatCard 
-              title="Total Team" 
-              value={totalEmployees} 
-              subtext="Members" 
-              icon={<Users size={20} className="text-primary" />} 
+            <StatCard
+              title="Total Team"
+              value={totalEmployees}
+              subtext="Members"
+              icon={<Users size={20} className="text-primary" />}
               onClick={() => navigate('/admin/employees')}
             />
-            <StatCard 
-              title="Active Today" 
-              value={todayAttendance} 
-              subtext="Checked in" 
-              rate={`${((todayAttendance/activeEmployees)*100 || 0).toFixed(0)}%`}
-              icon={<UserCheck size={20} className="text-primary" />} 
+            <StatCard
+              title="Active Today"
+              value={todayAttendance}
+              subtext="Checked in"
+              rate={`${((todayAttendance / activeEmployees) * 100 || 0).toFixed(0)}%`}
+              icon={<UserCheck size={20} className="text-primary" />}
               onClick={() => navigate('/admin/attendance')}
             />
-            <StatCard 
-              title="Checked in" 
-              value={checkedOut} 
-              subtext="Left" 
-              icon={<LogOut size={20} className="text-primary" />} 
+            <StatCard
+              title="Checked in"
+              value={checkedOut}
+              subtext="Left"
+              icon={<LogOut size={20} className="text-primary" />}
               onClick={() => navigate('/admin/attendance')}
             />
           </div>
@@ -149,32 +153,32 @@ export const AdminDashboard = () => {
 
         {/* Activity Chart Area */}
         <motion.div variants={itemVariants} className="bg-white rounded-[20px] shadow-soft border border-slate-100 p-6 flex flex-col h-[350px]">
-           <div className="flex justify-between items-center mb-6">
-             <h3 className="font-bold text-text-main text-lg">Hours Activity</h3>
-             <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-text-main hover:bg-slate-50 transition-colors">
-               Today <ChevronDown size={14} />
-             </button>
-           </div>
-           
-           <div className="flex-1 w-full flex items-end gap-3 overflow-hidden px-2 pb-2">
-             {hourlyData.map((data, i) => (
-               <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
-                 {/* Tooltip on hover */}
-                 <div className="absolute -top-8 bg-sidebar text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                   {data.count}
-                 </div>
-                 <motion.div 
-                   className={`w-full rounded-t-md transition-colors ${data.isMax ? 'bg-primary' : 'bg-sidebar group-hover:bg-slate-700'}`}
-                   initial={{ height: 0 }}
-                   animate={{ height: `${Math.max((data.count / maxHourlyCount) * 100, 2)}%` }}
-                   transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
-                 />
-                 <span className="text-xs font-semibold text-text-secondary uppercase">
-                   {data.label}
-                 </span>
-               </div>
-             ))}
-           </div>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="font-bold text-text-main text-lg">Hours Activity</h3>
+            <button className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-sm font-medium text-text-main hover:bg-slate-50 transition-colors">
+              Today <ChevronDown size={14} />
+            </button>
+          </div>
+
+          <div className="flex-1 w-full flex items-end gap-3 overflow-hidden px-2 pb-2">
+            {hourlyData.map((data, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
+                {/* Tooltip on hover */}
+                <div className="absolute -top-8 bg-sidebar text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  {data.count}
+                </div>
+                <motion.div
+                  className={`w-full rounded-t-md transition-colors ${data.isMax ? 'bg-primary' : 'bg-sidebar group-hover:bg-slate-700'}`}
+                  initial={{ height: 0 }}
+                  animate={{ height: `${Math.max((data.count / maxHourlyCount) * 100, 2)}%` }}
+                  transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
+                />
+                <span className="text-xs font-semibold text-text-secondary uppercase">
+                  {data.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </motion.div>
 
         {/* Courses / Tasks equivalent (Shifts) */}
@@ -185,7 +189,7 @@ export const AdminDashboard = () => {
               <span className="text-lg font-bold leading-none">+</span>
             </button>
           </div>
-          
+
           <div className="space-y-3">
             {attendance.filter(a => a.check_in && !a.check_out).slice(0, 3).map((record) => {
               const emp = employees.find(e => e.id === record.employee_id);
@@ -221,7 +225,7 @@ export const AdminDashboard = () => {
 
       {/* Right Column */}
       <div className="w-full lg:w-[320px] xl:w-[380px] shrink-0 space-y-6 lg:space-y-8">
-        
+
         {/* Calendar Widget Placeholder */}
         <motion.div variants={itemVariants} className="bg-white rounded-[20px] shadow-soft border border-slate-100 p-6">
           <div className="flex justify-between items-center mb-6">
@@ -267,30 +271,30 @@ export const AdminDashboard = () => {
               <span className="text-lg font-bold leading-none">+</span>
             </button>
           </div>
-          
+
           <div className="space-y-3">
-             {attendance.slice(0, 4).map(record => {
-               const emp = employees.find(e => e.id === record.employee_id);
-               const status = record.check_out ? 'Completed' : 'In progress';
-               const statusVariant = record.check_out ? 'success' : 'outline';
-               
-               return (
-                 <Card key={record.id} className="p-4 flex items-center gap-3">
-                   <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-text-secondary">
-                     <CheckCircle2 size={18} />
-                   </div>
-                   <div className="flex-1 min-w-0">
-                     <h4 className="font-bold text-sm text-text-main truncate">{emp?.full_name}</h4>
-                     <p className="text-xs text-text-secondary truncate mt-0.5">
-                       {new Date(record.check_in!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                     </p>
-                   </div>
-                   <Badge variant={statusVariant} dot>
-                     {status}
-                   </Badge>
-                 </Card>
-               )
-             })}
+            {attendance.slice(0, 4).map(record => {
+              const emp = employees.find(e => e.id === record.employee_id);
+              const status = record.check_out ? 'Completed' : 'In progress';
+              const statusVariant = record.check_out ? 'success' : 'outline';
+
+              return (
+                <Card key={record.id} className="p-4 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-text-secondary">
+                    <CheckCircle2 size={18} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-sm text-text-main truncate">{emp?.full_name}</h4>
+                    <p className="text-xs text-text-secondary truncate mt-0.5">
+                      {new Date(record.check_in!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+                  <Badge variant={statusVariant} dot>
+                    {status}
+                  </Badge>
+                </Card>
+              )
+            })}
           </div>
         </motion.div>
       </div>
