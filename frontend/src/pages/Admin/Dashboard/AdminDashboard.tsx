@@ -46,6 +46,117 @@ const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
   </Card>
 );
 
+const SmoothChart = ({ data }: { data: any[] }) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const maxCount = Math.max(...data.map(d => d.count), 5);
+  const width = 800;
+  const height = 240;
+  const paddingX = 40;
+  const paddingTop = 20;
+  const paddingBottom = 40;
+  
+  const drawHeight = height - paddingTop - paddingBottom;
+
+  const points = data.map((d, i) => {
+    const x = paddingX + (i / (data.length - 1)) * (width - paddingX * 2);
+    const y = paddingTop + drawHeight - (d.count / maxCount) * drawHeight;
+    return { x, y, ...d };
+  });
+
+  let linePath = `M ${points[0].x},${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1];
+    const curr = points[i];
+    const cp1x = prev.x + (curr.x - prev.x) / 2;
+    const cp1y = prev.y;
+    const cp2x = curr.x - (curr.x - prev.x) / 2;
+    const cp2y = curr.y;
+    linePath += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${curr.x},${curr.y}`;
+  }
+
+  const areaPath = `${linePath} L ${points[points.length - 1].x},${height - paddingBottom} L ${points[0].x},${height - paddingBottom} Z`;
+
+  return (
+    <div className="w-full h-full relative" onMouseLeave={() => setHoveredIndex(null)}>
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full overflow-visible">
+        <defs>
+          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#C6F135" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#C6F135" stopOpacity="0.0" />
+          </linearGradient>
+        </defs>
+
+        {/* Grid lines */}
+        {[0, 0.5, 1].map(ratio => {
+           const y = paddingTop + drawHeight * ratio;
+           return (
+             <line key={ratio} x1={paddingX} y1={y} x2={width - paddingX} y2={y} stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
+           );
+        })}
+
+        {/* Area Fill */}
+        <motion.path
+          d={areaPath}
+          fill="url(#chartGradient)"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+        />
+
+        {/* Line */}
+        <motion.path
+          d={linePath}
+          fill="none"
+          stroke="#C6F135"
+          strokeWidth="4"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+        />
+
+        {/* X Axis Labels */}
+        {points.map((p, i) => (
+          <text key={`label-${i}`} x={p.x} y={height - 10} fill="#8A8A94" fontSize="13" fontWeight="600" textAnchor="middle" className="uppercase">
+            {p.label}
+          </text>
+        ))}
+
+        {/* Interactions */}
+        {points.map((p, i) => (
+          <g key={`interaction-${i}`} className="cursor-pointer" onMouseEnter={() => setHoveredIndex(i)}>
+            {/* Hitbox */}
+            <rect x={p.x - 30} y={0} width="60" height={height} fill="transparent" />
+            
+            {hoveredIndex === i && (
+              <line x1={p.x} y1={p.y} x2={p.x} y2={height - paddingBottom} stroke="#C6F135" strokeWidth="2" strokeDasharray="4 4" className="opacity-60" />
+            )}
+            
+            <motion.circle
+              cx={p.x}
+              cy={p.y}
+              r={hoveredIndex === i ? 8 : 4}
+              fill={hoveredIndex === i ? "#fff" : "#C6F135"}
+              stroke={hoveredIndex === i ? "#C6F135" : "#ffffff"}
+              strokeWidth={hoveredIndex === i ? 4 : 2}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1 + i * 0.1, type: "spring" }}
+            />
+
+            {hoveredIndex === i && (
+              <g>
+                <rect x={p.x - 24} y={p.y - 40} width="48" height="28" rx="8" fill="#111112" />
+                <text x={p.x} y={p.y - 20} fill="#C6F135" fontSize="14" fontWeight="bold" textAnchor="middle">{p.count}</text>
+              </g>
+            )}
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+};
+
 export const AdminDashboard = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
@@ -156,24 +267,8 @@ export const AdminDashboard = () => {
             </button>
           </div>
 
-          <div className="flex-1 w-full flex items-end gap-3 overflow-hidden px-2 pb-2">
-            {hourlyData.map((data, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-2 group relative">
-                {/* Tooltip on hover */}
-                <div className="absolute -top-8 bg-sidebar text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  {data.count}
-                </div>
-                <motion.div
-                  className={`w-full rounded-t-md transition-colors ${data.isMax ? 'bg-primary' : 'bg-sidebar group-hover:bg-slate-700'}`}
-                  initial={{ height: 0 }}
-                  animate={{ height: `${Math.max((data.count / maxHourlyCount) * 100, 2)}%` }}
-                  transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
-                />
-                <span className="text-xs font-semibold text-text-secondary uppercase">
-                  {data.label}
-                </span>
-              </div>
-            ))}
+          <div className="flex-1 w-full mt-4">
+            <SmoothChart data={hourlyData} />
           </div>
         </motion.div>
 
