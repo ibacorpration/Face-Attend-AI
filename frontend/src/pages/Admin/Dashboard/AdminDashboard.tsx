@@ -213,11 +213,7 @@ export const AdminDashboard = () => {
       isMax: false
     };
   });
-  const maxHourlyCount = Math.max(...hourlyData.map(d => d.count), 5);
-  const highestCountIndex = hourlyData.reduce((maxIndex, current, i, arr) => current.count > arr[maxIndex].count ? i : maxIndex, 0);
-  if (hourlyData[highestCountIndex].count > 0) {
-    hourlyData[highestCountIndex].isMax = true;
-  }
+
 
   return (
     <motion.div
