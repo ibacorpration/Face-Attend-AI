@@ -23,13 +23,9 @@ const itemVariants = {
 };
 
 const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
-  <Card 
-    className={`flex flex-col relative overflow-hidden group !bg-sidebar !border-primary/20 ${onClick ? 'cursor-pointer hover:!bg-primary/10 hover:!border-primary/60 transition-all duration-150' : ''}`} 
-    onClick={onClick}
-    transition={{ type: "spring", stiffness: 500, damping: 15 }}
-  >
+  <Card className={`flex flex-col relative overflow-hidden group !bg-sidebar !border-white/5 ${onClick ? 'cursor-pointer hover:!bg-primary/10 hover:!border-primary/50 transition-all duration-300' : ''}`} onClick={onClick}>
     <div className="flex justify-between items-start mb-4">
-      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shadow-sm text-primary">
+      <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shadow-sm text-primary">
         {icon}
       </div>
       {rate && (
@@ -39,12 +35,12 @@ const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
       )}
     </div>
     <div>
-      <p className="text-sm font-semibold text-primary/80 mb-1 group-hover:text-primary transition-colors">{title}</p>
+      <p className="text-sm font-semibold text-slate-400 mb-1 group-hover:text-slate-300 transition-colors">{title}</p>
       <div className="flex items-baseline gap-2">
-        <h3 className="text-3xl font-bold text-primary group-hover:text-primary-light transition-colors drop-shadow-sm">
+        <h3 className="text-3xl font-bold text-white group-hover:text-primary transition-colors">
           <AnimatedCounter value={value} duration={1.5} />
         </h3>
-        {subtext && <span className="text-xs font-medium text-primary/60 group-hover:text-primary/80 transition-colors">{subtext}</span>}
+        {subtext && <span className="text-xs font-medium text-slate-500 group-hover:text-slate-400 transition-colors">{subtext}</span>}
       </div>
     </div>
   </Card>
