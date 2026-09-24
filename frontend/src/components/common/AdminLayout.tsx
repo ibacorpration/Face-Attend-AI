@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Bell, Search, Menu } from 'lucide-react';
-import { toast } from 'sonner';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
-import { messageService } from '../../../services/message.service';
+import { messageService } from '../../services/message.service';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
   '/admin': { title: 'Welcome', subtitle: 'Explore your IBA Corpration dashboard' },
