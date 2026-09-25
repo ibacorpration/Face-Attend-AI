@@ -18,6 +18,20 @@ async def lifespan(app: FastAPI):
     from backend.db.models import AdminUser
     from backend.core.security import get_password_hash
     db = SessionLocal()
+    
+    # Simple migration for new columns
+    try:
+        db.execute(text("ALTER TABLE admin_users ADD COLUMN face_embedding BLOB"))
+        db.commit()
+    except Exception:
+        db.rollback()
+        
+    try:
+        db.execute(text("ALTER TABLE admin_users ADD COLUMN image_data BLOB"))
+        db.commit()
+    except Exception:
+        db.rollback()
+        
     try:
         if not db.query(AdminUser).first():
             default_admin = AdminUser(
