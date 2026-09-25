@@ -97,7 +97,7 @@ export const ChatWidget: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#111112] relative">
               <div className="flex items-center gap-2">
-                <img src={ibaMascotIcon} alt="IBA Mascot" className="w-9 h-9 rounded-full object-cover" />
+                <img src={ibaMascotIcon} alt="IBA Mascot" className="w-8 h-8 rounded-full object-cover" />
               </div>
 
               <div className="absolute left-1/2 -translate-x-1/2">
