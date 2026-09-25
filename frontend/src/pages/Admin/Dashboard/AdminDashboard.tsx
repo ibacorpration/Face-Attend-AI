@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, UserCheck, CalendarDays, LogOut, CheckCircle2, Clock, MoreHorizontal } from 'lucide-react';
+import { Users, UserCheck, CalendarDays, LogOut, Clock, MoreHorizontal } from 'lucide-react';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { motion } from 'framer-motion';
