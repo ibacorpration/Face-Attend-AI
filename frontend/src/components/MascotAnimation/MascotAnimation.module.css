@@ -25,52 +25,6 @@
   animation: char-breathe 2.2s ease-in-out infinite;
 }
 
-.particles {
-  position: absolute;
-  inset: 12% -20% 8% -20%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.particle {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--glow);
-  box-shadow: 0 0 12px 3px rgba(217, 255, 91, .5);
-  opacity: 0;
-}
-
-.particle:nth-child(1) {
-  left: 8%;
-  top: 62%;
-  animation: particle-float 5.5s 1.0s ease-in-out infinite;
-}
-
-.particle:nth-child(2) {
-  left: 18%;
-  top: 28%;
-  animation: particle-float 6.2s 2.1s ease-in-out infinite;
-}
-
-.particle:nth-child(3) {
-  left: 83%;
-  top: 48%;
-  animation: particle-float 5.8s .3s ease-in-out infinite;
-}
-
-.particle:nth-child(4) {
-  left: 72%;
-  top: 72%;
-  animation: particle-float 6.6s 1.8s ease-in-out infinite;
-}
-
-.particle:nth-child(5) {
-  left: 91%;
-  top: 25%;
-  animation: particle-float 5.9s 3.0s ease-in-out infinite;
-}
 
 @keyframes idle-breath {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
@@ -82,9 +36,3 @@
   50% { transform: scale(1.012, .992); }
 }
 
-@keyframes particle-float {
-  0%, 100% { opacity: 0; transform: translate3d(0, 8px, 0) scale(.65); }
-  20% { opacity: .7; }
-  50% { opacity: .9; transform: translate3d(8px, -12px, 0) scale(1); }
-  80% { opacity: .35; }
-}

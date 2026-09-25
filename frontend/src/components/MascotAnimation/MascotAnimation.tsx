@@ -8,16 +8,9 @@ interface MascotAnimationProps {
 
 const MascotAnimation: React.FC<MascotAnimationProps> = ({ src, className = '' }) => {
   return (
-    <div className={`${styles.stage} ${className}`}>
-      <div className={styles.particles} aria-hidden="true">
-        <span className={styles.particle}></span>
-        <span className={styles.particle}></span>
-        <span className={styles.particle}></span>
-        <span className={styles.particle}></span>
-        <span className={styles.particle}></span>
-      </div>
+    <div className={styles.stage}>
       <div className={styles.charWrap}>
-        <img className={`${styles.char} w-full h-full object-contain`} src={src} alt="Mascot" />
+        <img className={`${styles.char} ${className} object-contain`} src={src} alt="Mascot" />
       </div>
     </div>
   );
