@@ -21,7 +21,7 @@ const LandingPage = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center z-10 mb-12"
       >
-        <div className="flex items-center justify-center gap-2 mb-6">
+        <div className="flex items-center justify-center gap-1 mb-6">
           <MascotAnimation src={ibaMascotFull} className="w-24 h-24" />
           <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corporation<span className="text-primary">.</span></h1>
         </div>
