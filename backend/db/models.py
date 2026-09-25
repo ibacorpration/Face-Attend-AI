@@ -23,6 +23,10 @@ class Employee(Base):
     faces = relationship("EmployeeFace", back_populates="employee", cascade="all, delete-orphan")
     attendances = relationship("Attendance", back_populates="employee", cascade="all, delete-orphan")
 
+    @property
+    def has_face(self) -> bool:
+        return len(self.faces) > 0
+
 class EmployeeFace(Base):
     __tablename__ = "employee_faces"
 
@@ -31,6 +35,7 @@ class EmployeeFace(Base):
     embedding: Mapped[bytes] = mapped_column(LargeBinary)
     model_version: Mapped[str] = mapped_column(String)
     image_path: Mapped[str] = mapped_column(String)
+    image_data: Mapped[Optional[bytes]] = mapped_column(LargeBinary, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     employee = relationship("Employee", back_populates="faces")

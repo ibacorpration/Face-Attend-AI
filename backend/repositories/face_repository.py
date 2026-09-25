@@ -10,14 +10,15 @@ class FaceRepository:
     def get_by_employee(self, db: Session, employee_id: int) -> List[EmployeeFace]:
         return db.query(EmployeeFace).filter(EmployeeFace.employee_id == employee_id).all()
 
-    def create(self, db: Session, employee_id: int, raw_embedding_bytes: bytes, image_path: str, model_version: str) -> EmployeeFace:
+    def create(self, db: Session, employee_id: int, raw_embedding_bytes: bytes, image_path: str, model_version: str, image_data: bytes = None) -> EmployeeFace:
         encrypted_embedding = encrypt_embedding(raw_embedding_bytes)
         
         db_obj = EmployeeFace(
             employee_id=employee_id,
             embedding=encrypted_embedding,
             model_version=model_version,
-            image_path=image_path
+            image_path=image_path,
+            image_data=image_data
         )
         db.add(db_obj)
         db.commit()

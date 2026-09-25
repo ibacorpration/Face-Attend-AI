@@ -68,7 +68,8 @@ export const AttendancePage = () => {
   };
 
   const getEmployeeImage = (id: number) => {
-    return `/api/v1/employees/${id}/face/image`;
+    const emp = employees.find(e => e.id === id);
+    return `/api/v1/employees/${id}/face/image?v=${emp?.updated_at || ''}`;
   };
 
   const filteredData = attendance.filter(record => {

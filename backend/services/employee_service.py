@@ -74,7 +74,8 @@ class EmployeeService:
             employee_id=employee_id,
             raw_embedding_bytes=embedding_bytes,
             image_path=str(image_path),
-            model_version=settings.AI_MODEL_VERSION
+            model_version=settings.AI_MODEL_VERSION,
+            image_data=image_bytes
         )
 
     def update_employee(self, db: Session, employee_id: int, employee_in: EmployeeUpdate):

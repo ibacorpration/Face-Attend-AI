@@ -69,7 +69,14 @@ def delete_employee(
     return employee_service.delete_employee(db, employee_id)
 
 @router.get("/{employee_id}/face/image")
-def get_employee_face_image(employee_id: int):
+def get_employee_face_image(employee_id: int, db: Session = Depends(get_db)):
+    from fastapi.responses import Response
+    from backend.db.models import EmployeeFace
+    
+    face = db.query(EmployeeFace).filter(EmployeeFace.employee_id == employee_id).order_by(EmployeeFace.created_at.desc()).first()
+    if face and face.image_data:
+        return Response(content=face.image_data, media_type="image/jpeg")
+
     storage_dir = Path("storage/employee_images") / str(employee_id)
     if storage_dir.exists() and storage_dir.is_dir():
         for file in storage_dir.iterdir():

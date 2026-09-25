@@ -192,7 +192,7 @@ export const EmployeesPage = () => {
                 <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     <img 
-                      src={`/api/v1/employees/${emp.id}/face/image`}
+                      src={`/api/v1/employees/${emp.id}/face/image?v=${emp.updated_at}`}
                       onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling!.classList.remove('hidden'); }}
                       className="w-full h-full object-cover"
                       alt={emp.full_name}
@@ -205,7 +205,7 @@ export const EmployeesPage = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <h4 className="font-bold text-base text-text-main truncate">{emp.full_name}</h4>
-                      {(emp as any).face_encodings && (emp as any).face_encodings.length > 0 ? (
+                      {emp.has_face ? (
                         <Badge variant="success" className="px-1.5 py-0">
                           <Camera size={10} className="mr-1" /> Enrolled
                         </Badge>
@@ -317,7 +317,10 @@ export const EmployeesPage = () => {
                       />
                       <Camera size={32} className={`mx-auto mb-3 ${faceImage ? 'text-primary-dark' : 'text-slate-300'}`} />
                       {faceImage ? (
-                        <p className="text-sm font-medium text-primary-dark">{faceImage.name}</p>
+                        <div className="flex flex-col items-center">
+                          <img src={URL.createObjectURL(faceImage)} alt="Preview" className="w-16 h-16 rounded-full object-cover mb-2 border-2 border-primary" />
+                          <p className="text-sm font-medium text-primary-dark">{faceImage.name}</p>
+                        </div>
                       ) : (
                         <div>
                           <p className="text-sm font-medium text-text-main">Click to upload photo</p>

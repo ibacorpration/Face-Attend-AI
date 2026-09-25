@@ -152,7 +152,7 @@ export const AdminDashboard = () => {
               return (
                 <Card key={record.id} className="p-4 flex items-center gap-4 hover:shadow-soft-lg">
                   <div className="w-12 h-12 rounded-xl bg-surface-tint flex items-center justify-center overflow-hidden">
-                    <img src={`/api/v1/employees/${emp?.id}/face/image`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
+                    <img src={`/api/v1/employees/${emp?.id}/face/image?v=${emp?.updated_at}`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-sm text-text-main">{emp?.full_name}</h4>
@@ -236,8 +236,8 @@ export const AdminDashboard = () => {
 
               return (
                 <Card key={record.id} className="p-4 flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-text-secondary">
-                    <CheckCircle2 size={18} />
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-text-secondary overflow-hidden">
+                    <img src={`/api/v1/employees/${emp?.id}/face/image?v=${emp?.updated_at}`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-sm text-text-main truncate">{emp?.full_name}</h4>

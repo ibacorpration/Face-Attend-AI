@@ -12,6 +12,7 @@ export interface Employee {
   consent_given_at: string | null;
   created_at: string;
   updated_at: string;
+  has_face: boolean;
 }
 
 export const employeeService = {
