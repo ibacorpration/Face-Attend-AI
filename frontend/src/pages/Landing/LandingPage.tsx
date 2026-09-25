@@ -82,8 +82,8 @@ export default function LandingPage() {
              
              {/* Face Attend Card */}
              <motion.div 
-               whileHover={{ y: -3 }}
-               className="group cursor-pointer bg-[#C6F135] rounded-[28px] p-6 flex items-center gap-5 shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-300 relative overflow-hidden"
+               whileHover={{ y: -8 }}
+               className="group cursor-pointer bg-[#C6F135] rounded-[28px] p-6 flex items-center gap-5 shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-200 relative overflow-hidden"
                onClick={() => navigate('/camera')}
              >
                {/* Subtle gradient inside */}
@@ -98,15 +98,15 @@ export default function LandingPage() {
                    Check-in and Check-out
                  </p>
                </div>
-               <div className="w-10 h-10 rounded-full bg-[#20152F] text-[#C6F135] flex items-center justify-center shrink-0 group-hover:translate-x-1 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-300 relative z-10">
+               <div className="w-10 h-10 rounded-full bg-[#20152F] text-[#C6F135] flex items-center justify-center shrink-0 group-hover:translate-x-1.5 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-200 relative z-10">
                  <ArrowRight size={20} strokeWidth={2} />
                </div>
              </motion.div>
 
              {/* Admin Card */}
              <motion.div 
-               whileHover={{ y: -3 }}
-               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-all duration-300 relative"
+               whileHover={{ y: -8 }}
+               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-all duration-200 relative"
                onClick={() => navigate('/admin/login')}
              >
                <div className="w-16 h-16 bg-[#F2F0F7] rounded-2xl flex items-center justify-center shrink-0 shadow-sm p-1.5 overflow-hidden">
@@ -118,7 +118,7 @@ export default function LandingPage() {
                    Manage your team
                  </p>
                </div>
-               <div className="w-10 h-10 rounded-full bg-[#F2F0F7] text-[#858592] flex items-center justify-center shrink-0 group-hover:translate-x-1 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-300 relative z-10">
+               <div className="w-10 h-10 rounded-full bg-[#F2F0F7] text-[#858592] flex items-center justify-center shrink-0 group-hover:translate-x-1.5 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-200 relative z-10">
                  <ArrowRight size={20} strokeWidth={2} />
                </div>
              </motion.div>
