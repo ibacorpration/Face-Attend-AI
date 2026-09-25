@@ -23,3 +23,12 @@ def init_db():
     # Import models here so they are registered with Base.metadata before creating tables
     import backend.db.models
     Base.metadata.create_all(bind=engine)
+    
+    if settings.DATABASE_URL.startswith("sqlite"):
+        from sqlalchemy import text
+        with engine.begin() as conn:
+            # Simple migration for image_data
+            result = conn.execute(text("PRAGMA table_info(employee_faces)"))
+            columns = [row[1] for row in result]
+            if "image_data" not in columns:
+                conn.execute(text("ALTER TABLE employee_faces ADD COLUMN image_data BLOB"))

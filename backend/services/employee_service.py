@@ -69,7 +69,7 @@ class EmployeeService:
 
         from backend.core.config import settings
 
-        return face_repo.create(
+        face_record = face_repo.create(
             db=db,
             employee_id=employee_id,
             raw_embedding_bytes=embedding_bytes,
@@ -77,6 +77,12 @@ class EmployeeService:
             model_version=settings.AI_MODEL_VERSION,
             image_data=image_bytes
         )
+        
+        from datetime import datetime, timezone
+        employee.updated_at = datetime.now(timezone.utc)
+        db.commit()
+        
+        return face_record
 
     def update_employee(self, db: Session, employee_id: int, employee_in: EmployeeUpdate):
         employee = self.get_employee(db, employee_id)
