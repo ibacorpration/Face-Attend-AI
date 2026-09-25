@@ -238,16 +238,11 @@ export const ChatWidget: React.FC = () => {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            {/* Circular head */}
-            <circle cx="12" cy="12" r="8" />
-            {/* Left ear */}
-            <path d="M 6.5 6 L 5.5 1.5 L 10 4.5" />
-            {/* Right ear */}
-            <path d="M 17.5 6 L 18.5 1.5 L 14 4.5" />
-            {/* Eyes */}
-            <circle cx="8.5" cy="12" r="1.5" />
-            <circle cx="15.5" cy="12" r="1.5" />
-            {/* Connector */}
+            {/* Continuous head outline with integrated cat ears */}
+            <path d="M 18.9 8 A 8 8 0 1 1 5.1 8 L 3 3 L 8 5.1 A 8 8 0 0 1 16 5.1 L 21 3 Z" />
+            {/* Dumbbell eyes */}
+            <circle cx="8" cy="12" r="2" />
+            <circle cx="16" cy="12" r="2" />
             <line x1="10" y1="12" x2="14" y2="12" />
           </svg>
         )}
