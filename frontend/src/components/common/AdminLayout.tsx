@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
+import { ChatWidget } from './ChatWidget';
 import { Bell, Search, Menu } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -108,6 +109,7 @@ export const AdminLayout: React.FC = () => {
           <Outlet />
         </main>
         
+        <ChatWidget />
       </div>
     </div>
   );
