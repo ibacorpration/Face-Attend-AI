@@ -44,7 +44,7 @@ const LandingPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-text-main mb-3">Face Attend</h3>
             <p className="text-text-secondary mb-10 flex-grow">
-              Access the live camera feed for instant employee check-in and check-out.
+              check-in and check-out
             </p>
             <div className="flex items-center justify-between mt-auto w-full">
               <span className="font-bold text-sm text-text-main group-hover:text-sidebar transition-colors">Launch Camera</span>
@@ -63,7 +63,7 @@ const LandingPage = () => {
             </div>
             <h3 className="text-2xl font-bold text-text-main mb-3">Admin</h3>
             <p className="text-text-secondary mb-10 flex-grow">
-              Manage your team, track attendance logs, and configure system settings.
+              Manage your team
             </p>
             <div className="flex items-center justify-between mt-auto w-full">
               <span className="font-bold text-sm text-text-main group-hover:text-sidebar transition-colors">Sign In</span>
