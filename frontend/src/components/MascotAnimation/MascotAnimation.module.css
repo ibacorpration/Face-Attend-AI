@@ -1,0 +1,90 @@
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  isolation: isolate;
+  --glow: #d9ff5b;
+}
+
+.charWrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transform-origin: 50% 92%;
+  will-change: transform;
+  animation: idle-breath 2.2s ease-in-out infinite;
+}
+
+.char {
+  display: block;
+  filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
+  transform-origin: 50% 88%;
+  will-change: transform, filter;
+  animation: char-breathe 2.2s ease-in-out infinite;
+}
+
+.particles {
+  position: absolute;
+  inset: 12% -20% 8% -20%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particle {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--glow);
+  box-shadow: 0 0 12px 3px rgba(217, 255, 91, .5);
+  opacity: 0;
+}
+
+.particle:nth-child(1) {
+  left: 8%;
+  top: 62%;
+  animation: particle-float 5.5s 1.0s ease-in-out infinite;
+}
+
+.particle:nth-child(2) {
+  left: 18%;
+  top: 28%;
+  animation: particle-float 6.2s 2.1s ease-in-out infinite;
+}
+
+.particle:nth-child(3) {
+  left: 83%;
+  top: 48%;
+  animation: particle-float 5.8s .3s ease-in-out infinite;
+}
+
+.particle:nth-child(4) {
+  left: 72%;
+  top: 72%;
+  animation: particle-float 6.6s 1.8s ease-in-out infinite;
+}
+
+.particle:nth-child(5) {
+  left: 91%;
+  top: 25%;
+  animation: particle-float 5.9s 3.0s ease-in-out infinite;
+}
+
+@keyframes idle-breath {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -16px, 0) scale(1.008); }
+}
+
+@keyframes char-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.012, .992); }
+}
+
+@keyframes particle-float {
+  0%, 100% { opacity: 0; transform: translate3d(0, 8px, 0) scale(.65); }
+  20% { opacity: .7; }
+  50% { opacity: .9; transform: translate3d(8px, -12px, 0) scale(1); }
+  80% { opacity: .35; }
+}
