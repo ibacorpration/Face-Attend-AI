@@ -97,12 +97,12 @@ export default function LandingPage() {
                {/* Subtle gradient inside */}
                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent pointer-events-none"></div>
 
-               <div className="w-16 h-16 bg-[#D7F563] rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-[#17131F]">
+               <div className="w-16 h-16 bg-[#D7F563] rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-[#20152F]">
                  <ScanFace size={32} strokeWidth={1.5} />
                </div>
                <div className="flex-grow relative z-10">
-                 <h3 className="text-xl font-bold text-[#17131F] mb-1">Face Attend</h3>
-                 <p className="text-[#17131F]/70 text-sm leading-snug">
+                 <h3 className="text-xl font-bold text-[#20152F] mb-1">Face Attend</h3>
+                 <p className="text-[#20152F]/70 text-sm leading-snug">
                    Check-in & Check-out<br/>
                    with your face
                  </p>
@@ -122,7 +122,7 @@ export default function LandingPage() {
                  <UserCog size={32} strokeWidth={1.5} />
                </div>
                <div className="flex-grow relative z-10">
-                 <h3 className="text-xl font-bold text-[#17131F] mb-1">Admin</h3>
+                 <h3 className="text-xl font-bold text-[#20152F] mb-1">Admin</h3>
                  <p className="text-[#858592] text-sm leading-snug">
                    Manage employees, track logs,<br/>
                    and configure system settings.
