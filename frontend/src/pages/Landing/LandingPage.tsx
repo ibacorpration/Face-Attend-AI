@@ -19,7 +19,7 @@ export default function LandingPage() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-[1200px] md:min-h-[660px] bg-white rounded-[24px] md:rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
+        className="relative w-full max-w-[1200px] md:min-h-[600px] bg-white rounded-[24px] md:rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
       >
         {/* Left Side (Dark Purple) */}
         <div className="w-full md:w-[48%] bg-[#20152F] relative flex flex-col p-8 md:p-12 overflow-hidden text-white min-h-[450px] md:min-h-0">
@@ -28,7 +28,7 @@ export default function LandingPage() {
            <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#5B2A72]/30 blur-[120px] rounded-full pointer-events-none" />
 
            {/* Header */}
-           <div className="flex items-center gap-3 relative z-10 mb-16">
+           <div className="flex items-center gap-3 relative z-10 mb-8">
               <div className="w-8 h-8 bg-[#291A3A] rounded-lg flex items-center justify-center p-1.5 border border-[#5B2A72]/50">
                 <img src={ibaMascotIcon} alt="Logo" className="w-full h-full object-contain" />
               </div>
