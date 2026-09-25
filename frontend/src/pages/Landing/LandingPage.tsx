@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { ScanFace, Shield, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
 import ibaMascotFull from '../../assets/iba-mascot-full.png';
+import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const LandingPage = () => {
         <Card tinted className="flex-1 p-8 relative overflow-hidden group cursor-pointer border-2 border-transparent hover:border-primary/50 transition-colors" onClick={() => navigate('/camera')}>
           <div className="relative z-10 flex flex-col h-full items-center text-center">
             <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm text-sidebar">
-              <ScanFace size={28} />
+              <img src={ibaMascotIcon} alt="Employee Mascot" className="w-8 h-8 object-contain" />
             </div>
             <h3 className="text-2xl font-bold text-text-main mb-3">Face Attend</h3>
             <p className="text-text-secondary mb-10 flex-grow">
@@ -58,7 +59,7 @@ const LandingPage = () => {
         <Card className="flex-1 p-8 relative overflow-hidden group cursor-pointer border-2 border-transparent hover:border-sidebar/10 transition-colors" onClick={() => navigate('/admin/login')}>
           <div className="relative z-10 flex flex-col h-full items-center text-center">
             <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-6 text-slate-600">
-              <Shield size={28} />
+              <img src={ibaMascotIcon} alt="Admin Mascot" className="w-8 h-8 object-contain" />
             </div>
             <h3 className="text-2xl font-bold text-text-main mb-3">Admin</h3>
             <p className="text-text-secondary mb-10 flex-grow">
