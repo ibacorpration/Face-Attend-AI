@@ -13,7 +13,7 @@ export default {
           dark: '#B0D92B',
           foreground: '#111112'
         },
-        sidebar: '#111112',
+        sidebar: '#20152F',
         surface: {
           DEFAULT: '#ffffff',
           tint: '#d7f370ff' // Lighter tint of lime accent for cards

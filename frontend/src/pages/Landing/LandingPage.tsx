@@ -19,10 +19,10 @@ export default function LandingPage() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-[1200px] min-h-[660px] bg-white rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
+        className="relative w-full max-w-[1200px] md:min-h-[660px] bg-white rounded-[24px] md:rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
       >
         {/* Left Side (Dark Purple) */}
-        <div className="w-full md:w-[48%] bg-[#20152F] relative flex flex-col p-10 md:p-12 overflow-hidden text-white">
+        <div className="w-full md:w-[48%] bg-[#20152F] relative flex flex-col p-8 md:p-12 overflow-hidden text-white min-h-[450px] md:min-h-0">
            {/* Subtle radial glow inside left panel */}
            <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-[#5B2A72]/40 blur-[100px] rounded-full pointer-events-none" />
            <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-[#5B2A72]/30 blur-[120px] rounded-full pointer-events-none" />
@@ -37,37 +37,36 @@ export default function LandingPage() {
 
            {/* Hero Text */}
            <div className="relative z-10">
-              <h1 className="text-5xl lg:text-[54px] font-extrabold leading-[1.1] tracking-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.1] tracking-tight mb-4 md:mb-6">
                 Smarter<br/>
                 Attendance<br/>
                 <span className="text-[#C6F135]">Starts Here</span>
               </h1>
-              <p className="text-[#D0CDE0] text-lg leading-relaxed max-w-[90%] font-medium">
-                Face recognition technology<br/>
-                for a faster, safer and more<br/>
-                efficient workplace.
-              </p>
            </div>
 
            {/* Robot Area */}
-           <div className="mt-auto relative z-10 flex flex-col items-center justify-end pt-12">
+           <div className="mt-8 md:mt-auto relative z-10 flex flex-col items-center justify-end pt-8 md:pt-12">
              {!robotActive && (
                <div 
                  className="relative cursor-pointer group flex flex-col items-center"
                  onClick={() => setRobotActive(true)}
                >
                  {/* Platform */}
-                 <div className="absolute bottom-0 w-64 h-16 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
-                   <div className="w-52 h-10 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
+                 <div className="absolute bottom-0 w-64 md:w-80 h-16 md:h-20 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
+                   <div className="w-52 md:w-64 h-10 md:h-12 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
                  </div>
 
                  <motion.div
-                   layoutId="robot-mascot"
                    animate={{ y: [0, -5, 0], scale: [1, 1.008, 1] }}
                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                    className="relative z-10 pb-4"
                  >
-                   <img src={ibaMascotFull} alt="Robot Mascot" className="w-52 h-52 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" />
+                   <motion.img 
+                     layoutId="robot-mascot"
+                     src={ibaMascotFull} 
+                     alt="Robot Mascot" 
+                     className="w-52 h-52 md:w-64 md:h-64 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
+                   />
                  </motion.div>
                </div>
              )}
@@ -75,15 +74,8 @@ export default function LandingPage() {
         </div>
 
         {/* Right Side (White) */}
-        <div className="w-full md:w-[52%] bg-white relative flex flex-col p-10 md:p-14">
-           {/* Top Info */}
-           <div className="flex justify-end items-center gap-3 text-sm font-semibold text-[#858592] mb-16 tracking-wider">
-             <span>Secure</span>
-             <span className="w-1 h-1 rounded-full bg-[#D0CDE0]"></span>
-             <span>Smart</span>
-             <span className="w-1 h-1 rounded-full bg-[#D0CDE0]"></span>
-             <span>Modern</span>
-           </div>
+        <div className="w-full md:w-[52%] bg-white relative flex flex-col justify-center p-6 md:p-10 lg:p-14">
+
 
            {/* Actions */}
            <div className="flex flex-col gap-6 w-full max-w-[460px] mx-auto mt-2">
@@ -135,17 +127,6 @@ export default function LandingPage() {
 
            </div>
 
-           {/* Decorative handwriting */}
-           <div className="mt-auto pt-16 flex justify-center lg:justify-end relative mr-4">
-             <div className="transform -rotate-6 relative inline-block">
-               <svg className="absolute -left-12 -top-10 text-[#5B2A72] w-14 h-14 opacity-70" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                 <path d="M80,80 Q50,70 40,40 T25,25" />
-                 <polyline points="35,20 25,25 25,35" />
-               </svg>
-               <span className="text-xl text-[#5B2A72] italic font-serif opacity-90 tracking-wide">
-                 Let's build a smarter workplace
-               </span>
-             </div>
            </div>
         </div>
       </motion.div>
@@ -160,14 +141,16 @@ export default function LandingPage() {
             className="fixed inset-0 z-50 flex items-center justify-center bg-[#20152F]/90 backdrop-blur-md cursor-pointer"
             onClick={() => setRobotActive(false)}
           >
-            <motion.div
-              layoutId="robot-mascot"
-              className="relative"
-            >
+            <div className="relative">
                {/* Huge glow when active */}
                <div className="absolute inset-0 bg-[#C6F135]/20 blur-[100px] rounded-full w-full h-full" />
-               <img src={ibaMascotFull} alt="Robot Mascot Active" className="w-96 h-96 object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.8)] relative z-10" />
-            </motion.div>
+               <motion.img 
+                 layoutId="robot-mascot"
+                 src={ibaMascotFull} 
+                 alt="Robot Mascot Active" 
+                 className="w-72 h-72 md:w-96 md:h-96 object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.8)] relative z-10" 
+               />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

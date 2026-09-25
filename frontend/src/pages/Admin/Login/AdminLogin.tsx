@@ -48,7 +48,7 @@ const AdminLogin = () => {
       <div className="absolute top-8 left-8 z-20">
         <button 
           onClick={() => navigate('/')}
-          className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors shadow-lg"
+          className="bg-[#20152F]/80 backdrop-blur-md border border-[#5B2A72]/30 rounded-full w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors shadow-lg"
           title="Back to Landing Page"
         >
           <ArrowLeft size={20} />
@@ -57,7 +57,7 @@ const AdminLogin = () => {
 
       {/* Decorative Elements */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#5B2A72]/10 blur-[100px]" />
 
       <motion.div 
         animate={controls}
@@ -67,7 +67,7 @@ const AdminLogin = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-sidebar rounded-[32px] p-10 shadow-soft-lg border border-sidebar/50"
+          className="bg-[#20152F] rounded-[32px] p-10 shadow-[0_30px_60px_rgba(32,21,47,0.15)] border border-[#5B2A72]/50"
         >
           {/* Logo / Header */}
           <div className="flex flex-col items-center mb-10">
@@ -135,11 +135,11 @@ const AdminLogin = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 text-base font-bold bg-primary text-sidebar hover:bg-primary-light rounded-full"
+              className="w-full h-12 text-base font-bold bg-primary text-[#20152F] hover:bg-primary-light rounded-full"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 border-2 border-sidebar/20 border-t-sidebar rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-[#20152F]/20 border-t-[#20152F] rounded-full animate-spin" />
                   <span>Signing in...</span>
                 </div>
               ) : (
