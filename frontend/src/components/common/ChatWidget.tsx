@@ -229,7 +229,27 @@ export const ChatWidget: React.FC = () => {
         {isOpen ? (
           <X className="text-[#C6F135] z-10" size={24} />
         ) : (
-          <span className="text-[#C6F135] font-bold text-lg font-sans z-10">IBA</span>
+          <svg
+            className="text-[#C6F135] z-10 w-9 h-9"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* Circular head */}
+            <circle cx="12" cy="12" r="8" />
+            {/* Left ear */}
+            <path d="M 6.5 6 L 5.5 1.5 L 10 4.5" />
+            {/* Right ear */}
+            <path d="M 17.5 6 L 18.5 1.5 L 14 4.5" />
+            {/* Eyes */}
+            <circle cx="8.5" cy="12" r="1.5" />
+            <circle cx="15.5" cy="12" r="1.5" />
+            {/* Connector */}
+            <line x1="10" y1="12" x2="14" y2="12" />
+          </svg>
         )}
       </motion.button>
     </div>
