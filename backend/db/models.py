@@ -62,6 +62,8 @@ class AdminUser(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     username: Mapped[str] = mapped_column(String, unique=True, index=True)
     password_hash: Mapped[str] = mapped_column(String)
+    face_embedding: Mapped[Optional[bytes]] = mapped_column(LargeBinary, nullable=True)
+    image_data: Mapped[Optional[bytes]] = mapped_column(LargeBinary, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 class Message(Base):

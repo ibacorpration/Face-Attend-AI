@@ -32,12 +32,12 @@ export default function LandingPage() {
               <div className="w-8 h-8 bg-[#291A3A] rounded-lg flex items-center justify-center p-1.5 border border-[#5B2A72]/50">
                 <img src={ibaMascotIcon} alt="Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-bold text-lg tracking-wide">IBA Corpration</span>
+              <span className="font-bold text-2xl tracking-wide">IBA Corpration</span>
            </div>
 
            {/* Hero Text */}
            <div className="relative z-10">
-              <h1 className="text-4xl md:text-5xl lg:text-[54px] font-extrabold leading-[1.1] tracking-tight mb-4 md:mb-6">
+              <h1 className="text-3xl md:text-4xl lg:text-[44px] font-extrabold leading-[1.1] tracking-tight mb-4 md:mb-6">
                 Smarter<br/>
                 Attendance<br/>
                 <span className="text-[#C6F135]">Starts Here</span>
@@ -83,7 +83,7 @@ export default function LandingPage() {
              {/* Face Attend Card */}
              <motion.div 
                whileHover={{ y: -8 }}
-               transition={{ type: "spring", stiffness: 800, damping: 15 }}
+               transition={{ type: "spring", stiffness: 300, damping: 25 }}
                className="group cursor-pointer bg-[#C6F135] rounded-[28px] p-6 flex items-center gap-5 shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-shadow duration-150 relative overflow-hidden"
                onClick={() => navigate('/camera')}
              >
@@ -107,7 +107,7 @@ export default function LandingPage() {
              {/* Admin Card */}
              <motion.div 
                whileHover={{ y: -8 }}
-               transition={{ type: "spring", stiffness: 800, damping: 15 }}
+               transition={{ type: "spring", stiffness: 300, damping: 25 }}
                className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-colors transition-shadow duration-150 relative"
                onClick={() => navigate('/admin/login')}
              >

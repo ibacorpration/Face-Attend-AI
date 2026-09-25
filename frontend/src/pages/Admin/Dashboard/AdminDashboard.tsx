@@ -23,27 +23,33 @@ const itemVariants = {
 };
 
 const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
-  <Card tinted className={`flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:border-primary transition-colors' : ''}`} onClick={onClick}>
-    <div className="flex justify-between items-start mb-4">
-      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-        {icon}
+  <motion.div
+    whileHover={onClick ? { y: -8 } : {}}
+    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+    className="h-full"
+  >
+    <Card tinted className={`h-full flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:bg-[#5B2A72] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-300' : ''}`} onClick={onClick}>
+      <div className="flex justify-between items-start mb-4 relative z-10">
+        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-sidebar group-hover:text-[#5B2A72] transition-colors duration-300">
+          {icon}
+        </div>
+        {rate && (
+          <Badge variant="default" className="bg-white text-text-main group-hover:bg-white/20 group-hover:text-white transition-colors duration-300 border-none">
+            {rate}
+          </Badge>
+        )}
       </div>
-      {rate && (
-        <Badge variant="default" className="bg-white text-text-main">
-          {rate}
-        </Badge>
-      )}
-    </div>
-    <div>
-      <p className="text-sm font-semibold text-text-main mb-1">{title}</p>
-      <div className="flex items-baseline gap-2">
-        <h3 className="text-3xl font-bold text-text-main">
-          <AnimatedCounter value={value} duration={1.5} />
-        </h3>
-        {subtext && <span className="text-xs font-medium text-text-secondary">{subtext}</span>}
+      <div className="relative z-10">
+        <p className="text-sm font-semibold text-text-main group-hover:text-white/80 transition-colors duration-300 mb-1">{title}</p>
+        <div className="flex items-baseline gap-2">
+          <h3 className="text-3xl font-bold text-text-main group-hover:text-white transition-colors duration-300">
+            <AnimatedCounter value={value} duration={1.5} />
+          </h3>
+          {subtext && <span className="text-xs font-medium text-text-secondary group-hover:text-white/60 transition-colors duration-300">{subtext}</span>}
+        </div>
       </div>
-    </div>
-  </Card>
+    </Card>
+  </motion.div>
 );
 
 import { DashboardOverviewChart } from '../../../components/dashboard/DashboardOverviewChart';

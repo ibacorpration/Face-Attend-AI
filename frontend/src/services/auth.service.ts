@@ -19,4 +19,16 @@ export const authService = {
 
     return response.data;
   },
+  faceLogin: async (file: Blob): Promise<LoginResponse> => {
+    const formData = new FormData();
+    formData.append('file', file, 'face.jpg');
+    
+    const response = await api.post<LoginResponse>('/auth/face-login', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+    return response.data;
+  }
 };

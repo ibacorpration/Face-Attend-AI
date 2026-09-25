@@ -13,6 +13,7 @@ import AdminDashboard from './pages/Admin/Dashboard/AdminDashboard';
 import EmployeesPage from './pages/Admin/Employees/EmployeesPage';
 import AttendancePage from './pages/Admin/Attendance/AttendancePage';
 import MessagesPage from './pages/Admin/Messages/MessagesPage';
+import SettingsPage from './pages/Admin/Settings/SettingsPage';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -41,7 +42,7 @@ const AnimatedRoutes = () => {
           <Route path="employees" element={<PageWrapper><EmployeesPage /></PageWrapper>} />
           <Route path="attendance" element={<PageWrapper><AttendancePage /></PageWrapper>} />
           <Route path="messages" element={<PageWrapper><MessagesPage /></PageWrapper>} />
-          <Route path="settings" element={<PageWrapper><div className="bg-surface rounded-2xl shadow-sm border border-slate-100 p-12 text-center text-slate-500">System settings coming soon.</div></PageWrapper>} />
+          <Route path="settings" element={<PageWrapper><SettingsPage /></PageWrapper>} />
         </Route>
       </Routes>
     </AnimatePresence>

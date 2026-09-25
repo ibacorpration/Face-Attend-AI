@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, ArrowLeft, Camera, X } from 'lucide-react';
 import ibaMascotFull from '../../../assets/iba-mascot-full.png';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { Input } from '../../../components/ui/Input';
 import { Button } from '../../../components/ui/Button';
+import { useCamera } from '../../../hooks/useCamera';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -16,11 +17,60 @@ const AdminLogin = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
+  // Face Login states
+  const [showCamera, setShowCamera] = useState(false);
+  const [isProcessingFace, setIsProcessingFace] = useState(false);
+  const [faceStatus, setFaceStatus] = useState('Position your face in the frame');
+  const { videoRef, isStreamActive, error, startCamera, stopCamera, captureFrame } = useCamera();
+  const intervalRef = useRef<number | null>(null);
+
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/admin';
   const controls = useAnimation();
+
+  useEffect(() => {
+    if (showCamera) {
+      startCamera();
+    } else {
+      stopCamera();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
+    return () => {
+      stopCamera();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [showCamera, startCamera, stopCamera]);
+
+  useEffect(() => {
+    if (showCamera && isStreamActive && !isProcessingFace) {
+      setFaceStatus('Looking for a face...');
+      intervalRef.current = window.setInterval(async () => {
+        if (isProcessingFace) return;
+        
+        const blob = captureFrame();
+        if (blob) {
+          setIsProcessingFace(true);
+          setFaceStatus('AI Analyzing...');
+          try {
+            const response = await authService.faceLogin(blob);
+            login(response.access_token);
+            toast.success('Face recognized! Logged in.');
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            stopCamera();
+            navigate(from, { replace: true });
+          } catch (err: any) {
+            setFaceStatus(err.response?.data?.detail || 'Face not recognized');
+            setIsProcessingFace(false);
+          }
+        }
+      }, 1500);
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [showCamera, isStreamActive, isProcessingFace, captureFrame, login, navigate, from, stopCamera]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,15 +117,22 @@ const AdminLogin = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-[#20152F] rounded-[32px] p-10 shadow-[0_30px_60px_rgba(32,21,47,0.15)] border border-[#5B2A72]/50"
+          className="bg-[#20152F] rounded-[32px] p-10 shadow-[0_30px_60px_rgba(32,21,47,0.15)] border border-[#5B2A72]/50 relative"
         >
           {/* Logo / Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm overflow-hidden">
-              <img src={ibaMascotFull} alt="IBA Mascot" className="w-full h-full object-contain p-2" />
+            <div 
+              className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm overflow-hidden cursor-pointer hover:scale-110 hover:shadow-lg transition-transform duration-300 relative group"
+              onClick={() => setShowCamera(true)}
+              title="Click to login with Face ID"
+            >
+              <div className="absolute inset-0 bg-black/20 hidden group-hover:flex items-center justify-center backdrop-blur-[1px]">
+                <Camera size={24} className="text-[#20152F]" />
+              </div>
+              <img src={ibaMascotFull} alt="IBA Mascot" className="w-full h-full object-contain p-2 group-hover:opacity-30 transition-opacity" />
             </div>
             <h2 className="text-2xl font-bold text-white text-center mb-2">Welcome Back</h2>
-            <p className="text-slate-400 text-center text-sm">Enter your credentials to access IBA Corporation.</p>
+            <p className="text-slate-400 text-center text-sm">Enter your credentials or click the logo for Face ID.</p>
           </div>
 
           {/* Form */}
@@ -138,7 +195,7 @@ const AdminLogin = () => {
               className="w-full h-12 text-base font-bold bg-primary text-[#20152F] hover:bg-primary-light rounded-full"
             >
               {isLoading ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   <div className="w-5 h-5 border-2 border-[#20152F]/20 border-t-[#20152F] rounded-full animate-spin" />
                   <span>Signing in...</span>
                 </div>
@@ -149,6 +206,65 @@ const AdminLogin = () => {
           </form>
         </motion.div>
       </motion.div>
+
+      {/* Camera Modal */}
+      <AnimatePresence>
+        {showCamera && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-900/80 backdrop-blur-md"
+              onClick={() => setShowCamera(false)}
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-md bg-[#20152F] rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] overflow-hidden border border-[#5B2A72]/50"
+            >
+              <div className="p-4 border-b border-white/5 flex items-center justify-between">
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Camera size={20} className="text-primary" /> Face ID Login
+                </h2>
+                <button 
+                  onClick={() => setShowCamera(false)} 
+                  className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="p-6 flex flex-col items-center">
+                <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-primary shadow-[0_0_30px_rgba(198,241,53,0.3)] bg-black/50 flex items-center justify-center">
+                  {error ? (
+                    <div className="text-error text-center p-4">
+                      <p className="text-sm">{error}</p>
+                    </div>
+                  ) : (
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover transform -scale-x-100"
+                    />
+                  )}
+                  {/* Scanning HUD effect */}
+                  {isStreamActive && !error && (
+                    <div className="absolute inset-0 border-2 border-primary/50 rounded-full animate-[pulse_2s_ease-in-out_infinite]" />
+                  )}
+                </div>
+                
+                <div className="text-center">
+                  <p className="text-lg font-bold text-white mb-2">{faceStatus}</p>
+                  <p className="text-sm text-slate-400">
+                    {isProcessingFace ? 'Please hold still...' : 'Look directly at the camera'}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
