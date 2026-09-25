@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Plus, Settings, Edit2, Camera, Shield, Users, Lock, X } from 'lucide-react';
+import { Plus, Camera, Shield, Users, Lock, X } from 'lucide-react';
 import { adminService, AdminUser } from '../../../services/admin.service';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
@@ -182,7 +182,7 @@ export default function SettingsPage() {
                       }}
                     />
                     <Button 
-                      variant="outline" 
+                      variant="secondary" 
                       size="sm" 
                       className="w-10 h-10 p-0 rounded-xl"
                       onClick={() => document.getElementById(`face-upload-${admin.id}`)?.click()}
@@ -191,7 +191,7 @@ export default function SettingsPage() {
                       <Camera size={16} />
                     </Button>
                     <Button 
-                      variant="outline" 
+                      variant="secondary" 
                       size="sm" 
                       className="w-10 h-10 p-0 rounded-xl"
                       onClick={() => handleOpenPasswordModal(admin)}
@@ -279,7 +279,7 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="mt-8 flex gap-3">
-                  <Button type="button" variant="outline" className="flex-1" onClick={() => setIsAddModalOpen(false)}>
+                  <Button type="button" variant="secondary" className="flex-1" onClick={() => setIsAddModalOpen(false)}>
                     Cancel
                   </Button>
                   <Button type="submit" variant="primary" className="flex-1" disabled={isSubmitting}>
@@ -328,7 +328,7 @@ export default function SettingsPage() {
                   />
                 </div>
                 <div className="mt-8 flex gap-3">
-                  <Button type="button" variant="outline" className="flex-1" onClick={() => setIsPasswordModalOpen(false)}>
+                  <Button type="button" variant="secondary" className="flex-1" onClick={() => setIsPasswordModalOpen(false)}>
                     Cancel
                   </Button>
                   <Button type="submit" variant="primary" className="flex-1" disabled={isSubmitting}>
