@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, X, Send } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import ibaMascotFull from '../../assets/iba-mascot-full.png';
+import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 interface Message {
   id: string;
