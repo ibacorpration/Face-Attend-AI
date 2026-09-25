@@ -16,12 +16,12 @@ const LandingPage = () => {
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/10 blur-[120px]" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/5 blur-[100px]" />
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center z-10 mb-12"
       >
-        <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="flex items-center justify-center gap-2 mb-6">
           <MascotAnimation src={ibaMascotFull} className="w-24 h-24" />
           <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corporation<span className="text-primary">.</span></h1>
         </div>
@@ -30,7 +30,7 @@ const LandingPage = () => {
         </h2>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
