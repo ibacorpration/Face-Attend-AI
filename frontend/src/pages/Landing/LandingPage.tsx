@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, ScanFace, UserCog } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ibaMascotFull from '../../assets/iba-mascot-full.png';
 import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
