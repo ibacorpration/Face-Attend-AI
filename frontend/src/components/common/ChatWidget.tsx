@@ -94,14 +94,18 @@ export const ChatWidget: React.FC = () => {
             className="w-[calc(100vw-32px)] sm:w-[360px] h-[80vh] sm:h-[500px] bg-[#1c1c1f] rounded-[20px] shadow-2xl mb-4 flex flex-col overflow-hidden border border-white/5"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#111112]">
+            <div className="flex items-center justify-between px-4 py-3 bg-[#111112] relative">
               <div className="flex items-center gap-2">
-                <Shield size={20} className="text-[#C6F135]" />
+                <img src={ibaMascotIcon} alt="IBA Mascot" className="w-6 h-6 rounded-full object-cover" />
+              </div>
+
+              <div className="absolute left-1/2 -translate-x-1/2">
                 <span className="font-bold text-white">IBA Chat</span>
               </div>
+
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white/70 hover:text-white transition-colors"
+                className="text-white/70 hover:text-white transition-colors relative z-10"
               >
                 <X size={20} />
               </button>
