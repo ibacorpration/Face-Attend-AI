@@ -97,7 +97,7 @@ export const ChatWidget: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#111112] relative">
               <div className="flex items-center gap-2">
-                <img src={ibaMascotIcon} alt="IBA Mascot" className="w-6 h-6 rounded-full object-cover" />
+                <img src={ibaMascotIcon} alt="IBA Mascot" className="w-9 h-9 rounded-full object-cover" />
               </div>
 
               <div className="absolute left-1/2 -translate-x-1/2">
@@ -106,7 +106,7 @@ export const ChatWidget: React.FC = () => {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white/70 hover:text-white transition-colors relative z-10"
+                className="text-white/70 hover:text-[#C6F135] transition-colors relative z-10"
               >
                 <X size={20} />
               </button>
@@ -144,8 +144,8 @@ export const ChatWidget: React.FC = () => {
                 >
                   <div
                     className={`px-4 py-2.5 rounded-2xl shadow-sm ${msg.sender === 'user'
-                        ? 'bg-[#C6F135] text-[#111112] rounded-br-sm'
-                        : 'bg-[#2a2a2e] text-white rounded-bl-sm'
+                      ? 'bg-[#C6F135] text-[#111112] rounded-br-sm'
+                      : 'bg-[#2a2a2e] text-white rounded-bl-sm'
                       }`}
                   >
                     <p className="text-sm leading-relaxed">{msg.text}</p>
@@ -181,13 +181,15 @@ export const ChatWidget: React.FC = () => {
 
             {/* Input Area */}
             <div className="bg-[#111112] p-3 border-t border-white/10 flex items-center gap-2 shrink-0 z-30">
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyPress}
-                placeholder="Type your message..."
-                className="!bg-white/5 !border-none !text-white placeholder:!text-white/40 focus-visible:!ring-1 focus-visible:!ring-[#C6F135] h-11 !pl-4"
-              />
+              <div className="flex-1 min-w-0">
+                <Input
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Type your message..."
+                  className="!bg-white/5 !border-none !text-white placeholder:!text-white/40 focus-visible:!ring-1 focus-visible:!ring-[#C6F135] h-11 !pl-4 w-full"
+                />
+              </div>
               <Button
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
