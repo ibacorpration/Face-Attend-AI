@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Shield, Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import ibaMascotFull from '../../../assets/iba-mascot-full.png';
 import { authService } from '../../../services/auth.service';
 import { useAuth } from '../../../hooks/useAuth';
 import { motion, useAnimation } from 'framer-motion';
@@ -70,11 +71,11 @@ const AdminLogin = () => {
         >
           {/* Logo / Header */}
           <div className="flex flex-col items-center mb-10">
-            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-              <Shield className="text-sidebar" size={32} />
+            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm overflow-hidden">
+              <img src={ibaMascotFull} alt="IBA Mascot" className="w-full h-full object-contain p-2" />
             </div>
             <h2 className="text-2xl font-bold text-white text-center mb-2">Welcome Back</h2>
-            <p className="text-slate-400 text-center text-sm">Enter your credentials to access IBA Corpration.</p>
+            <p className="text-slate-400 text-center text-sm">Enter your credentials to access IBA Corporation.</p>
           </div>
 
           {/* Form */}
