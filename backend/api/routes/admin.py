@@ -9,6 +9,7 @@ from backend.core.security import get_password_hash
 from backend.schemas.admin import AdminUserCreate, AdminUserUpdatePassword, AdminUserResponse
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 
+router = APIRouter()
 @router.get("/stats/history")
 def get_stats_history(db: Session = Depends(get_db)) -> List[Dict[str, Any]]:
     """
