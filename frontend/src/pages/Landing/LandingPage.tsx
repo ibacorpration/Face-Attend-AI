@@ -32,7 +32,7 @@ export default function LandingPage() {
               <div className="w-8 h-8 bg-[#291A3A] rounded-lg flex items-center justify-center p-1.5 border border-[#5B2A72]/50">
                 <img src={ibaMascotIcon} alt="Logo" className="w-full h-full object-contain" />
               </div>
-              <span className="font-bold text-lg tracking-wide">FaceAttend AI</span>
+              <span className="font-bold text-lg tracking-wide">IBA Corporation</span>
            </div>
 
            {/* Hero Text */}
@@ -52,20 +52,20 @@ export default function LandingPage() {
                  onClick={() => setRobotActive(true)}
                >
                  {/* Platform */}
-                 <div className="absolute bottom-0 w-64 md:w-80 h-16 md:h-20 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
-                   <div className="w-52 md:w-64 h-10 md:h-12 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
+                 <div className="absolute bottom-0 w-72 md:w-96 h-20 md:h-24 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
+                   <div className="w-60 md:w-80 h-14 md:h-16 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
                  </div>
 
                  <motion.div
                    animate={{ y: [0, -5, 0], scale: [1, 1.008, 1] }}
                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                   className="relative z-10 pb-4"
+                   className="relative z-10 pb-4 md:pb-6"
                  >
                    <motion.img 
                      layoutId="robot-mascot"
                      src={ibaMascotFull} 
                      alt="Robot Mascot" 
-                     className="w-52 h-52 md:w-64 md:h-64 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
+                     className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
                    />
                  </motion.div>
                </div>
@@ -83,23 +83,22 @@ export default function LandingPage() {
              {/* Face Attend Card */}
              <motion.div 
                whileHover={{ y: -3 }}
-               className="group cursor-pointer bg-[#C6F135] rounded-[28px] p-6 flex items-center gap-5 shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(198,241,53,0.35)] transition-all duration-300 relative overflow-hidden"
+               className="group cursor-pointer bg-[#C6F135] rounded-[28px] p-6 flex items-center gap-5 shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-300 relative overflow-hidden"
                onClick={() => navigate('/camera')}
              >
                {/* Subtle gradient inside */}
                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent pointer-events-none"></div>
 
-               <div className="w-16 h-16 bg-[#D7F563] rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-[#20152F]">
-                 <ScanFace size={32} strokeWidth={1.5} />
+               <div className="w-16 h-16 bg-[#D7F563] rounded-2xl flex items-center justify-center shrink-0 shadow-sm p-2">
+                 <img src={ibaMascotIcon} alt="Icon" className="w-full h-full object-contain drop-shadow-sm" />
                </div>
                <div className="flex-grow relative z-10">
                  <h3 className="text-xl font-bold text-[#20152F] mb-1">Face Attend</h3>
                  <p className="text-[#20152F]/70 text-sm leading-snug">
-                   Check-in & Check-out<br/>
-                   with your face
+                   Check-in and Check-out
                  </p>
                </div>
-               <div className="w-10 h-10 rounded-full bg-[#20152F] text-[#C6F135] flex items-center justify-center shrink-0 group-hover:translate-x-1 transition-transform duration-300 relative z-10">
+               <div className="w-10 h-10 rounded-full bg-[#20152F] text-[#C6F135] flex items-center justify-center shrink-0 group-hover:translate-x-1 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-300 relative z-10">
                  <ArrowRight size={20} strokeWidth={2} />
                </div>
              </motion.div>
@@ -107,17 +106,16 @@ export default function LandingPage() {
              {/* Admin Card */}
              <motion.div 
                whileHover={{ y: -3 }}
-               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_15px_35px_rgba(91,42,114,0.08)] hover:border-[#D0CDE0] transition-all duration-300 relative"
+               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-all duration-300 relative"
                onClick={() => navigate('/admin/login')}
              >
-               <div className="w-16 h-16 bg-[#F2F0F7] rounded-2xl flex items-center justify-center shrink-0 shadow-sm text-[#5B2A72]">
-                 <UserCog size={32} strokeWidth={1.5} />
+               <div className="w-16 h-16 bg-[#F2F0F7] rounded-2xl flex items-center justify-center shrink-0 shadow-sm p-1.5 overflow-hidden">
+                 <img src={ibaMascotFull} alt="Admin Icon" className="w-full h-full object-contain drop-shadow-sm" />
                </div>
                <div className="flex-grow relative z-10">
                  <h3 className="text-xl font-bold text-[#20152F] mb-1">Admin</h3>
                  <p className="text-[#858592] text-sm leading-snug">
-                   Manage employees, track logs,<br/>
-                   and configure system settings.
+                   Manage your team
                  </p>
                </div>
                <div className="w-10 h-10 rounded-full bg-[#F2F0F7] text-[#858592] flex items-center justify-center shrink-0 group-hover:translate-x-1 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-300 relative z-10">
