@@ -34,6 +34,20 @@ export default {
       boxShadow: {
         'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
         'soft-lg': '0 10px 30px -5px rgba(0, 0, 0, 0.08)',
+      },
+      keyframes: {
+        sway: {
+          '0%, 100%': { transform: 'rotate(-5deg)' },
+          '50%': { transform: 'rotate(5deg)' },
+        },
+        bob: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
+      },
+      animation: {
+        sway: 'sway 2.6s ease-in-out infinite',
+        bob: 'bob 2.6s ease-in-out infinite',
       }
     },
   },

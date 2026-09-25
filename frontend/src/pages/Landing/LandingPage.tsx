@@ -19,8 +19,10 @@ const LandingPage = () => {
         className="text-center z-10 mb-12"
       >
         <div className="flex items-center justify-center gap-3 mb-6">
-          <img src={ibaMascotFull} alt="IBA Mascot" className="w-16 h-16 object-contain" />
-          <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corpration<span className="text-primary">.</span></h1>
+          <div className="animate-sway origin-bottom">
+            <img src={ibaMascotFull} alt="IBA Mascot" className="w-16 h-16 object-contain animate-bob" />
+          </div>
+          <h1 className="text-3xl font-bold text-text-main tracking-tight">IBA Corporation<span className="text-primary">.</span></h1>
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold text-text-main mb-4 tracking-tight leading-tight">
           Smart Attendance

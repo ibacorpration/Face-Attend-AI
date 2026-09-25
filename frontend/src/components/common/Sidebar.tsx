@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut, Shield } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, MessageSquare, Settings, LogOut } from 'lucide-react';
 import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 const navItems = [
   { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
@@ -21,7 +21,7 @@ export const Sidebar: React.FC = () => {
     <div className="w-64 bg-sidebar flex flex-col h-full shadow-soft z-20 shrink-0 text-slate-300">
       <div className="h-20 flex items-center px-6 gap-3 border-b border-white/5">
         <img src={ibaMascotIcon} alt="IBA Mascot" className="w-10 h-10 object-contain" />
-        <span className="font-bold text-white text-lg"> IBA Corpration </span>
+        <span className="font-bold text-white text-lg"> IBA Corporation </span>
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
