@@ -4,7 +4,6 @@ import { Shield, X, Send } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import ibaMascotFull from '../../assets/iba-mascot-full.png';
-import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 interface Message {
   id: string;
@@ -135,16 +134,14 @@ export const ChatWidget: React.FC = () => {
                   key={msg.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`flex flex-col max-w-[85%] z-20 relative ${
-                    msg.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
-                  }`}
+                  className={`flex flex-col max-w-[85%] z-20 relative ${msg.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
+                    }`}
                 >
                   <div
-                    className={`px-4 py-2.5 rounded-2xl shadow-sm ${
-                      msg.sender === 'user'
+                    className={`px-4 py-2.5 rounded-2xl shadow-sm ${msg.sender === 'user'
                         ? 'bg-[#C6F135] text-[#111112] rounded-br-sm'
                         : 'bg-[#2a2a2e] text-white rounded-bl-sm'
-                    }`}
+                      }`}
                   >
                     <p className="text-sm leading-relaxed">{msg.text}</p>
                   </div>
@@ -198,21 +195,34 @@ export const ChatWidget: React.FC = () => {
         )}
       </AnimatePresence>
 
+      {/* Trigger: full-body mascot, no circular badge, silhouette itself is the clickable shape */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="w-14 h-14 rounded-full bg-[#111112] shadow-soft-lg flex items-center justify-center relative group z-50"
+        whileHover={
+          isOpen
+            ? { scale: 1.05 }
+            : {
+              scale: 1.05,
+              filter:
+                'drop-shadow(0 8px 20px rgba(0,0,0,0.35)) drop-shadow(0 0 12px rgba(198,241,53,0.6))',
+            }
+        }
+        style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.35))' }}
+        className="relative flex items-center justify-center bg-transparent border-none p-0 z-50"
+        aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
-        {/* Hover Glow Effect */}
-        <div className="absolute inset-0 rounded-full bg-[#C6F135] opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300" />
-        
         {isOpen ? (
-          <X className="text-[#C6F135] z-10" size={24} />
-        ) : (
-          <div className="w-11 h-11 bg-[#111112] rounded-full z-10 flex items-center justify-center overflow-hidden">
-            <img src={ibaMascotIcon} alt="IBA Chat" className="w-full h-full object-cover rounded-full" />
+          <div className="w-12 h-12 rounded-2xl bg-[#111112] flex items-center justify-center">
+            <X className="text-[#C6F135]" size={22} />
           </div>
+        ) : (
+          <img
+            src={ibaMascotFull}
+            alt="IBA Chat"
+            className="h-20 w-auto object-contain select-none"
+            draggable={false}
+          />
         )}
       </motion.button>
     </div>
