@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, X, Send } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
+import ibaMascotFull from '../../assets/iba-mascot-full.png';
+import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 interface Message {
   id: string;
@@ -117,32 +119,11 @@ export const ChatWidget: React.FC = () => {
                     exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
                     className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10"
                   >
-                    <motion.div 
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                      className="relative w-32 h-32 mb-4"
-                    >
+                    <div className="relative w-40 h-40 mb-4">
                       {/* Glow behind */}
                       <div className="absolute inset-0 bg-[#C6F135] opacity-20 blur-xl rounded-full" />
-                      {/* SVG Mascot */}
-                      <svg viewBox="0 0 100 100" className="w-full h-full relative z-10">
-                        {/* Hood/Cowl Base */}
-                        <path d="M 20 50 C 20 20, 80 20, 80 50 C 85 70, 75 85, 50 85 C 25 85, 15 70, 20 50 Z" fill="#1c1c1f" />
-                        {/* Inner Face/Head */}
-                        <path d="M 25 50 C 25 30, 75 30, 75 50 C 75 75, 25 75, 25 50 Z" fill="#111112" />
-                        {/* Eyes */}
-                        <motion.g
-                          animate={{ opacity: [0.8, 1, 0.8] }}
-                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                        >
-                          <ellipse cx="38" cy="48" rx="5" ry="9" fill="#C6F135" transform="rotate(-15 38 48)" filter="drop-shadow(0 0 4px #C6F135)" />
-                          <ellipse cx="62" cy="48" rx="5" ry="9" fill="#C6F135" transform="rotate(15 62 48)" filter="drop-shadow(0 0 4px #C6F135)" />
-                        </motion.g>
-                        {/* Chest Icon */}
-                        <path d="M 45 75 L 55 75 L 55 82 L 50 86 L 45 82 Z" fill="#C6F135" opacity="0.8" />
-                        <circle cx="50" cy="78" r="1.5" fill="#111112" />
-                      </svg>
-                    </motion.div>
+                      <img src={ibaMascotFull} alt="IBA Assistant" className="w-full h-full object-contain relative z-10" />
+                    </div>
                     <h3 className="text-white font-bold text-lg">IBA Assistant</h3>
                     <p className="text-white/60 text-sm mt-1">Hi! How can I help you today?</p>
                   </motion.div>
@@ -229,22 +210,9 @@ export const ChatWidget: React.FC = () => {
         {isOpen ? (
           <X className="text-[#C6F135] z-10" size={24} />
         ) : (
-          <svg
-            className="text-[#C6F135] z-10 w-9 h-9"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {/* Continuous head outline with integrated cat ears */}
-            <path d="M 18.9 8 A 8 8 0 1 1 5.1 8 L 3 3 L 8 5.1 A 8 8 0 0 1 16 5.1 L 21 3 Z" />
-            {/* Dumbbell eyes */}
-            <circle cx="8" cy="12" r="2" />
-            <circle cx="16" cy="12" r="2" />
-            <line x1="10" y1="12" x2="14" y2="12" />
-          </svg>
+          <div className="w-11 h-11 bg-[#111112] rounded-full z-10 flex items-center justify-center overflow-hidden">
+            <img src={ibaMascotIcon} alt="IBA Chat" className="w-full h-full object-cover rounded-full" />
+          </div>
         )}
       </motion.button>
     </div>
