@@ -12,27 +12,27 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  transform-origin: 50% 92%;
+  transform-origin: center bottom;
   will-change: transform;
-  animation: idle-breath 2.2s ease-in-out infinite;
+  animation: idle-breath 4s ease-in-out infinite;
 }
 
 .char {
   display: block;
-  filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15));
-  transform-origin: 50% 88%;
+  filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.15));
+  transform-origin: center bottom;
   will-change: transform, filter;
-  animation: char-breathe 2.2s ease-in-out infinite;
+  animation: char-breathe 4s ease-in-out infinite;
 }
 
 
 @keyframes idle-breath {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(0, -16px, 0) scale(1.008); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes char-breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.012, .992); }
+  50% { transform: scale(1.05); }
 }
 
