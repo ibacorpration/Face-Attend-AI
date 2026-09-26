@@ -29,6 +29,8 @@ const AdminLogin = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/admin';
   const controls = useAnimation();
+  const cameraControls = useAnimation();
+  const [hasCameraError, setHasCameraError] = useState(false);
 
   useEffect(() => {
     if (showCamera) {
@@ -63,6 +65,9 @@ const AdminLogin = () => {
           } catch (err: any) {
             setFaceStatus(err.response?.data?.detail || 'Face not recognized');
             setIsProcessingFace(false);
+            setHasCameraError(true);
+            cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
+            setTimeout(() => setHasCameraError(false), 2000);
           }
         }
       }, 600);
@@ -234,7 +239,7 @@ const AdminLogin = () => {
                 </button>
               </div>
               <div className="p-6 flex flex-col items-center">
-                <div className="relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 border-primary shadow-[0_0_30px_rgba(198,241,53,0.3)] bg-black/50 flex items-center justify-center">
+                <motion.div animate={cameraControls} className={`relative w-64 h-64 mx-auto mb-6 rounded-full overflow-hidden border-4 ${hasCameraError ? 'border-red-500 shadow-[0_0_30px_rgba(239,68,68,0.3)]' : 'border-primary shadow-[0_0_30px_rgba(198,241,53,0.3)]'} bg-black/50 flex items-center justify-center transition-colors duration-300`}>
                   {error ? (
                     <div className="text-error text-center p-4">
                       <p className="text-sm">{error}</p>
@@ -250,9 +255,9 @@ const AdminLogin = () => {
                   )}
                   {/* Scanning HUD effect */}
                   {isStreamActive && !error && (
-                    <div className="absolute inset-0 border-2 border-primary/50 rounded-full animate-[pulse_2s_ease-in-out_infinite]" />
+                    <div className={`absolute inset-0 border-2 ${hasCameraError ? 'border-red-500/50' : 'border-primary/50'} rounded-full animate-[pulse_2s_ease-in-out_infinite] transition-colors`} />
                   )}
-                </div>
+                </motion.div>
 
                 <div className="text-center">
                   <p className="text-lg font-bold text-white mb-2">{faceStatus}</p>

@@ -56,7 +56,13 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
         access_token = create_access_token(subject=best_match.username)
         return Token(access_token=access_token, token_type="bearer")
         
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Face not recognized as an administrator",
-    )
+    if best_match:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Face not recognized (Score: {highest_sim:.2f} < {settings.FACE_RECOGNITION_THRESHOLD})",
+        )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="No admin faces registered. Please register from settings.",
+        )

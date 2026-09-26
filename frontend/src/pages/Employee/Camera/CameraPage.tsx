@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useCamera } from '../../../hooks/useCamera';
 import { recognitionService, RecognitionResult } from '../../../services/recognition.service';
 import { ScanFace, AlertCircle, LogIn, LogOut, ArrowLeft, Camera } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import SuccessScreen from './SuccessScreen';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
@@ -14,6 +14,8 @@ const CameraPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [lastScore, setLastScore] = useState<number | null>(null);
   const [selectedAction, setSelectedAction] = useState<'check_in' | 'check_out' | null>(null);
+  const [hasError, setHasError] = useState(false);
+  const controls = useAnimation();
   const navigate = useNavigate();
 
   const intervalRef = useRef<number | null>(null);
@@ -53,7 +55,10 @@ const CameraPage = () => {
             } else if (result.error) {
               setStatus(result.error);
             } else if (result.status === 'unknown') {
-              setStatus('Face not recognized. Please try again.');
+              setStatus('Unregistered face / وجه غير مسجل');
+              setHasError(true);
+              controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
+              setTimeout(() => setHasError(false), 2000);
             } else if (result.status === 'borderline') {
               setStatus('Confidence too low. Move closer.');
             }
@@ -106,7 +111,7 @@ const CameraPage = () => {
       {/* Background Video ALWAYS visible */}
       <video
         ref={videoRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-60 scale-x-[-1]"
+        className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
         playsInline
         muted
       />
@@ -142,11 +147,11 @@ const CameraPage = () => {
 
         {/* Frame Brackets (Only show when scanning) */}
         {selectedAction && (
-          <div className="relative w-64 h-64 md:w-80 md:h-80 mb-12">
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-primary rounded-tl-2xl" />
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-2xl" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-2xl" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-2xl" />
+          <motion.div animate={controls} className="relative w-64 h-64 md:w-80 md:h-80 mb-12">
+            <div className={`absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 ${hasError ? 'border-red-500' : 'border-primary'} rounded-tl-2xl transition-colors duration-300`} />
+            <div className={`absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 ${hasError ? 'border-red-500' : 'border-primary'} rounded-tr-2xl transition-colors duration-300`} />
+            <div className={`absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 ${hasError ? 'border-red-500' : 'border-primary'} rounded-bl-2xl transition-colors duration-300`} />
+            <div className={`absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 ${hasError ? 'border-red-500' : 'border-primary'} rounded-br-2xl transition-colors duration-300`} />
 
             {isProcessing && (
               <motion.div
