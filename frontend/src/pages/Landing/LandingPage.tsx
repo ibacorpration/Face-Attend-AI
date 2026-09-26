@@ -108,7 +108,7 @@ export default function LandingPage() {
              <motion.div 
                whileHover={{ y: -8 }}
                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_10px_30px_rgba(32,21,47,0.03)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-colors transition-shadow duration-150 relative"
+               className="group cursor-pointer bg-white rounded-[28px] p-6 flex items-center gap-5 border border-[#EBEAEF] shadow-[0_15px_30px_rgba(198,241,53,0.2)] hover:shadow-[0_20px_40px_rgba(91,42,114,0.2)] hover:border-[#D0CDE0] transition-colors transition-shadow duration-150 relative"
                onClick={() => navigate('/admin/login')}
              >
                <div className="w-16 h-16 bg-[#F2F0F7] rounded-2xl flex items-center justify-center shrink-0 shadow-sm p-1.5 overflow-hidden">
