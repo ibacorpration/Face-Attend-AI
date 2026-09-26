@@ -31,10 +31,10 @@ const CameraPage = () => {
     // Only scan if an action is selected
     if (isStreamActive && !isProcessing && !recognitionResult && selectedAction) {
       setStatus('Looking for a face...');
-      
+
       intervalRef.current = window.setInterval(async () => {
         if (isProcessing) return;
-        
+
         const blob = captureFrame();
         if (blob) {
           setIsProcessing(true);
@@ -42,7 +42,7 @@ const CameraPage = () => {
           try {
             const result = await recognitionService.verifyFace(blob);
             if (result.similarity_score) {
-                setLastScore(Math.round(result.similarity_score * 100));
+              setLastScore(Math.round(result.similarity_score * 100));
             }
 
             if (result.success && result.status === 'match') {
@@ -55,7 +55,7 @@ const CameraPage = () => {
             } else if (result.status === 'unknown') {
               setStatus('Face not recognized. Please try again.');
             } else if (result.status === 'borderline') {
-                setStatus('Confidence too low. Move closer.');
+              setStatus('Confidence too low. Move closer.');
             }
           } catch (err) {
             console.error('Recognition error:', err);
@@ -64,7 +64,7 @@ const CameraPage = () => {
             setIsProcessing(false);
           }
         }
-      }, 1500); // Poll every 1.5s
+      }, 700); // Poll every 700ms
     }
 
     return () => {
@@ -95,16 +95,16 @@ const CameraPage = () => {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="min-h-screen bg-[#0d0d0f] relative flex flex-col items-center justify-center overflow-hidden font-sans"
     >
-      
+
       {/* Background Video ALWAYS visible */}
-      <video 
+      <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover opacity-60 scale-x-[-1]"
         playsInline
@@ -113,7 +113,7 @@ const CameraPage = () => {
 
       {/* Top Bar Overlay */}
       <div className="absolute top-8 left-8 right-8 flex justify-between items-center z-10">
-        <button 
+        <button
           onClick={handleBack}
           className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors shadow-lg"
         >
@@ -123,12 +123,12 @@ const CameraPage = () => {
         <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full px-5 py-2.5 flex items-center gap-3 shadow-lg">
           <Camera className="text-primary" size={20} />
           <span className="text-white text-sm font-bold tracking-wide">
-            {!selectedAction 
-              ? 'Camera Ready' 
+            {!selectedAction
+              ? 'Camera Ready'
               : isProcessing ? 'AI Analyzing...' : `Scanning for ${selectedAction === 'check_in' ? 'Check In' : 'Check Out'}`}
           </span>
         </div>
-        
+
         {lastScore !== null && selectedAction && (
           <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-full px-5 py-2.5 flex items-center gap-3 shadow-lg">
             <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
@@ -139,7 +139,7 @@ const CameraPage = () => {
 
       {/* Centered Scanning UI */}
       <div className="relative z-10 flex flex-col items-center">
-        
+
         {/* Frame Brackets (Only show when scanning) */}
         {selectedAction && (
           <div className="relative w-64 h-64 md:w-80 md:h-80 mb-12">
@@ -147,9 +147,9 @@ const CameraPage = () => {
             <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-primary rounded-tr-2xl" />
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-primary rounded-bl-2xl" />
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-primary rounded-br-2xl" />
-            
+
             {isProcessing && (
-              <motion.div 
+              <motion.div
                 className="absolute left-0 right-0 h-1 bg-primary/70 shadow-[0_0_20px_rgba(198,241,53,0.8)]"
                 initial={{ top: 0, opacity: 0 }}
                 animate={{ top: ['0%', '100%', '0%'], opacity: [0, 1, 1, 0] }}
@@ -181,14 +181,14 @@ const CameraPage = () => {
             </div>
             <h3 className="text-white font-bold text-xl mb-6">Select Action</h3>
             <div className="flex flex-col gap-3">
-              <Button 
+              <Button
                 onClick={() => handleActionSelect('check_in')}
                 className="w-full h-12 bg-primary text-sidebar font-bold text-base hover:bg-primary-light"
               >
                 <LogIn className="mr-2" size={18} />
                 Check In
               </Button>
-              <Button 
+              <Button
                 variant="secondary"
                 onClick={() => handleActionSelect('check_out')}
                 className="w-full h-12 bg-white/5 border border-white/10 text-white hover:bg-white/10 font-bold text-base"
@@ -205,7 +205,7 @@ const CameraPage = () => {
       {/* Error Overlay */}
       <AnimatePresence>
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}

@@ -16,7 +16,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Face Login states
   const [showCamera, setShowCamera] = useState(false);
   const [isProcessingFace, setIsProcessingFace] = useState(false);
@@ -48,7 +48,7 @@ const AdminLogin = () => {
       setFaceStatus('Looking for a face...');
       intervalRef.current = window.setInterval(async () => {
         if (isProcessingFace) return;
-        
+
         const blob = captureFrame();
         if (blob) {
           setIsProcessingFace(true);
@@ -65,7 +65,7 @@ const AdminLogin = () => {
             setIsProcessingFace(false);
           }
         }
-      }, 1500);
+      }, 700);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -96,7 +96,7 @@ const AdminLogin = () => {
     <div className="min-h-screen bg-background flex flex-col justify-center items-center p-4 relative overflow-hidden font-sans">
       {/* Back Button */}
       <div className="absolute top-8 left-8 z-20">
-        <button 
+        <button
           onClick={() => navigate('/')}
           className="bg-[#20152F]/80 backdrop-blur-md border border-[#5B2A72]/30 rounded-full w-10 h-10 flex items-center justify-center text-white hover:text-primary transition-colors shadow-lg"
           title="Back to Landing Page"
@@ -109,11 +109,11 @@ const AdminLogin = () => {
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#5B2A72]/10 blur-[100px]" />
 
-      <motion.div 
+      <motion.div
         animate={controls}
         className="w-full max-w-md relative z-10"
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -121,7 +121,7 @@ const AdminLogin = () => {
         >
           {/* Logo / Header */}
           <div className="flex flex-col items-center mb-10">
-            <div 
+            <div
               className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-6 shadow-sm overflow-hidden cursor-pointer hover:scale-110 hover:shadow-lg transition-transform duration-300 relative group"
               onClick={() => setShowCamera(true)}
               title="Click to login with Face ID"
@@ -177,12 +177,12 @@ const AdminLogin = () => {
             <div className="flex items-center justify-between mt-2 mb-8">
               <label className="flex items-center gap-2 cursor-pointer group">
                 <div className={`relative flex items-center justify-center w-5 h-5 border rounded transition-colors ${rememberMe ? 'bg-primary border-primary' : 'bg-white/5 border-white/20 group-hover:border-primary'}`}>
-                   <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="opacity-0 absolute w-full h-full cursor-pointer" />
-                   {rememberMe && (
-                     <svg className="w-3 h-3 text-sidebar" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                     </svg>
-                   )}
+                  <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="opacity-0 absolute w-full h-full cursor-pointer" />
+                  {rememberMe && (
+                    <svg className="w-3 h-3 text-sidebar" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
                 </div>
                 <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Remember me</span>
               </label>
@@ -211,12 +211,12 @@ const AdminLogin = () => {
       <AnimatePresence>
         {showCamera && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="absolute inset-0 bg-slate-900/80 backdrop-blur-md"
               onClick={() => setShowCamera(false)}
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -226,8 +226,8 @@ const AdminLogin = () => {
                 <h2 className="text-lg font-bold text-white flex items-center gap-2">
                   <Camera size={20} className="text-primary" /> Face ID Login
                 </h2>
-                <button 
-                  onClick={() => setShowCamera(false)} 
+                <button
+                  onClick={() => setShowCamera(false)}
                   className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-full transition-colors"
                 >
                   <X size={20} />
@@ -253,7 +253,7 @@ const AdminLogin = () => {
                     <div className="absolute inset-0 border-2 border-primary/50 rounded-full animate-[pulse_2s_ease-in-out_infinite]" />
                   )}
                 </div>
-                
+
                 <div className="text-center">
                   <p className="text-lg font-bold text-white mb-2">{faceStatus}</p>
                   <p className="text-sm text-slate-400">
