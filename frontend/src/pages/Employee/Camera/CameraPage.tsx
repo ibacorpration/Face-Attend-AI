@@ -69,9 +69,10 @@ const CameraPage = () => {
                 setTimeout(() => setHasError(false), 2000);
               }
             }
-          } catch (err) {
+          } catch (err: any) {
             console.error('Recognition error:', err);
-            setStatus('Error connecting to AI service');
+            const detail = err.response?.data?.detail || err.message || 'Error connecting to AI service';
+            setStatus(`Error: ${detail}`);
           } finally {
             // Delay before next scan to allow user to read the message
             setTimeout(() => {
