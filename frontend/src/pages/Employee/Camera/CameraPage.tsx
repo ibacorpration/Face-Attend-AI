@@ -52,6 +52,8 @@ const CameraPage = () => {
               if (intervalRef.current) clearInterval(intervalRef.current);
               stopCamera();
               setRecognitionResult(result);
+            } else if (result.error) {
+              setStatus(result.error);
             } else if (result.status === 'unknown') {
               setStatus('Unregistered face');
               setHasError(true);
@@ -59,13 +61,6 @@ const CameraPage = () => {
               setTimeout(() => setHasError(false), 2000);
             } else if (result.status === 'borderline') {
               setStatus('Confidence too low. Move closer.');
-            } else if (result.error) {
-              setStatus(result.error);
-              if (result.error !== 'No face detected') {
-                setHasError(true);
-                controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
-                setTimeout(() => setHasError(false), 2000);
-              }
             }
           } catch (err) {
             console.error('Recognition error:', err);
