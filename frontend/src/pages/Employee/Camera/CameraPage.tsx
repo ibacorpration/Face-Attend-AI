@@ -73,15 +73,25 @@ const CameraPage = () => {
             console.error('Recognition error:', err);
             const detail = err.response?.data?.detail || err.message || 'Error connecting to AI service';
             setStatus(`Error: ${detail}`);
-          } finally {
-            // Delay before next scan to allow user to read the message
+            
+            // If it's a known error like no face detected, don't delay much
+            const delay = detail.includes('No face detected') ? 100 : 800;
             setTimeout(() => {
               isProcessingRef.current = false;
               setIsProcessing(false);
-            }, 700);
+            }, delay);
+            return; // skip the finally block since we handled timeout
+          } finally {
+            // This finally block only runs if try succeeded, or if we didn't return in catch
+            // For successful matches, we don't need a timeout as we clear interval anyway
+            // But just in case, we reset flags
+            setTimeout(() => {
+              isProcessingRef.current = false;
+              setIsProcessing(false);
+            }, 800);
           }
         }
-      }, 500); // Poll every 500ms
+      }, 300); // Polling faster for better responsiveness
     }
 
     return () => {
