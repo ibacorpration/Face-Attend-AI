@@ -37,7 +37,7 @@ export default function LandingPage() {
 
            {/* Hero Text */}
            <div className="relative z-10">
-              <h1 className="text-3xl md:text-4xl lg:text-[44px] font-extrabold leading-[1.1] tracking-tight mb-4 md:mb-6">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-[1.1] tracking-tight mb-4 md:mb-6">
                 Smarter<br/>
                 Attendance<br/>
                 <span className="text-[#C6F135]">Starts Here</span>
@@ -45,19 +45,19 @@ export default function LandingPage() {
            </div>
 
            {/* Robot Area */}
-           <div className="mt-2 md:mt-4 relative z-10 flex flex-col items-center justify-end pt-2">
+           <div className="mt-1 md:mt-2 relative z-10 flex flex-col items-center justify-end pt-1">
              {!robotActive && (
                <div 
                  className="relative cursor-pointer group flex flex-col items-center"
                  onClick={() => setRobotActive(true)}
                >
                  {/* Platform */}
-                 <div className="absolute bottom-0 w-56 md:w-72 h-14 md:h-16 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
-                   <div className="w-48 md:w-56 h-8 md:h-10 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
+                 <div className="absolute bottom-0 w-60 md:w-80 h-16 md:h-20 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
+                   <div className="w-52 md:w-64 h-10 md:h-12 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
                  </div>
 
                  <motion.div
-                   animate={{ y: [0, -5, 0], scale: [1, 1.008, 1] }}
+                   animate={{ y: [0, -6, 0], scale: [1, 1.015, 1] }}
                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
                    className="relative z-10 pb-4"
                  >
@@ -65,7 +65,7 @@ export default function LandingPage() {
                      layoutId="robot-mascot"
                      src={ibaMascotFull} 
                      alt="Robot Mascot" 
-                     className="w-48 h-48 md:w-56 md:h-56 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
+                     className="w-52 h-52 md:w-60 md:h-60 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
                    />
                  </motion.div>
                </div>
@@ -94,9 +94,9 @@ export default function LandingPage() {
                  <img src={ibaMascotIcon} alt="Icon" className="w-full h-full object-contain drop-shadow-sm" />
                </div>
                <div className="flex-grow relative z-10">
-                 <h3 className="text-xl font-bold text-[#20152F] mb-1">Face Attend</h3>
+                 <h3 className="text-xl font-bold text-[#20152F] mb-1">Employee</h3>
                  <p className="text-[#20152F]/70 text-sm leading-snug">
-                   Check-in and Check-out
+                   Face Attend Check in-out
                  </p>
                </div>
                <div className="w-10 h-10 rounded-full bg-[#20152F] text-[#C6F135] flex items-center justify-center shrink-0 group-hover:translate-x-1.5 group-hover:bg-[#5B2A72] group-hover:text-white transition-all duration-200 relative z-10">
