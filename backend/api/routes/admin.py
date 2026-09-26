@@ -129,3 +129,21 @@ async def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Sess
     admin.image_data = contents
     db.commit()
     return {"message": "Face registered successfully"}
+
+@router.delete("/users/{user_id}")
+async def delete_admin(user_id: int, db: Session = Depends(get_db), current_admin: AdminUser = Depends(get_current_admin)):
+    admin = db.query(AdminUser).filter(AdminUser.id == user_id).first()
+    if not admin:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    
+    # Prevent deleting the main superuser (typically ID 1)
+    if admin.id == 1:
+        raise HTTPException(status_code=400, detail="Cannot delete the main administrator")
+        
+    # Optional: prevent deleting the current user
+    if admin.id == current_admin.id:
+        raise HTTPException(status_code=400, detail="Cannot delete your own account")
+        
+    db.delete(admin)
+    db.commit()
+    return {"message": "Admin deleted successfully"}

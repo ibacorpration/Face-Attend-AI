@@ -30,5 +30,10 @@ export const adminService = {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return res.data;
+  },
+  
+  deleteAdmin: async (id: number): Promise<any> => {
+    const res = await api.delete(`/admin/users/${id}`);
+    return res.data;
   }
 };

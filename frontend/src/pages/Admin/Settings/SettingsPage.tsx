@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Plus, Camera, Shield, Users, Lock, X } from 'lucide-react';
+import { Plus, Camera, Shield, Users, Lock, X, Trash2 } from 'lucide-react';
 import { adminService, AdminUser } from '../../../services/admin.service';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
@@ -63,6 +63,22 @@ export default function SettingsPage() {
     setSelectedAdmin(admin);
     setPassword('');
     setIsPasswordModalOpen(true);
+  };
+
+  const handleDeleteAdmin = async (id: number) => {
+    if (id === 1) {
+      toast.error("Cannot delete the main administrator");
+      return;
+    }
+    if (window.confirm("Are you sure you want to delete this admin account?")) {
+      try {
+        await adminService.deleteAdmin(id);
+        toast.success("Admin deleted successfully");
+        fetchAdmins();
+      } catch (error: any) {
+        toast.error(error.response?.data?.detail || "Failed to delete admin");
+      }
+    }
   };
 
   const handleAddSubmit = async (e: React.FormEvent) => {
@@ -199,6 +215,17 @@ export default function SettingsPage() {
                     >
                       <Lock size={16} />
                     </Button>
+                    {admin.id !== 1 && (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="w-10 h-10 p-0 rounded-xl text-red-500 hover:bg-red-50"
+                        onClick={() => handleDeleteAdmin(admin.id)}
+                        title="Delete Admin"
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                    )}
                   </div>
                 </Card>
               </motion.div>
