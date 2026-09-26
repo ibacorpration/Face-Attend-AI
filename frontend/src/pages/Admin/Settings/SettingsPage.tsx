@@ -25,8 +25,11 @@ export default function SettingsPage() {
   // Modals
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   
   const [selectedAdmin, setSelectedAdmin] = useState<AdminUser | null>(null);
+  const [adminToDelete, setAdminToDelete] = useState<number | null>(null);
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
 
   // Form states
   const [username, setUsername] = useState('');
@@ -38,7 +41,17 @@ export default function SettingsPage() {
 
   useEffect(() => {
     fetchAdmins();
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        setCurrentUsername(payload.sub);
+      } catch (e) {}
+    }
   }, []);
+
+  const currentUser = admins.find(a => a.username === currentUsername);
+  const isSuperUser = currentUser?.id === 1;
 
   const fetchAdmins = async () => {
     setIsLoading(true);
@@ -65,19 +78,28 @@ export default function SettingsPage() {
     setIsPasswordModalOpen(true);
   };
 
-  const handleDeleteAdmin = async (id: number) => {
+  const handleDeleteAdmin = (id: number) => {
     if (id === 1) {
       toast.error("Cannot delete the main administrator");
       return;
     }
-    if (window.confirm("Are you sure you want to delete this admin account?")) {
-      try {
-        await adminService.deleteAdmin(id);
-        toast.success("Admin deleted successfully");
-        fetchAdmins();
-      } catch (error: any) {
-        toast.error(error.response?.data?.detail || "Failed to delete admin");
-      }
+    setAdminToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!adminToDelete) return;
+    setIsSubmitting(true);
+    try {
+      await adminService.deleteAdmin(adminToDelete);
+      toast.success("Admin deleted successfully");
+      fetchAdmins();
+      setIsDeleteModalOpen(false);
+      setAdminToDelete(null);
+    } catch (error: any) {
+      toast.error(error.response?.data?.detail || "Failed to delete admin");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -215,7 +237,7 @@ export default function SettingsPage() {
                     >
                       <Lock size={16} />
                     </Button>
-                    {admin.id !== 1 && (
+                    {isSuperUser && admin.id !== 1 && (
                       <Button
                         variant="secondary"
                         size="sm"
@@ -363,6 +385,39 @@ export default function SettingsPage() {
                   </Button>
                 </div>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Admin Modal */}
+      <AnimatePresence>
+        {isDeleteModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              onClick={() => setIsDeleteModalOpen(false)}
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-sm bg-white rounded-3xl shadow-soft-xl overflow-hidden text-center p-8"
+            >
+              <div className="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Trash2 size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 mb-2">Delete Admin?</h3>
+              <p className="text-sm text-slate-500 mb-6">This action cannot be undone. This admin will permanently lose access.</p>
+              <div className="flex gap-3">
+                <Button type="button" variant="secondary" className="flex-1" onClick={() => setIsDeleteModalOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="button" variant="primary" className="flex-1 bg-red-500 hover:bg-red-600 text-white border-0" onClick={confirmDelete} disabled={isSubmitting}>
+                  {isSubmitting ? 'Deleting...' : 'Delete'}
+                </Button>
+              </div>
             </motion.div>
           </div>
         )}

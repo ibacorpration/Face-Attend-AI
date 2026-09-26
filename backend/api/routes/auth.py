@@ -34,7 +34,7 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
     ai_res = ai_service.process_attendance_frame(image)
     
     if not ai_res["success"]:
-        raise HTTPException(status_code=400, detail="No face detected / لم يتم التعرف على وجه")
+        raise HTTPException(status_code=400, detail="No face detected")
         
     query_embedding = ai_res["embedding"]
     

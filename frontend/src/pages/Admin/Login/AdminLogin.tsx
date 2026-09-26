@@ -78,10 +78,10 @@ const AdminLogin = () => {
             setTimeout(() => {
               isProcessingRef.current = false;
               setIsProcessingFace(false);
-            }, 1500);
+            }, 700);
           }
         }
-      }, 600);
+      }, 500);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
