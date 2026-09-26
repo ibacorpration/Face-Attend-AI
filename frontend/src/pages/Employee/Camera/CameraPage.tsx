@@ -12,6 +12,7 @@ const CameraPage = () => {
   const [status, setStatus] = useState<string>('Select an action to begin');
   const [recognitionResult, setRecognitionResult] = useState<RecognitionResult | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const isProcessingRef = useRef(false);
   const [lastScore, setLastScore] = useState<number | null>(null);
   const [selectedAction, setSelectedAction] = useState<'check_in' | 'check_out' | null>(null);
   const [hasError, setHasError] = useState(false);
@@ -31,14 +32,15 @@ const CameraPage = () => {
 
   useEffect(() => {
     // Only scan if an action is selected
-    if (isStreamActive && !isProcessing && !recognitionResult && selectedAction) {
+    if (isStreamActive && !recognitionResult && selectedAction) {
       setStatus('Looking for a face...');
 
       intervalRef.current = window.setInterval(async () => {
-        if (isProcessing) return;
+        if (isProcessingRef.current) return;
 
         const blob = captureFrame();
         if (blob) {
+          isProcessingRef.current = true;
           setIsProcessing(true);
           setStatus('AI Analyzing...');
           try {
@@ -52,30 +54,39 @@ const CameraPage = () => {
               if (intervalRef.current) clearInterval(intervalRef.current);
               stopCamera();
               setRecognitionResult(result);
-            } else if (result.error) {
-              setStatus(result.error);
-            } else if (result.status === 'unknown') {
-              setStatus('Unregistered face');
-              setHasError(true);
-              controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
-              setTimeout(() => setHasError(false), 2000);
-            } else if (result.status === 'borderline') {
-              setStatus('Confidence too low. Move closer.');
+            } else {
+              if (result.error) {
+                setStatus(result.error);
+              } else if (result.status === 'unknown') {
+                setStatus('Unregistered face');
+              } else if (result.status === 'borderline') {
+                setStatus('Confidence too low. Move closer.');
+              }
+              
+              if (result.status === 'unknown' || (result.error && result.error !== 'No face detected')) {
+                setHasError(true);
+                controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
+                setTimeout(() => setHasError(false), 2000);
+              }
             }
           } catch (err) {
             console.error('Recognition error:', err);
             setStatus('Error connecting to AI service');
           } finally {
-            setIsProcessing(false);
+            // Delay before next scan to allow user to read the message
+            setTimeout(() => {
+              isProcessingRef.current = false;
+              setIsProcessing(false);
+            }, 700);
           }
         }
-      }, 500); // Poll every 200ms
+      }, 500); // Poll every 500ms
     }
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isStreamActive, captureFrame, isProcessing, recognitionResult, selectedAction, stopCamera]);
+  }, [isStreamActive, captureFrame, recognitionResult, selectedAction, stopCamera, controls]);
 
   const handleActionSelect = (action: 'check_in' | 'check_out') => {
     setSelectedAction(action);
