@@ -38,9 +38,13 @@ class RecognitionService:
             if face_record.model_version != settings.AI_MODEL_VERSION:
                 continue
                 
-            # Decrypt embedding from DB
-            raw_bytes = decrypt_embedding(face_record.embedding)
-            db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)
+            # Decrypt embedding from DB safely
+            try:
+                raw_bytes = decrypt_embedding(face_record.embedding)
+                db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)
+            except Exception as e:
+                print(f"Warning: Failed to decrypt embedding for face_record {face_record.id}: {e}")
+                continue
             
             sim = cosine_similarity(query_embedding, db_embedding)
             if sim > highest_sim:
