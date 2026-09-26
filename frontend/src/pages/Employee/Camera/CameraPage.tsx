@@ -161,7 +161,7 @@ const CameraPage = () => {
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
               />
             )}
-          </div>
+          </motion.div>
         )}
 
         {/* Bottom Black Box */}
