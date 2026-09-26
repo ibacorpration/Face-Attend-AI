@@ -44,10 +44,15 @@ def get_messages(db: Session = Depends(get_db)):
 
 @router.post("/", response_model=MessageResponse)
 def create_message(msg_in: MessageCreate, db: Session = Depends(get_db)):
+    import pytz
+    from backend.core.config import settings
+    tz = pytz.timezone(settings.APP_TIMEZONE)
+    
     db_msg = Message(
         employee_name=msg_in.employeeName,
         department=msg_in.department,
-        text=msg_in.text
+        text=msg_in.text,
+        date=datetime.now(tz)
     )
     db.add(db_msg)
     db.commit()

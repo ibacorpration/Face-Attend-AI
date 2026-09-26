@@ -21,8 +21,11 @@ def get_daily_attendance(
     admin: AdminUser = Depends(get_current_admin),
 ):
     if not target_date:
+        import pytz
         from datetime import datetime
-        target_date = datetime.now().date()
+        from backend.core.config import settings
+        tz = pytz.timezone(settings.APP_TIMEZONE)
+        target_date = datetime.now(tz).date()
     return attendance_service.get_attendance_by_date(db, target_date)
 
 @router.get("/export")
@@ -32,8 +35,11 @@ def export_attendance_csv(
     admin: AdminUser = Depends(get_current_admin),
 ):
     if not target_date:
+        import pytz
         from datetime import datetime
-        target_date = datetime.now().date()
+        from backend.core.config import settings
+        tz = pytz.timezone(settings.APP_TIMEZONE)
+        target_date = datetime.now(tz).date()
 
     records = attendance_service.get_attendance_by_date(db, target_date)
 

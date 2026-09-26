@@ -1,5 +1,6 @@
 import numpy as np
 from sqlalchemy.orm import Session
+import pytz
 from datetime import datetime, date
 from backend.repositories.attendance_repository import AttendanceRepository
 from backend.schemas.attendance import AttendanceCreate
@@ -11,8 +12,9 @@ class AttendanceService:
         self.repo = AttendanceRepository()
 
     def process_attendance(self, db: Session, employee_id: int, similarity_score: float, status: str = "present", needs_review: bool = False):
-        today = datetime.now().date()
-        now = datetime.now()
+        tz = pytz.timezone(settings.APP_TIMEZONE)
+        now = datetime.now(tz)
+        today = now.date()
 
         existing = self.repo.get_by_employee_and_date(db, employee_id, today)
 
