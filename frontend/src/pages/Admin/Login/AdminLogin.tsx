@@ -23,6 +23,7 @@ const AdminLogin = () => {
   const [faceStatus, setFaceStatus] = useState('Position your face in the frame');
   const { videoRef, isStreamActive, error, startCamera, stopCamera, captureFrame } = useCamera();
   const intervalRef = useRef<number | null>(null);
+  // No face detected 
 
   const { login } = useAuth();
   const navigate = useNavigate();
