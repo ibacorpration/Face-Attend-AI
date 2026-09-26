@@ -59,7 +59,7 @@ export default function LandingPage() {
                  <motion.div
                    animate={{ y: [0, -6, 0], scale: [1, 1.015, 1] }}
                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                   className="relative z-10 pb-4"
+                   className="relative z-10 pb-6"
                  >
                    <motion.img 
                      layoutId="robot-mascot"
