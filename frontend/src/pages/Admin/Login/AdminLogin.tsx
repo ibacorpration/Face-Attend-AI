@@ -65,7 +65,7 @@ const AdminLogin = () => {
             setIsProcessingFace(false);
           }
         }
-      }, 700);
+      }, 600);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);

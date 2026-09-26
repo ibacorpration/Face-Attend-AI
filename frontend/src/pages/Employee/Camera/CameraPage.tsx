@@ -64,7 +64,7 @@ const CameraPage = () => {
             setIsProcessing(false);
           }
         }
-      }, 700); // Poll every 700ms
+      }, 600); // Poll every 600ms
     }
 
     return () => {

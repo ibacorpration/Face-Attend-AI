@@ -56,7 +56,7 @@ export const useCamera = (): UseCameraReturn => {
     const canvas = document.createElement('canvas');
     // Scale down image by 50% to dramatically speed up upload and AI processing
     // without affecting the UI video quality
-    const scale = 0.7;
+    const scale = 0.6;
     canvas.width = videoRef.current.videoWidth * scale;
     canvas.height = videoRef.current.videoHeight * scale;
     const ctx = canvas.getContext('2d');
