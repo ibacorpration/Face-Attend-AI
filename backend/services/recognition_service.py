@@ -9,6 +9,8 @@ from backend.schemas.recognition import RecognitionResult
 from backend.core.security import decrypt_embedding
 from backend.core.config import settings
 
+import traceback
+
 class RecognitionService:
     def __init__(self):
         self.ai_service = get_ai_service()
@@ -17,85 +19,92 @@ class RecognitionService:
         self.attendance_service = AttendanceService()
 
     def recognize_and_log_attendance(self, db: Session, image: np.ndarray) -> RecognitionResult:
-        # 1. AI Pipeline to extract embedding
-        ai_res = self.ai_service.process_attendance_frame(image)
-        
-        if not ai_res["success"]:
-            return RecognitionResult(
-                success=False, 
-                error=ai_res.get("error", "AI processing failed")
-            )
-
-        query_embedding = ai_res["embedding"]
-        
-        # 2. Retrieve all stored embeddings and compare (1:N matching)
-        all_faces = self.face_repo.get_all(db)
-        best_match = None
-        highest_sim = -1.0
-        
-        for face_record in all_faces:
-            # Enforce model version matching
-            if face_record.model_version != settings.AI_MODEL_VERSION:
-                continue
-                
-            # Decrypt embedding from DB safely
-            try:
-                raw_bytes = decrypt_embedding(face_record.embedding)
-                db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)
-            except Exception as e:
-                print(f"Warning: Failed to decrypt embedding for face_record {face_record.id}: {e}")
-                continue
+        try:
+            # 1. AI Pipeline to extract embedding
+            ai_res = self.ai_service.process_attendance_frame(image)
             
-            sim = cosine_similarity(query_embedding, db_embedding)
-            if sim > highest_sim:
-                highest_sim = sim
-                best_match = face_record
+            if not ai_res["success"]:
+                return RecognitionResult(
+                    success=False, 
+                    error=ai_res.get("error", "AI processing failed")
+                )
+    
+            query_embedding = ai_res["embedding"]
+            
+            # 2. Retrieve all stored embeddings and compare (1:N matching)
+            all_faces = self.face_repo.get_all(db)
+            best_match = None
+            highest_sim = -1.0
+            
+            for face_record in all_faces:
+                # Enforce model version matching
+                if face_record.model_version != settings.AI_MODEL_VERSION:
+                    continue
+                    
+                try:
+                    # Decrypt embedding from DB safely
+                    raw_bytes = decrypt_embedding(face_record.embedding)
+                    db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)
+                    
+                    # Calculate similarity (this could throw ValueError if shapes mismatch)
+                    sim = cosine_similarity(query_embedding, db_embedding)
+                    
+                    if sim > highest_sim:
+                        highest_sim = sim
+                        best_match = face_record
+                except Exception as e:
+                    print(f"Warning: Failed to process face_record {face_record.id}: {e}")
+                    continue
+                    
+            # 3. Evaluate match against thresholds
+            threshold = settings.FACE_RECOGNITION_THRESHOLD
+            band = settings.FACE_RECOGNITION_BORDERLINE_BAND
+            
+            if highest_sim >= threshold:
+                status = "match"
+                needs_review = False
+            elif highest_sim >= (threshold - band):
+                status = "borderline"
+                needs_review = True
+            else:
+                status = "unknown"
+                return RecognitionResult(
+                    success=False,
+                    error="Face not recognized",
+                    similarity_score=highest_sim,
+                    status=status
+                )
                 
-        # 3. Evaluate match against thresholds
-        threshold = settings.FACE_RECOGNITION_THRESHOLD
-        band = settings.FACE_RECOGNITION_BORDERLINE_BAND
-        
-        if highest_sim >= threshold:
-            status = "match"
-            needs_review = False
-        elif highest_sim >= (threshold - band):
-            status = "borderline"
-            needs_review = True
-        else:
-            status = "unknown"
-            return RecognitionResult(
-                success=False,
-                error="Face not recognized",
+            # 4. Process Attendance
+            employee = self.employee_repo.get(db, best_match.employee_id)
+            if not employee or employee.status != "active":
+                return RecognitionResult(
+                    success=False, 
+                    error="Employee not found or inactive",
+                    similarity_score=highest_sim
+                )
+                
+            self.attendance_service.process_attendance(
+                db=db, 
+                employee_id=employee.id, 
                 similarity_score=highest_sim,
-                status=status
+                status="present",
+                needs_review=needs_review
             )
             
-        # 4. Process Attendance
-        employee = self.employee_repo.get(db, best_match.employee_id)
-        if not employee or employee.status != "active":
             return RecognitionResult(
-                success=False, 
-                error="Employee not found or inactive",
-                similarity_score=highest_sim
+                success=True,
+                employee_id=employee.id,
+                employee_code=employee.employee_code,
+                full_name=employee.full_name,
+                department=employee.department,
+                employee_status=employee.status,
+                similarity_score=highest_sim,
+                status=status,
+                liveness_passed=ai_res["liveness"]["is_live"],
+                quality_passed=ai_res["quality"]["is_good"]
             )
-            
-        self.attendance_service.process_attendance(
-            db=db, 
-            employee_id=employee.id, 
-            similarity_score=highest_sim,
-            status="present",
-            needs_review=needs_review
-        )
-        
-        return RecognitionResult(
-            success=True,
-            employee_id=employee.id,
-            employee_code=employee.employee_code,
-            full_name=employee.full_name,
-            department=employee.department,
-            employee_status=employee.status,
-            similarity_score=highest_sim,
-            status=status,
-            liveness_passed=ai_res["liveness"]["is_live"],
-            quality_passed=ai_res["quality"]["is_good"]
-        )
+        except Exception as e:
+            print("CRITICAL ERROR IN recognize_and_log_attendance:")
+            traceback.print_exc()
+            raise e
