@@ -34,7 +34,7 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
     ai_res = ai_service.process_attendance_frame(image)
     
     if not ai_res["success"]:
-        raise HTTPException(status_code=400, detail=ai_res.get("error", "No face detected"))
+        raise HTTPException(status_code=400, detail="No face detected / لم يتم التعرف على وجه")
         
     query_embedding = ai_res["embedding"]
     
@@ -59,10 +59,10 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
     if best_match:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Face not recognized (Score: {highest_sim:.2f} < {settings.FACE_RECOGNITION_THRESHOLD})",
+            detail="Unregistered face / وجه غير مسجل",
         )
     else:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="No admin faces registered. Please register from settings.",
+            detail="No admin faces registered / لا يوجد وجه مسجل للأدمن",
         )

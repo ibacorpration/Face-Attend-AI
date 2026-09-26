@@ -68,7 +68,7 @@ const AdminLogin = () => {
           } catch (err: any) {
             const detail = err.response?.data?.detail || 'Face not recognized';
             setFaceStatus(detail);
-            if (detail !== 'No face detected' && !detail.includes('No admin faces registered')) {
+            if (!detail.includes('No face detected') && !detail.includes('No admin faces registered')) {
               setHasCameraError(true);
               cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
               setTimeout(() => setHasCameraError(false), 2000);
