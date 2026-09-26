@@ -19,7 +19,7 @@ export default function LandingPage() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-[1100px] md:min-h-[520px] bg-white rounded-[24px] md:rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
+        className="relative w-full max-w-[960px] md:min-h-[460px] bg-white rounded-[24px] md:rounded-[32px] shadow-[0_30px_60px_rgba(32,21,47,0.08)] overflow-hidden flex flex-col md:flex-row"
       >
         {/* Left Side (Dark Purple) */}
         <div className="w-full md:w-[48%] bg-[#20152F] relative flex flex-col p-8 md:p-12 overflow-hidden text-white min-h-[400px] md:min-h-0">
@@ -45,27 +45,27 @@ export default function LandingPage() {
            </div>
 
            {/* Robot Area */}
-           <div className="mt-4 md:mt-auto relative z-10 flex flex-col items-center justify-end pt-4 md:pt-6">
+           <div className="mt-2 md:mt-4 relative z-10 flex flex-col items-center justify-end pt-2">
              {!robotActive && (
                <div 
                  className="relative cursor-pointer group flex flex-col items-center"
                  onClick={() => setRobotActive(true)}
                >
                  {/* Platform */}
-                 <div className="absolute bottom-0 w-64 md:w-80 h-16 md:h-20 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
-                   <div className="w-52 md:w-64 h-10 md:h-12 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
+                 <div className="absolute bottom-0 w-56 md:w-72 h-14 md:h-16 bg-[#291A3A] rounded-[100%] border-t-2 border-[#5B2A72] shadow-[0_0_30px_rgba(91,42,114,0.6)] flex items-center justify-center">
+                   <div className="w-48 md:w-56 h-8 md:h-10 rounded-[100%] border border-[#C6F135]/40 shadow-[0_0_20px_rgba(198,241,53,0.3)] group-hover:border-[#C6F135]/70 transition-colors duration-500"></div>
                  </div>
 
                  <motion.div
                    animate={{ y: [0, -5, 0], scale: [1, 1.008, 1] }}
                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                   className="relative z-10 pb-4 md:pb-6"
+                   className="relative z-10 pb-4"
                  >
                    <motion.img 
                      layoutId="robot-mascot"
                      src={ibaMascotFull} 
                      alt="Robot Mascot" 
-                     className="w-52 h-52 md:w-64 md:h-64 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
+                     className="w-48 h-48 md:w-56 md:h-56 object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]" 
                    />
                  </motion.div>
                </div>
