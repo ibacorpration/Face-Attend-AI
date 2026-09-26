@@ -64,12 +64,12 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={
-                "detail": "Unregistered face / وجه غير مسجل",
+                "detail": "Unregistered face",
                 "highest_sim": float(highest_sim)
             }
         )
     else:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="No admin faces registered / لا يوجد وجه مسجل للأدمن",
+            detail="No admin faces registered",
         )

@@ -55,7 +55,7 @@ const CameraPage = () => {
             } else if (result.error) {
               setStatus(result.error);
             } else if (result.status === 'unknown') {
-              setStatus('Unregistered face / وجه غير مسجل');
+              setStatus('Unregistered face');
               setHasError(true);
               controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
               setTimeout(() => setHasError(false), 2000);
