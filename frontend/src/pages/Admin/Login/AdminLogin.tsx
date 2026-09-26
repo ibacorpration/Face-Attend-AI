@@ -45,32 +45,39 @@ const AdminLogin = () => {
     };
   }, [showCamera, startCamera, stopCamera]);
 
+  const isProcessingRef = useRef(false);
+
   useEffect(() => {
-    if (showCamera && isStreamActive && !isProcessingFace) {
+    if (showCamera && isStreamActive) {
       setFaceStatus('Looking for a face...');
       intervalRef.current = window.setInterval(async () => {
-        if (isProcessingFace) return;
+        if (isProcessingRef.current) return;
 
         const blob = captureFrame();
         if (blob) {
+          isProcessingRef.current = true;
           setIsProcessingFace(true);
           setFaceStatus('AI Analyzing...');
           try {
             const response = await authService.faceLogin(blob);
             login(response.access_token);
-            toast.success('Face recognized Logged in.');
+            toast.success('Face recognized! Logged in.');
             if (intervalRef.current) clearInterval(intervalRef.current);
             stopCamera();
             navigate(from, { replace: true });
           } catch (err: any) {
             const detail = err.response?.data?.detail || 'Face not recognized';
             setFaceStatus(detail);
-            setIsProcessingFace(false);
             if (detail !== 'No face detected' && !detail.includes('No admin faces registered')) {
               setHasCameraError(true);
               cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
               setTimeout(() => setHasCameraError(false), 2000);
             }
+            // Delay before next scan to allow user to read the message
+            setTimeout(() => {
+              isProcessingRef.current = false;
+              setIsProcessingFace(false);
+            }, 1500);
           }
         }
       }, 600);
@@ -78,7 +85,7 @@ const AdminLogin = () => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [showCamera, isStreamActive, isProcessingFace, captureFrame, login, navigate, from, stopCamera]);
+  }, [showCamera, isStreamActive, captureFrame, login, navigate, from, stopCamera]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
