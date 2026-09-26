@@ -58,7 +58,7 @@ const AdminLogin = () => {
           try {
             const response = await authService.faceLogin(blob);
             login(response.access_token);
-            toast.success('Face recognized! Logged in.');
+            toast.success('Face recognized Logged in.');
             if (intervalRef.current) clearInterval(intervalRef.current);
             stopCamera();
             navigate(from, { replace: true });
