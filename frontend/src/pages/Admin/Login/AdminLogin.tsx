@@ -63,11 +63,14 @@ const AdminLogin = () => {
             stopCamera();
             navigate(from, { replace: true });
           } catch (err: any) {
-            setFaceStatus(err.response?.data?.detail || 'Face not recognized');
+            const detail = err.response?.data?.detail || 'Face not recognized';
+            setFaceStatus(detail);
             setIsProcessingFace(false);
-            setHasCameraError(true);
-            cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
-            setTimeout(() => setHasCameraError(false), 2000);
+            if (detail !== 'No face detected' && !detail.includes('No admin faces registered')) {
+              setHasCameraError(true);
+              cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
+              setTimeout(() => setHasCameraError(false), 2000);
+            }
           }
         }
       }, 600);
