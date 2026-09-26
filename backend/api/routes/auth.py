@@ -44,8 +44,12 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
     best_match = None
     highest_sim = -1.0
     
+    from backend.core.security import decrypt_embedding
+    from fastapi.responses import JSONResponse
+
     for admin in admins:
-        db_embedding = np.frombuffer(admin.face_embedding, dtype=np.float32)
+        raw_bytes = decrypt_embedding(admin.face_embedding)
+        db_embedding = np.frombuffer(raw_bytes, dtype=np.float32)
         sim = cosine_similarity(query_embedding, db_embedding)
         if sim > highest_sim:
             highest_sim = sim
@@ -57,9 +61,12 @@ async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)
         return Token(access_token=access_token, token_type="bearer")
         
     if best_match:
-        raise HTTPException(
+        return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Unregistered face / وجه غير مسجل",
+            content={
+                "detail": "Unregistered face / وجه غير مسجل",
+                "highest_sim": float(highest_sim)
+            }
         )
     else:
         raise HTTPException(

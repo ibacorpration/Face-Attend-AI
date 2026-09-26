@@ -122,7 +122,10 @@ async def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Sess
     if not ai_res["success"]:
         raise HTTPException(status_code=400, detail=ai_res.get("error", "No face detected"))
         
-    admin.face_embedding = ai_res["embedding"].tobytes()
+    from backend.core.security import encrypt_embedding
+    
+    raw_embedding_bytes = ai_res["embedding"].tobytes()
+    admin.face_embedding = encrypt_embedding(raw_embedding_bytes)
     admin.image_data = contents
     db.commit()
     return {"message": "Face registered successfully"}
