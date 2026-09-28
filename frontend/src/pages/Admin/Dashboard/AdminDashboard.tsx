@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import { AnimatedCounter } from '../../../components/ui/AnimatedCounter';
 import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
-import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 
 const containerVariants = {
@@ -97,7 +96,6 @@ export const AdminDashboard = () => {
   }
 
   const totalEmployees = employees.length;
-  const activeEmployees = employees.filter(e => e.status === 'active' || e.status === 'Active').length;
   const todayAttendance = attendance.length;
 
   const checkedIn = attendance.filter(a => a.check_in && !a.check_out).length;
