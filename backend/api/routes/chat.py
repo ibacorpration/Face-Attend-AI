@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import logging
 
-from backend.api.routes.auth import get_current_user # Need some authentication? The requirement says: "If chatbot access should require authentication, use the EXISTING JWT/auth mechanism. Reuse: Existing JWT"
+
 # Wait, who can use the chatbot? Employees or Admin? "The frontend already contains the final chatbot UI" - wait, is it for employees or anyone? Let's check how the Chat UI is currently used.
 # For now, let's just make it a simple route, and apply Depends if needed later.
 
