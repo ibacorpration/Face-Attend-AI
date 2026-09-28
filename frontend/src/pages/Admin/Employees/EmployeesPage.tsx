@@ -248,12 +248,11 @@ export const EmployeesPage = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-surface rounded-[24px] shadow-soft-lg w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
+              className="bg-surface rounded-[24px] shadow-soft-lg w-full max-w-md overflow-hidden flex flex-col max-h-[90vh]"
             >
               <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white sticky top-0 z-10">
                 <div>
                   <h3 className="text-xl font-bold text-text-main">{editingEmployee ? 'Edit Member' : 'Add Member'}</h3>
-                  <p className="text-sm text-text-secondary mt-1">Fill out the details below.</p>
                 </div>
                 <button onClick={handleCloseModal} className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-text-main hover:bg-slate-100 transition-colors">
                   <X size={18} />
@@ -268,7 +267,7 @@ export const EmployeesPage = () => {
                       required 
                       value={formData.full_name} 
                       onChange={e => setFormData({...formData, full_name: e.target.value})} 
-                      placeholder="e.g. Taylor Smith" 
+                      placeholder="Name" 
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-5">
@@ -277,7 +276,7 @@ export const EmployeesPage = () => {
                       <Input 
                         value={formData.phone} 
                         onChange={e => setFormData({...formData, phone: e.target.value})} 
-                        placeholder="e.g. 555-0123" 
+                        placeholder="Phone" 
                       />
                     </div>
                     <div>
@@ -285,7 +284,7 @@ export const EmployeesPage = () => {
                       <Input 
                         value={formData.department} 
                         onChange={e => setFormData({...formData, department: e.target.value})} 
-                        placeholder="e.g. Design" 
+                        placeholder="Title" 
                       />
                     </div>
                   </div>
