@@ -191,7 +191,11 @@ export default function SettingsPage() {
               <motion.div key={admin.id} variants={itemVariants}>
                 <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
-                    <Shield size={24} className="text-primary" />
+                    {admin.id === 1 ? (
+                      <img src="/assets/iba-mascot-full.png" alt="Admin" className="w-10 h-10 object-contain" />
+                    ) : (
+                      <img src="/assets/iba-mascot-icon.png" alt="User" className="w-8 h-8 object-contain" />
+                    )}
                   </div>
                   
                   <div className="flex-1 min-w-0">
@@ -205,7 +209,7 @@ export default function SettingsPage() {
                     </div>
                     <div className="flex items-center gap-2 text-slate-500 text-sm">
                       <Users size={14} />
-                      <span className="truncate">Admin Account</span>
+                      <span className="truncate">{admin.id === 1 ? 'Admin Account' : 'User'}</span>
                     </div>
                   </div>
 
@@ -222,7 +226,7 @@ export default function SettingsPage() {
                     <Button 
                       variant="secondary" 
                       size="sm" 
-                      className="w-10 h-10 p-0 rounded-xl"
+                      className="w-10 h-10 p-0 rounded-xl text-slate-500 hover:text-blue-500 hover:bg-blue-50 transition-colors"
                       onClick={() => document.getElementById(`face-upload-${admin.id}`)?.click()}
                       title="Upload Face"
                     >
@@ -231,7 +235,7 @@ export default function SettingsPage() {
                     <Button 
                       variant="secondary" 
                       size="sm" 
-                      className="w-10 h-10 p-0 rounded-xl"
+                      className="w-10 h-10 p-0 rounded-xl text-slate-500 hover:text-lime-500 hover:bg-lime-50 transition-colors"
                       onClick={() => handleOpenPasswordModal(admin)}
                       title="Change Password"
                     >
@@ -241,7 +245,7 @@ export default function SettingsPage() {
                       <Button
                         variant="secondary"
                         size="sm"
-                        className="w-10 h-10 p-0 rounded-xl text-red-500 hover:bg-red-50"
+                        className="w-10 h-10 p-0 rounded-xl text-slate-500 hover:text-red-500 hover:bg-red-50 transition-colors"
                         onClick={() => handleDeleteAdmin(admin.id)}
                         title="Delete Admin"
                       >
