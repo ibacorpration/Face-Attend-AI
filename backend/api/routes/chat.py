@@ -64,7 +64,7 @@ class ChatResponse(BaseModel):
 async def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(get_rag_chat_service)):
     try:
         response = chat_service.chat(
-            message=request.message,
+            user_message=request.message,
             conversation_id=request.conversation_id
         )
         # response is assumed to be an object or dict with 'answer' and optionally 'sources'
