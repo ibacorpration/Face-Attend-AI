@@ -13,6 +13,16 @@ async def lifespan(app: FastAPI):
     # Initialize database
     init_db()
     
+    # Sync RAG documents
+    from backend.api.routes.chat import get_rag_service
+    from pathlib import Path
+    try:
+        rag_service = get_rag_service()
+        uploads_dir = Path.cwd() / "rag_data" / "uploads"
+        rag_service.sync_with_uploads_dir(uploads_dir)
+    except Exception as e:
+        print(f"Failed to sync RAG documents: {e}")
+    
     # Initialize default admin user
     from backend.db.database import SessionLocal
     from backend.db.models import AdminUser

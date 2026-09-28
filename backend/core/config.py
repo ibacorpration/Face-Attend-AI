@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     DEFAULT_CHUNK_OVERLAP: int = 50
     RAG_SCORE_THRESHOLD: float = 0.5
     RAG_RELATIVE_SCORE_CUTOFF: float = 0.8
-    RAG_MAX_CONTEXT_CHARS: int = 4000
+    RAG_MAX_CONTEXT_CHARS: int = 3000       
     CHAT_HISTORY_MAX_MESSAGES: int = 10
     CHAT_HISTORY_MAX_CHARS_PER_MSG: int = 500
 
