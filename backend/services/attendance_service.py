@@ -45,6 +45,10 @@ class AttendanceService:
             # Already checked in today (whether checked out or not)
             if action == "check_in":
                 return {"action": "check_in", "message": "Already checked in", "already_checked_in": True}
+                
+            # If they want to check out, but already checked out
+            if action == "check_out" and existing.check_out:
+                return {"action": "check_out", "message": "Already checked out", "already_checked_out": True}
 
             # Prevent double check-in/out too quickly (cooldown)
             last_event = _to_aware(existing.check_out or existing.check_in, tz)

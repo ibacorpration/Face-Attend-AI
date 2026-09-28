@@ -7,6 +7,8 @@ export type ErrorCode =
   | 'EMPLOYEE_INACTIVE'
   | 'NO_CHECKIN'
   | 'ALREADY_CHECKED_IN'
+  | 'ALREADY_CHECKED_OUT'
+  | 'COOLDOWN_ACTIVE'
   | 'INVALID_IMAGE'
   | 'SERVER_ERROR'
   | 'NETWORK_ERROR'
@@ -22,6 +24,8 @@ export const KIOSK_MESSAGES: Record<ErrorCode, string> = {
   EMPLOYEE_INACTIVE: "Account inactive. Contact HR",
   NO_CHECKIN: "You haven't checked in",
   ALREADY_CHECKED_IN: "Already checked in",
+  ALREADY_CHECKED_OUT: "Already checked out",
+  COOLDOWN_ACTIVE: "Please wait before trying again",
   INVALID_IMAGE: "Camera error. Trying again...",
   SERVER_ERROR: "Server error. Trying again...",
   NETWORK_ERROR: "Check your internet connection",
@@ -38,5 +42,7 @@ export const TERMINAL_CODES = [
   'EMPLOYEE_INACTIVE',
   'NO_CHECKIN',
   'ALREADY_CHECKED_IN',
+  'ALREADY_CHECKED_OUT',
+  'COOLDOWN_ACTIVE',
   'CAMERA_DENIED'
 ];

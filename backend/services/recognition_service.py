@@ -104,6 +104,7 @@ class RecognitionService:
             res_action = att_record.get("action") if isinstance(att_record, dict) else None
             res_message = att_record.get("message") if isinstance(att_record, dict) else None
             already_checked_in = att_record.get("already_checked_in") if isinstance(att_record, dict) else False
+            already_checked_out = att_record.get("already_checked_out") if isinstance(att_record, dict) else False
             
             error_code = None
             success = True
@@ -114,8 +115,16 @@ class RecognitionService:
             elif res_message == "No check-in found for today":
                 error_code = NO_CHECKIN
                 success = False
-            elif already_checked_in or (res_message and res_message.startswith("Cooldown active")):
+            elif already_checked_in:
                 error_code = ALREADY_CHECKED_IN
+                success = False
+            elif already_checked_out:
+                from backend.core.error_codes import ALREADY_CHECKED_OUT
+                error_code = ALREADY_CHECKED_OUT
+                success = False
+            elif res_message and res_message.startswith("Cooldown active"):
+                from backend.core.error_codes import COOLDOWN_ACTIVE
+                error_code = COOLDOWN_ACTIVE
                 success = False
             
             if not success:
