@@ -20,13 +20,13 @@ describe('kioskMessages', () => {
       'error', '500', 'status code', 'liveness',
       'embedding', 'exception', 'laplacian', 'variance', 'ai '
     ];
-    
+
     Object.values(KIOSK_MESSAGES).forEach(msg => {
       const lower = msg.toLowerCase();
       forbiddenTerms.forEach(term => {
         expect(lower).not.toContain(term);
       });
-      // check exact word "server"
+      // check exact word "servers"
       expect(lower).not.toMatch(/\bserver\b/);
     });
   });
