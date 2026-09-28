@@ -58,25 +58,40 @@ const AdminLogin = () => {
         if (blob) {
           isProcessingRef.current = true;
           setIsProcessingFace(true);
-          setFaceStatus('AI Analyzing...');
+
+          // Show "Analyzing" only if it takes more than 400ms to avoid flicker
+          const analyzingTimer = setTimeout(() => {
+            setFaceStatus('AI Analyzing...');
+          }, 400);
+
           try {
             const response = await authService.faceLogin(blob);
+            clearTimeout(analyzingTimer);
             login(response.access_token);
-            toast.success('Face recognized! Logged in.');
+            toast.success('Face recognized Logged in.');
             if (intervalRef.current) clearInterval(intervalRef.current);
             stopCamera();
             navigate(from, { replace: true });
           } catch (err: any) {
+            clearTimeout(analyzingTimer);
             const detail = err.response?.data?.detail || 'Face not recognized';
-            setFaceStatus(detail);
+
+            // If no face is detected, we just keep the status calm
+            if (detail.includes('No face detected')) {
+              setFaceStatus('Looking for a face...');
+            } else {
+              setFaceStatus(detail);
+            }
+
             if (!detail.includes('No face detected') && !detail.includes('No admin faces registered')) {
               setHasCameraError(true);
               cameraControls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
               setTimeout(() => setHasCameraError(false), 2000);
             }
-            // Delay before next scan to allow user to read the message
-            // If no face was detected, don't delay, keep scanning quickly
-            const delay = (err.response?.data?.detail?.includes('No face detected')) ? 100 : 200;
+
+            // Delay before next scan: 
+            // 800ms if no face (to not hammer the server), 800ms if wrong face (to show the error msg)
+            const delay = 800;
             setTimeout(() => {
               isProcessingRef.current = false;
               setIsProcessingFace(false);
