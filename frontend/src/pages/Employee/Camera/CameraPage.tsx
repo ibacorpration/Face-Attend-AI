@@ -22,7 +22,7 @@ const CameraPage = () => {
   const intervalRef = useRef<number | null>(null);
 
   const backoffDelayRef = useRef(1000);
-  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const consecutiveErrorsRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
 
   // Start camera on mount regardless of action
@@ -58,7 +58,7 @@ const CameraPage = () => {
             }
 
             // Reset backoff on success
-            setConsecutiveErrors(0);
+            consecutiveErrorsRef.current = 0;
             backoffDelayRef.current = 1000;
 
             if (result.success && result.status === 'match') {
@@ -92,15 +92,14 @@ const CameraPage = () => {
             
             const is5xx = err.response?.status >= 500 || !err.response;
             if (is5xx) {
-              setConsecutiveErrors(prev => {
-                const next = prev + 1;
-                if (next >= 5) {
-                   setIsPaused(true);
-                }
-                return next;
-              });
+              consecutiveErrorsRef.current += 1;
+              if (consecutiveErrorsRef.current >= 5) {
+                 setIsPaused(true);
+                 setStatus('Multiple server errors occurred.');
+              } else {
+                 setStatus('Server error, retrying...');
+              }
               
-              setStatus('Server error, retrying...');
               delay = backoffDelayRef.current;
               backoffDelayRef.current = Math.min(backoffDelayRef.current * 2, 5000);
             } else {
@@ -231,7 +230,7 @@ const CameraPage = () => {
             </p>
             {isPaused && (
               <Button 
-                onClick={() => { setIsPaused(false); setConsecutiveErrors(0); backoffDelayRef.current = 1000; }} 
+                onClick={() => { setIsPaused(false); consecutiveErrorsRef.current = 0; backoffDelayRef.current = 1000; }} 
                 className="w-full h-12 bg-primary text-sidebar font-bold text-base hover:bg-primary-light"
               >
                 Retry
