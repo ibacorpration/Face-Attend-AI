@@ -42,8 +42,8 @@ class AttendanceService:
             self.repo.create(db, obj_in=att_in)
             return {"action": "check_in", "message": f"Checked in at {now.strftime('%H:%M')}"}
         else:
-            # Already checked in
-            if action == "check_in" and not existing.check_out:
+            # Already checked in today (whether checked out or not)
+            if action == "check_in":
                 return {"action": "check_in", "message": "Already checked in", "already_checked_in": True}
 
             # Prevent double check-in/out too quickly (cooldown)

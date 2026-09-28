@@ -114,7 +114,7 @@ class RecognitionService:
             elif res_message == "No check-in found for today":
                 error_code = NO_CHECKIN
                 success = False
-            elif already_checked_in:
+            elif already_checked_in or (res_message and res_message.startswith("Cooldown active")):
                 error_code = ALREADY_CHECKED_IN
                 success = False
             
