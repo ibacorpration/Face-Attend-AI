@@ -38,9 +38,9 @@ class Settings(BaseSettings):
     CORS_ALLOWED_ORIGINS: str = "http://localhost:8000"
 
     # RAG Settings
-    EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
+    EMBEDDING_MODEL_NAME: str = "paraphrase-multilingual-MiniLM-L12-v2"
     VECTOR_DB_DIR: str = "rag_data/chroma_db"
-    COLLECTION_NAME: str = "rag_documents"
+    COLLECTION_NAME: str = "rag_documents_v2"
     LLM_PROVIDER: str = "groq"
     GROQ_API_KEY: str = ""
     GROQ_MODEL_NAME: str = "openai/gpt-oss-20b"
