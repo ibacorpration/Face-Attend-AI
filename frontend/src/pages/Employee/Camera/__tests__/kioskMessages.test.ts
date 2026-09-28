@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getKioskMessage, KIOSK_MESSAGES, ErrorCode } from '../kioskMessages';
+import { getKioskMessage, KIOSK_MESSAGES } from '../kioskMessages';
 
 describe('kioskMessages', () => {
   it('every ErrorCode has a non-empty message', () => {
