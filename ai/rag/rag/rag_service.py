@@ -82,7 +82,7 @@ class RAGService:
         file_removed = False
         if delete_file:
             from backend.core.config import settings
-            target_dir = uploads_dir or (settings.BASE_DIR / settings.UPLOADS_DIR)
+            target_dir = uploads_dir or (Path.cwd() / "rag_data" / "uploads")
             file_path = Path(target_dir) / filename
             if file_path.exists():
                 file_path.unlink()
@@ -109,7 +109,7 @@ class RAGService:
         """
         from backend.core.config import settings
         from ai.rag.constants import SUPPORTED_EXTENSIONS
-        target_dir = Path(uploads_dir or (settings.BASE_DIR / settings.UPLOADS_DIR))
+        target_dir = Path(uploads_dir or (Path.cwd() / "rag_data" / "uploads"))
 
         files_on_disk = (
             {p.name: p for p in target_dir.glob("*") if p.is_file() and p.suffix.lower() in SUPPORTED_EXTENSIONS}

@@ -18,7 +18,7 @@ class ChromaVectorStore(BaseVectorStore):
     def __init__(self, persist_dir: str = None, collection_name: str = None):
         persist_path = Path(persist_dir or settings.VECTOR_DB_DIR)
         if not persist_path.is_absolute():
-            persist_path = settings.BASE_DIR / persist_path
+            persist_path = Path.cwd() / persist_path
 
         persist_path.mkdir(parents=True, exist_ok=True)
         self.collection_name = collection_name or settings.COLLECTION_NAME
