@@ -191,7 +191,7 @@ export default function SettingsPage() {
           >
             {admins.map(admin => (
               <motion.div key={admin.id} variants={itemVariants}>
-                <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
+                <Card className="flex items-center gap-4 p-5 group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     {admin.has_face ? (
                       <img src={`/api/v1/admin/users/${admin.id}/face/image?v=${new Date().getTime()}`} alt="Admin Face" className="w-full h-full object-cover" />

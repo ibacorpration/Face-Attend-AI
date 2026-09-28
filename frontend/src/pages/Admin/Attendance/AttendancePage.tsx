@@ -151,7 +151,7 @@ export const AttendancePage = () => {
 
               return (
                 <motion.div key={record.id} variants={itemVariants}>
-                  <Card className="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-soft-lg group">
+                  <Card className="p-4 flex flex-col sm:flex-row sm:items-center gap-4 group">
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       <div className="w-12 h-12 rounded-2xl bg-surface-tint flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-primary transition-colors">
                         <img 

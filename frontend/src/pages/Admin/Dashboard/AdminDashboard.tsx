@@ -71,12 +71,17 @@ export const AdminDashboard = () => {
         setAttendance(atts);
       } catch (error) {
         console.error('Error fetching dashboard data', error);
-        toast.error("Failed to load dashboard data");
       } finally {
         setIsLoading(false);
       }
     };
-    fetchData();
+    
+    fetchData(); // Initial load
+    
+    // Auto-refresh every 3 seconds to make it live
+    const intervalId = setInterval(fetchData, 3000);
+    
+    return () => clearInterval(intervalId);
   }, []);
 
   if (isLoading) {
@@ -126,12 +131,11 @@ export const AdminDashboard = () => {
               title="Active Today"
               value={todayAttendance}
               subtext="Checked in"
-              rate={`${((todayAttendance / activeEmployees) * 100 || 0).toFixed(0)}%`}
               icon={<UserCheck size={20} className="text-sidebar" />}
               onClick={() => navigate('/admin/attendance')}
             />
             <StatCard
-              title="Checked in"
+              title="Checked out"
               value={checkedOut}
               subtext="Left"
               icon={<LogOut size={20} className="text-sidebar" />}
@@ -156,7 +160,7 @@ export const AdminDashboard = () => {
             {attendance.filter(a => a.check_in && !a.check_out).slice(0, 3).map((record) => {
               const emp = employees.find(e => e.id === record.employee_id);
               return (
-                <Card key={record.id} className="p-4 flex items-center gap-4 hover:shadow-soft-lg">
+                <Card key={record.id} className="p-4 flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-xl bg-surface-tint flex items-center justify-center overflow-hidden">
                     <img src={`/api/v1/employees/${emp?.id}/face/image?v=${emp?.updated_at}`} className="w-full h-full object-cover" onError={e => e.currentTarget.style.display = 'none'} alt="" />
                   </div>

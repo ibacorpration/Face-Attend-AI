@@ -189,7 +189,7 @@ export const EmployeesPage = () => {
           >
             {filteredEmployees.map(emp => (
               <motion.div key={emp.id} variants={itemVariants}>
-                <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
+                <Card className="flex items-center gap-4 p-5 group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     <img 
                       src={`/api/v1/employees/${emp.id}/face/image?v=${emp.updated_at}`}
