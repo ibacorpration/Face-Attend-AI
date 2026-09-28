@@ -13,15 +13,23 @@ async def lifespan(app: FastAPI):
     # Initialize database
     init_db()
     
-    # Sync RAG documents
+    # Sync RAG documents in background to prevent server startup timeout
     from backend.api.routes.chat import get_rag_service
     from pathlib import Path
-    try:
-        rag_service = get_rag_service()
-        uploads_dir = Path.cwd() / "rag_data" / "uploads"
-        rag_service.sync_with_uploads_dir(uploads_dir)
-    except Exception as e:
-        print(f"Failed to sync RAG documents: {e}")
+    import asyncio
+    
+    def sync_rag_background():
+        try:
+            print("Starting RAG documents sync in background...")
+            rag_service = get_rag_service()
+            uploads_dir = Path.cwd() / "rag_data" / "uploads"
+            rag_service.sync_with_uploads_dir(uploads_dir)
+            print("Successfully synced RAG documents.")
+        except Exception as e:
+            print(f"Failed to sync RAG documents: {e}")
+            
+    # Run in a separate thread so it doesn't block FastAPI startup
+    asyncio.create_task(asyncio.to_thread(sync_rag_background))
     
     # Initialize default admin user
     from backend.db.database import SessionLocal
