@@ -61,7 +61,7 @@ class ChatResponse(BaseModel):
     sources: Optional[List[SourceModel]] = []
 
 @router.post("", response_model=ChatResponse)
-async def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(get_rag_chat_service)):
+def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(get_rag_chat_service)):
     try:
         response = chat_service.chat(
             user_message=request.message,
