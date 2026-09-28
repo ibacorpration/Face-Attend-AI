@@ -23,13 +23,15 @@ class FaceRecognitionService:
         # 1. Liveness check (simulated with single frame here)
         liveness_result = self.liveness_checker.check_liveness([image])
         if not liveness_result["is_live"]:
-            return {"success": False, "error": f"Liveness failed: {liveness_result['reason']}"}
+            from backend.core.error_codes import LIVENESS_FAILED
+            return {"success": False, "error": f"Liveness failed: {liveness_result['reason']}", "error_code": LIVENESS_FAILED}
             
         # 2. Quality check
         quality_result = self.quality_checker.check_quality(image)
         if not quality_result["is_good"]:
             reasons = ", ".join(quality_result["reasons"])
-            return {"success": False, "error": f"Quality failed: {reasons}"}
+            from backend.core.error_codes import POOR_QUALITY
+            return {"success": False, "error": f"Quality failed: {reasons}", "error_code": POOR_QUALITY}
             
         # 3. Recognition pipeline
         rec_result = self.recognizer.process_image(image)

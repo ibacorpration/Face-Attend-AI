@@ -15,3 +15,4 @@ class RecognitionResult(BaseModel):
     quality_passed: bool = False
     action: Optional[str] = None
     message: Optional[str] = None
+    error_code: Optional[str] = None

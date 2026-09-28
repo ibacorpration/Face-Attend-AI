@@ -25,17 +25,24 @@ async def verify_face(
     contents = await file.read()
     
     if len(contents) > settings.MAX_IMAGE_SIZE_MB * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="Image size exceeds the maximum limit")
+        from backend.core.error_codes import INVALID_IMAGE
+        raise HTTPException(status_code=413, detail={"error_code": INVALID_IMAGE})
+        
+    if not contents:
+        from backend.core.error_codes import INVALID_IMAGE
+        raise HTTPException(status_code=400, detail={"error_code": INVALID_IMAGE})
         
     nparr = np.frombuffer(contents, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
     if image is None:
-        raise HTTPException(status_code=400, detail="Invalid image file")
+        from backend.core.error_codes import INVALID_IMAGE
+        raise HTTPException(status_code=400, detail={"error_code": INVALID_IMAGE})
         
     try:
         result = recognition_service.recognize_and_log_attendance(db, image, action=action)
         return result
     except Exception:
         logger.exception("Error in verify_face")
-        raise HTTPException(status_code=500, detail="Attendance processing failed. Please try again.")
+        from backend.core.error_codes import SERVER_ERROR
+        raise HTTPException(status_code=500, detail={"error_code": SERVER_ERROR})

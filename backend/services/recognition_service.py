@@ -24,10 +24,17 @@ class RecognitionService:
             # 1. AI Pipeline to extract embedding
             ai_res = self.ai_service.process_attendance_frame(image)
             
+            from backend.core.error_codes import (
+                NOT_RECOGNIZED, LOW_CONFIDENCE, EMPLOYEE_INACTIVE,
+                NO_CHECKIN, ALREADY_CHECKED_IN
+            )
+            
             if not ai_res["success"]:
+                # Log technical detail, don't return to UI
+                logger.error(f"AI processing failed: {ai_res.get('error')}")
                 return RecognitionResult(
                     success=False, 
-                    error=ai_res.get("error", "AI processing failed")
+                    error_code=ai_res.get("error_code")
                 )
     
             query_embedding = ai_res["embedding"]
@@ -69,11 +76,11 @@ class RecognitionService:
                 needs_review = True
             else:
                 status = "unknown"
+                logger.error(f"Face not recognized, sim={highest_sim}")
                 return RecognitionResult(
                     success=False,
-                    error="Face not recognized",
-                    similarity_score=highest_sim,
-                    status=status
+                    status=status,
+                    error_code=NOT_RECOGNIZED
                 )
                 
             # 4. Process Attendance
@@ -81,8 +88,7 @@ class RecognitionService:
             if not employee or employee.status != "active":
                 return RecognitionResult(
                     success=False, 
-                    error="Employee not found or inactive",
-                    similarity_score=highest_sim
+                    error_code=EMPLOYEE_INACTIVE
                 )
                 
             att_record = self.attendance_service.process_attendance(
@@ -97,7 +103,33 @@ class RecognitionService:
             # Use action/message from attendance service if available
             res_action = att_record.get("action") if isinstance(att_record, dict) else None
             res_message = att_record.get("message") if isinstance(att_record, dict) else None
+            already_checked_in = att_record.get("already_checked_in") if isinstance(att_record, dict) else False
             
+            error_code = None
+            success = True
+            
+            if status == "borderline":
+                error_code = LOW_CONFIDENCE
+                success = False # Must be false to trigger retry in UI, although attendance is recorded
+            elif res_message == "No check-in found for today":
+                error_code = NO_CHECKIN
+                success = False
+            elif already_checked_in:
+                error_code = ALREADY_CHECKED_IN
+                success = False
+            
+            if not success:
+                return RecognitionResult(
+                    success=False,
+                    status=status,
+                    error_code=error_code,
+                    action=res_action,
+                    employee_id=employee.id,
+                    employee_code=employee.employee_code,
+                    full_name=employee.full_name,
+                    department=employee.department
+                )
+                
             return RecognitionResult(
                 success=True,
                 employee_id=employee.id,

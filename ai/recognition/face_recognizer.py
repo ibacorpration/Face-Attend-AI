@@ -21,7 +21,8 @@ class FaceRecognizer:
         # 1. Detect faces
         faces = self.detector.detect(image)
         if len(faces) == 0:
-            return {"success": False, "error": "No face detected"}
+            from backend.core.error_codes import NO_FACE
+            return {"success": False, "error": "No face detected", "error_code": NO_FACE}
             
         # 2. Get largest face
         largest_face = self.detector.get_largest_face(faces)

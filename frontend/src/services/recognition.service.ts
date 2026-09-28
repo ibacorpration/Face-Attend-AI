@@ -14,6 +14,7 @@ export interface RecognitionResult {
   quality_passed: boolean;
   action?: string;
   message?: string;
+  error_code?: string;
 }
 
 export const recognitionService = {

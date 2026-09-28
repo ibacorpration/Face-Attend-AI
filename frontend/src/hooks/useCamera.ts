@@ -34,7 +34,7 @@ export const useCamera = (): UseCameraReturn => {
       streamRef.current = stream;
       setError(null);
     } catch (err) {
-      setError('Could not access camera. Please ensure you have granted permission.');
+      setError('CAMERA_DENIED');
       console.error('Error accessing camera:', err);
     }
   }, []);
