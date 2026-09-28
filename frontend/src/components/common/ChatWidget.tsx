@@ -92,10 +92,10 @@ export const ChatWidget: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="w-[calc(100vw-32px)] sm:w-[360px] h-[80vh] sm:h-[500px] bg-[#1c1c1f] rounded-[20px] shadow-2xl mb-4 flex flex-col overflow-hidden border border-white/5"
+            className="w-[calc(100vw-32px)] sm:w-[360px] h-[80vh] sm:h-[500px] bg-[#20152F] rounded-[20px] shadow-2xl mb-4 flex flex-col overflow-hidden border border-white/5"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#111112] relative">
+            <div className="flex items-center justify-between px-4 py-3 bg-[#150a1f] relative">
               <div className="flex items-center gap-2">
                 <img src={ibaMascotIcon} alt="IBA Mascot" className="w-8 h-8 rounded-full object-cover" />
               </div>
@@ -106,14 +106,14 @@ export const ChatWidget: React.FC = () => {
 
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white/70 hover:text-[#C6F135] transition-colors relative z-10"
+                className="text-white/70 hover:text-[#B378D3] transition-colors relative z-10"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 relative bg-[#1c1c1f]">
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 relative bg-[#20152F]">
               <AnimatePresence>
                 {messages.length === 0 && (
                   <motion.div
@@ -125,7 +125,7 @@ export const ChatWidget: React.FC = () => {
                   >
                     <div className="relative w-40 h-40 mb-4">
                       {/* Glow behind */}
-                      <div className="absolute inset-0 bg-[#C6F135] opacity-20 blur-xl rounded-full" />
+                      <div className="absolute inset-0 bg-[#B378D3] opacity-20 blur-xl rounded-full" />
                       <img src={ibaMascotFull} alt="IBA Assistant" className="w-full h-full object-contain relative z-10" />
                     </div>
                     <h3 className="text-white font-bold text-lg">IBA Assistant</h3>
@@ -144,8 +144,8 @@ export const ChatWidget: React.FC = () => {
                 >
                   <div
                     className={`px-4 py-2.5 rounded-2xl shadow-sm ${msg.sender === 'user'
-                      ? 'bg-[#C6F135] text-[#111112] rounded-br-sm'
-                      : 'bg-[#2a2a2e] text-white rounded-bl-sm'
+                      ? 'bg-[#5B2A72] text-white rounded-br-sm'
+                      : 'bg-[#2d1b40] text-white rounded-bl-sm'
                       }`}
                   >
                     <p className="text-sm leading-relaxed">{msg.text}</p>
@@ -157,7 +157,7 @@ export const ChatWidget: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="self-start bg-[#2a2a2e] px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5 z-20 relative shadow-sm"
+                  className="self-start bg-[#2d1b40] px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5 z-20 relative shadow-sm"
                 >
                   <motion.div
                     animate={{ y: [0, -4, 0] }}
@@ -180,20 +180,20 @@ export const ChatWidget: React.FC = () => {
             </div>
 
             {/* Input Area */}
-            <div className="bg-[#111112] p-3 border-t border-white/10 flex items-center gap-2 shrink-0 z-30">
+            <div className="bg-[#150a1f] p-3 border-t border-white/10 flex items-center gap-2 shrink-0 z-30">
               <div className="flex-1 min-w-0">
                 <Input
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyDown={handleKeyPress}
                   placeholder="Type your message..."
-                  className="!bg-white/5 !border-none !text-white placeholder:!text-white/40 focus-visible:!ring-1 focus-visible:!ring-[#C6F135] h-11 !pl-4 w-full"
+                  className="!bg-white/5 !border-none !text-white placeholder:!text-white/40 focus-visible:!ring-1 focus-visible:!ring-[#B378D3] h-11 !pl-4 w-full"
                 />
               </div>
               <Button
                 onClick={handleSend}
                 disabled={!inputValue.trim()}
-                className="w-11 h-11 !p-0 rounded-full bg-[#C6F135] hover:bg-[#C6F135]/90 shrink-0 text-[#111112] flex items-center justify-center border-none"
+                className="w-11 h-11 !p-0 rounded-full bg-[#5B2A72] hover:bg-[#5B2A72]/90 shrink-0 text-white flex items-center justify-center border-none"
               >
                 <Send size={18} />
               </Button>
@@ -212,7 +212,7 @@ export const ChatWidget: React.FC = () => {
             : {
               scale: 1.05,
               filter:
-                'drop-shadow(0 8px 20px rgba(0,0,0,0.35)) drop-shadow(0 0 12px rgba(198,241,53,0.6))',
+                'drop-shadow(0 8px 20px rgba(0,0,0,0.35)) drop-shadow(0 0 12px rgba(179,120,211,0.6))',
             }
         }
         style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.35))' }}
@@ -220,8 +220,8 @@ export const ChatWidget: React.FC = () => {
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
       >
         {isOpen ? (
-          <div className="w-12 h-12 rounded-2xl bg-[#111112] flex items-center justify-center">
-            <X className="text-[#C6F135]" size={22} />
+          <div className="w-12 h-12 rounded-2xl bg-[#150a1f] flex items-center justify-center">
+            <X className="text-[#B378D3]" size={22} />
           </div>
         ) : (
           <img
