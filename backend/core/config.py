@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     COLLECTION_NAME: str = "rag_documents"
     LLM_PROVIDER: str = "groq"
     GROQ_API_KEY: str = ""
-    GROQ_MODEL_NAME: str = "mixtral-8x7b-32768"
+    GROQ_MODEL_NAME: str = "openai/gpt-oss-20b"
     LLM_MAX_TOKENS: int = 500
     RAG_TOP_K: int = 2
     DEFAULT_CHUNK_SIZE: int = 500
