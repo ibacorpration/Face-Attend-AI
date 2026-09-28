@@ -76,14 +76,14 @@ const AdminLogin = () => {
             }
             // Delay before next scan to allow user to read the message
             // If no face was detected, don't delay, keep scanning quickly
-            const delay = (err.response?.data?.detail?.includes('No face detected')) ? 100 : 800;
+            const delay = (err.response?.data?.detail?.includes('No face detected')) ? 100 : 200;
             setTimeout(() => {
               isProcessingRef.current = false;
               setIsProcessingFace(false);
             }, delay);
           }
         }
-      }, 300); // Polling faster for better responsiveness
+      }, 150); // Polling faster for better responsiveness
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
