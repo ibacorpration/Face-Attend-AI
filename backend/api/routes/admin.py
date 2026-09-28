@@ -130,6 +130,15 @@ async def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Sess
     db.commit()
     return {"message": "Face registered successfully"}
 
+from fastapi import Response
+
+@router.get("/users/{user_id}/face/image")
+async def get_admin_face_image(user_id: int, db: Session = Depends(get_db)):
+    admin = db.query(AdminUser).filter(AdminUser.id == user_id).first()
+    if not admin or not admin.image_data:
+        raise HTTPException(status_code=404, detail="Image not found")
+    return Response(content=admin.image_data, media_type="image/jpeg")
+
 @router.delete("/users/{user_id}")
 async def delete_admin(user_id: int, db: Session = Depends(get_db), current_admin: AdminUser = Depends(get_current_admin)):
     admin = db.query(AdminUser).filter(AdminUser.id == user_id).first()

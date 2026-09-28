@@ -7,6 +7,8 @@ import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { Badge } from '../../../components/ui/Badge';
+import ibaMascotFull from '../../../assets/iba-mascot-full.png';
+import ibaMascotIcon from '../../../assets/iba-mascot-icon.png';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -191,10 +193,12 @@ export default function SettingsPage() {
               <motion.div key={admin.id} variants={itemVariants}>
                 <Card className="flex items-center gap-4 p-5 hover:shadow-soft-lg group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
-                    {admin.id === 1 ? (
-                      <img src="/assets/iba-mascot-full.png" alt="Admin" className="w-10 h-10 object-contain" />
+                    {admin.has_face ? (
+                      <img src={`/api/v1/admin/users/${admin.id}/face/image?v=${new Date().getTime()}`} alt="Admin Face" className="w-full h-full object-cover" />
+                    ) : admin.id === 1 ? (
+                      <img src={ibaMascotFull} alt="Admin" className="w-10 h-10 object-contain" />
                     ) : (
-                      <img src="/assets/iba-mascot-icon.png" alt="User" className="w-8 h-8 object-contain" />
+                      <img src={ibaMascotIcon} alt="User" className="w-8 h-8 object-contain" />
                     )}
                   </div>
                   
