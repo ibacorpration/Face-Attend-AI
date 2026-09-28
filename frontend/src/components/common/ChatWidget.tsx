@@ -13,23 +13,13 @@ interface Message {
   timestamp: Date;
 }
 
+import api from '../../services/api';
+
 // RAG backend call
 const getBotResponse = async (message: string): Promise<string> => {
   try {
-    const response = await fetch('/api/v1/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message }),
-    });
-    
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    return data.answer || 'Sorry, I got an empty response.';
+    const response = await api.post('/chat', { message });
+    return response.data.answer || 'Sorry, I got an empty response.';
   } catch (error) {
     console.error('Chat API Error:', error);
     return 'Sorry, I could not process your request right now. Please try again.';
