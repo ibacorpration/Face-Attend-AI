@@ -21,6 +21,10 @@ const CameraPage = () => {
 
   const intervalRef = useRef<number | null>(null);
 
+  const backoffDelayRef = useRef(1000);
+  const [consecutiveErrors, setConsecutiveErrors] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
   // Start camera on mount regardless of action
   useEffect(() => {
     startCamera();
@@ -31,8 +35,8 @@ const CameraPage = () => {
   }, [startCamera, stopCamera]);
 
   useEffect(() => {
-    // Only scan if an action is selected
-    if (isStreamActive && !recognitionResult && selectedAction) {
+    // Only scan if an action is selected and not paused
+    if (isStreamActive && !recognitionResult && selectedAction && !isPaused) {
       setStatus('Looking for a face...');
 
       intervalRef.current = window.setInterval(async () => {
@@ -43,27 +47,41 @@ const CameraPage = () => {
           isProcessingRef.current = true;
           setIsProcessing(true);
           setStatus('AI Analyzing...');
+          
+          let delay = 800; // default delay
+
           try {
-            const result = await recognitionService.verifyFace(blob);
+            const result = await recognitionService.verifyFace(blob, selectedAction);
+            
             if (result.similarity_score) {
               setLastScore(Math.round(result.similarity_score * 100));
             }
 
+            // Reset backoff on success
+            setConsecutiveErrors(0);
+            backoffDelayRef.current = 1000;
+
             if (result.success && result.status === 'match') {
-              setStatus('Identity confirmed');
+              if (result.message) {
+                setStatus(result.message);
+              } else {
+                setStatus('Identity confirmed');
+              }
               if (intervalRef.current) clearInterval(intervalRef.current);
               stopCamera();
               setRecognitionResult(result);
+              delay = 0; // No need to delay if matched
             } else {
               if (result.error) {
                 setStatus(result.error);
+                if (result.error.includes('No face detected')) delay = 100;
               } else if (result.status === 'unknown') {
                 setStatus('Unregistered face');
               } else if (result.status === 'borderline') {
                 setStatus('Confidence too low. Move closer.');
               }
               
-              if (result.status === 'unknown' || (result.error && result.error !== 'No face detected')) {
+              if (result.status === 'unknown' || (result.error && !result.error.includes('No face detected'))) {
                 setHasError(true);
                 controls.start({ x: [-10, 10, -10, 10, 0], transition: { duration: 0.4 } });
                 setTimeout(() => setHasError(false), 2000);
@@ -71,24 +89,35 @@ const CameraPage = () => {
             }
           } catch (err: any) {
             console.error('Recognition error:', err);
-            const detail = err.response?.data?.detail || err.message || 'Error connecting to AI service';
-            setStatus(`Error: ${detail}`);
             
-            // If it's a known error like no face detected, don't delay much
-            const delay = detail.includes('No face detected') ? 100 : 800;
-            setTimeout(() => {
-              isProcessingRef.current = false;
-              setIsProcessing(false);
-            }, delay);
-            return; // skip the finally block since we handled timeout
+            const is5xx = err.response?.status >= 500 || !err.response;
+            if (is5xx) {
+              setConsecutiveErrors(prev => {
+                const next = prev + 1;
+                if (next >= 5) {
+                   setIsPaused(true);
+                }
+                return next;
+              });
+              
+              setStatus('Server error, retrying...');
+              delay = backoffDelayRef.current;
+              backoffDelayRef.current = Math.min(backoffDelayRef.current * 2, 5000);
+            } else {
+              const detail = err.response?.data?.detail || err.message || 'Error connecting to AI service';
+              setStatus(`Error: ${detail}`);
+              delay = detail.includes('No face detected') ? 100 : 800;
+            }
           } finally {
-            // This finally block only runs if try succeeded, or if we didn't return in catch
-            // For successful matches, we don't need a timeout as we clear interval anyway
-            // But just in case, we reset flags
-            setTimeout(() => {
+            if (delay > 0) {
+              setTimeout(() => {
+                isProcessingRef.current = false;
+                setIsProcessing(false);
+              }, delay);
+            } else {
               isProcessingRef.current = false;
               setIsProcessing(false);
-            }, 800);
+            }
           }
         }
       }, 300); // Polling faster for better responsiveness
@@ -97,7 +126,7 @@ const CameraPage = () => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isStreamActive, captureFrame, recognitionResult, selectedAction, stopCamera, controls]);
+  }, [isStreamActive, captureFrame, recognitionResult, selectedAction, isPaused, stopCamera, controls]);
 
   const handleActionSelect = (action: 'check_in' | 'check_out') => {
     setSelectedAction(action);
@@ -195,11 +224,19 @@ const CameraPage = () => {
               </div>
             </div>
             <h3 className="text-white font-bold text-xl mb-2">
-              {isProcessing ? 'Recognizing...' : 'Align your face'}
+              {isPaused ? 'Scanning Paused' : (isProcessing ? 'Recognizing...' : 'Align your face')}
             </h3>
-            <p className="text-slate-400 text-sm font-medium">
+            <p className="text-slate-400 text-sm font-medium mb-4">
               {status}
             </p>
+            {isPaused && (
+              <Button 
+                onClick={() => { setIsPaused(false); setConsecutiveErrors(0); backoffDelayRef.current = 1000; }} 
+                className="w-full h-12 bg-primary text-sidebar font-bold text-base hover:bg-primary-light"
+              >
+                Retry
+              </Button>
+            )}
           </div>
         ) : (
           <div className="bg-sidebar/80 backdrop-blur-md border border-white/10 rounded-[32px] p-8 text-center w-80 shadow-2xl mt-40">

@@ -13,3 +13,5 @@ class RecognitionResult(BaseModel):
     error: Optional[str] = None
     liveness_passed: bool = False
     quality_passed: bool = False
+    action: Optional[str] = None
+    message: Optional[str] = None

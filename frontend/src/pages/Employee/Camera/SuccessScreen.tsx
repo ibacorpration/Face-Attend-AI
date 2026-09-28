@@ -76,7 +76,13 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
 
         <h2 className="text-primary font-bold text-lg mb-1 tracking-wide uppercase">Identity Confirmed</h2>
         <h1 className="text-3xl font-extrabold text-white mb-1 truncate w-full px-4">{result.full_name?.split(' ')[0] || 'Employee'}</h1>
-        <p className="text-slate-400 text-sm font-medium mb-8">{result.department || 'Staff Member'}</p>
+        <p className="text-slate-400 text-sm font-medium mb-4">{result.department || 'Staff Member'}</p>
+        
+        {result.message && (
+          <div className="w-full bg-primary/20 border border-primary/40 rounded-xl p-3 mb-6">
+            <p className="text-primary-light font-bold text-sm">{result.message}</p>
+          </div>
+        )}
 
         {/* Admin Replies */}
         {replies.length > 0 && (

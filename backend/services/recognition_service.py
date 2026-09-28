@@ -9,8 +9,9 @@ from backend.schemas.recognition import RecognitionResult
 from backend.core.security import decrypt_embedding
 from backend.core.config import settings
 
-import traceback
+import logging
 
+logger = logging.getLogger(__name__)
 class RecognitionService:
     def __init__(self):
         self.ai_service = get_ai_service()
@@ -18,7 +19,7 @@ class RecognitionService:
         self.employee_repo = EmployeeRepository()
         self.attendance_service = AttendanceService()
 
-    def recognize_and_log_attendance(self, db: Session, image: np.ndarray) -> RecognitionResult:
+    def recognize_and_log_attendance(self, db: Session, image: np.ndarray, action: str = "auto") -> RecognitionResult:
         try:
             # 1. AI Pipeline to extract embedding
             ai_res = self.ai_service.process_attendance_frame(image)
@@ -53,7 +54,7 @@ class RecognitionService:
                         highest_sim = sim
                         best_match = face_record
                 except Exception as e:
-                    print(f"Warning: Failed to process face_record {face_record.id}: {e}")
+                    logger.exception(f"Warning: Failed to process face_record {face_record.id}")
                     continue
                     
             # 3. Evaluate match against thresholds
@@ -84,13 +85,18 @@ class RecognitionService:
                     similarity_score=highest_sim
                 )
                 
-            self.attendance_service.process_attendance(
+            att_record = self.attendance_service.process_attendance(
                 db=db, 
                 employee_id=employee.id, 
                 similarity_score=highest_sim,
                 status="present",
-                needs_review=needs_review
+                needs_review=needs_review,
+                action=action
             )
+            
+            # Use action/message from attendance service if available
+            res_action = att_record.get("action") if isinstance(att_record, dict) else None
+            res_message = att_record.get("message") if isinstance(att_record, dict) else None
             
             return RecognitionResult(
                 success=True,
@@ -102,9 +108,10 @@ class RecognitionService:
                 similarity_score=highest_sim,
                 status=status,
                 liveness_passed=ai_res["liveness"]["is_live"],
-                quality_passed=ai_res["quality"]["is_good"]
+                quality_passed=ai_res["quality"]["is_good"],
+                action=res_action,
+                message=res_message
             )
         except Exception as e:
-            print("CRITICAL ERROR IN recognize_and_log_attendance:")
-            traceback.print_exc()
+            logger.exception("CRITICAL ERROR IN recognize_and_log_attendance")
             raise e

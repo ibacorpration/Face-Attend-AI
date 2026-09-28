@@ -12,12 +12,15 @@ export interface RecognitionResult {
   error?: string;
   liveness_passed: boolean;
   quality_passed: boolean;
+  action?: string;
+  message?: string;
 }
 
 export const recognitionService = {
-  verifyFace: async (imageBlob: Blob): Promise<RecognitionResult> => {
+  verifyFace: async (imageBlob: Blob, action: 'check_in' | 'check_out' | 'auto' = 'auto'): Promise<RecognitionResult> => {
     const formData = new FormData();
     formData.append('file', imageBlob, 'frame.jpg');
+    formData.append('action', action);
 
     const response = await api.post<RecognitionResult>('/recognition/verify', formData, {
       headers: {
