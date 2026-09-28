@@ -1,0 +1,37 @@
+AI Chatbot — Overview
+
+1. Introduction
+The FaceAttend AI Chatbot is a Retrieval-Augmented Generation (RAG) assistant integrated into the attendance management system. It retrieves relevant information from the company’s knowledge base and uses it as context for generating accurate, domain-specific responses.
+
+2. Knowledge Ingestion Pipeline
+The system processes company documents through three main stages:
+
+Parsing: Extracting text from supported documents such as PDF, TXT, Markdown, and Word files.
+Chunking: Splitting documents into smaller, meaningful text segments with configurable size and overlap.
+Embedding Generation: Converting each chunk into a vector representation using a SentenceTransformers embedding model.
+
+3. Vector Database & Indexing
+Document embeddings are stored persistently in ChromaDB, enabling efficient semantic similarity searches. Each stored chunk can be retrieved based on its relevance to the user's question.
+
+4. Retrieval & Context Building
+When a user sends a message:
+
+The query is converted into an embedding.
+The vector database searches for the most relevant knowledge chunks.
+The retrieved information is combined into contextual input.
+The LLM generates a response grounded in the retrieved company data.
+
+The system can use Similarity Search to retrieve the most relevant chunks while reducing irrelevant or unrelated information.
+
+5. Chatbot Capabilities
+The assistant can answer questions related to:
+
+Company information and policies.
+Employees and attendance procedures.
+System features and usage.
+Administrative workflows.
+Frequently asked questions.
+Other information available in the connected knowledge base.
+
+6. Main Benefit
+By combining retrieval with LLM generation, the chatbot provides context-aware, knowledge-grounded responses while reducing the risk of generating unsupported information.

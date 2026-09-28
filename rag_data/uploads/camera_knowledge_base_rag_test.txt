@@ -1,0 +1,220 @@
+CAMERA KNOWLEDGE BASE - TEST DATA FOR RAG
+=============================================
+
+Purpose:
+This file is a sample knowledge-base document for testing a RAG chatbot.
+Prices are approximate market ranges in Egypt and are provided for testing only.
+Actual prices vary by seller, warranty, storage capacity, resolution, and date.
+
+1. CAMERA TYPES
+================
+
+1.1 Analog HD Cameras
+- Common technologies: TVI, CVI, AHD
+- Typical resolutions: 2MP, 5MP, 8MP
+- Usually connected through coaxial cable to a DVR.
+- Suitable for upgrading older CCTV installations while keeping coaxial cabling.
+- Typical approximate price in Egypt:
+  2MP: 700-1,200 EGP
+  5MP: 1,000-1,800 EGP
+  8MP: 1,500-2,500 EGP
+
+1.2 IP Cameras
+- Connect through an Ethernet network.
+- Usually work with an NVR or compatible VMS.
+- Common resolutions: 2MP, 4MP, 5MP, 8MP.
+- Many models support PoE, allowing power and data over one Ethernet cable.
+- Typical approximate price:
+  2MP: 1,000-2,000 EGP
+  4MP/5MP: 1,500-3,000 EGP
+  8MP: 2,500-5,000 EGP
+
+1.3 Wi-Fi / Wireless Cameras
+- Connect to a wireless network.
+- Common for homes, small offices, and locations where Ethernet cabling is inconvenient.
+- Many models include a mobile application and cloud or SD-card recording.
+- Typical approximate price: 1,000-3,500 EGP.
+
+1.4 PTZ Cameras
+- PTZ means Pan, Tilt, Zoom.
+- The camera can rotate horizontally, move vertically, and zoom.
+- Used for large areas such as parking lots, warehouses, factories, and outdoor sites.
+- Typical approximate price:
+  Basic PTZ: 5,000-12,000 EGP
+  Professional PTZ: 12,000-40,000+ EGP
+
+1.5 Dome Cameras
+- Compact camera with a dome-shaped housing.
+- Commonly used indoors and in commercial buildings.
+- Can be vandal-resistant depending on the model.
+- Typical approximate price: 900-3,500 EGP.
+
+1.6 Bullet Cameras
+- Long cylindrical housing.
+- Commonly used for outdoor monitoring.
+- Often provide IR night vision.
+- Typical approximate price: 900-4,000 EGP.
+
+1.7 Turret Cameras
+- Compact adjustable camera design.
+- Popular for indoor and outdoor CCTV installations.
+- Usually easier to adjust than traditional dome cameras.
+- Typical approximate price: 1,000-4,000 EGP.
+
+2. IMPORTANT CAMERA SPECIFICATIONS
+==================================
+
+Resolution:
+- 2MP: suitable for basic monitoring.
+- 4MP/5MP: provides more detail and is common for general surveillance.
+- 8MP / 4K: useful when higher detail is required.
+
+Night Vision:
+- IR LEDs provide infrared night vision.
+- Typical IR range can be approximately 20m, 30m, 40m, 50m, or more depending on the model.
+- Some advanced cameras use color night vision or low-light sensors.
+
+Lens:
+- Fixed lens: usually 2.8mm, 3.6mm, 4mm, etc.
+- Varifocal lens: allows the focal length and field of view to be adjusted.
+- Smaller focal lengths generally provide a wider field of view.
+- Larger focal lengths generally provide a narrower view with more reach.
+
+Field of View:
+- Wide-angle cameras cover a larger area but objects may appear smaller.
+- Narrower lenses cover less area but provide more detail at distance.
+
+Weather Protection:
+- Outdoor cameras commonly use IP66 or IP67 protection.
+- IP67 generally provides stronger protection against water and dust than IP66.
+
+WDR:
+- Wide Dynamic Range helps the camera handle scenes with very bright and very dark areas.
+- Useful near entrances, windows, and locations with strong backlighting.
+
+FPS:
+- Frames per second indicates how many frames the camera records per second.
+- 15-20 FPS is common for many surveillance cameras.
+- Higher FPS can provide smoother motion.
+
+Compression:
+- H.264 and H.265 are common video compression standards.
+- H.265 can reduce storage and bandwidth requirements compared with H.264 for similar image quality.
+
+3. AI CAMERA FEATURES
+=====================
+
+Common AI features include:
+- Human detection
+- Vehicle detection
+- Face detection
+- Face recognition
+- Intrusion detection
+- Line crossing
+- Region entrance/exit detection
+- People counting
+- Vehicle counting
+- License plate recognition (LPR/ANPR)
+- Abandoned object detection
+- Object removal detection
+
+Important:
+AI features vary significantly between manufacturers and camera models.
+A camera advertising "AI" does not necessarily support every AI feature.
+
+4. COMMON CAMERA BRANDS
+=======================
+
+Examples of widely known CCTV/security camera brands:
+- Hikvision
+- Dahua
+- Uniview (UNV)
+- Tiandy
+- Axis
+- Hanwha Vision
+- Bosch
+- Ezviz
+- Imou
+
+Different brands offer different product families, technologies, software ecosystems, warranties, and price levels.
+
+5. CAMERA PRICE FACTORS
+=======================
+
+The final camera price can depend on:
+- Brand
+- Resolution
+- Sensor quality
+- Lens type
+- Night vision range
+- AI capabilities
+- Weather resistance
+- PoE support
+- Audio support
+- Storage options
+- Warranty
+- Distributor
+- Import costs
+- Current market conditions
+
+A higher resolution does not automatically mean a better camera.
+For a surveillance project, the required field of view, lighting conditions, distance, AI features, and installation environment should also be considered.
+
+6. CAMERAS AND RECORDING DEVICES
+================================
+
+DVR:
+- Digital Video Recorder.
+- Commonly used with analog HD cameras such as TVI, CVI, and AHD.
+- Cameras are generally connected through coaxial cable.
+
+NVR:
+- Network Video Recorder.
+- Commonly used with IP cameras.
+- Cameras communicate over the network.
+
+XVR:
+- Hybrid recorder capable of supporting multiple camera technologies depending on the model.
+- Useful when upgrading an existing installation with mixed camera types.
+
+7. SAMPLE CUSTOMER QUESTIONS
+=============================
+
+Q: What is the difference between an IP camera and an analog camera?
+A: An IP camera communicates over a network, while analog HD cameras commonly use coaxial cabling and connect to a DVR.
+
+Q: Which camera is suitable for outdoor use?
+A: An outdoor camera should normally have suitable weather protection such as IP66/IP67, appropriate night vision, and a housing designed for outdoor conditions.
+
+Q: What is a PTZ camera?
+A: PTZ stands for Pan, Tilt, Zoom. It can rotate horizontally, move vertically, and zoom to monitor larger areas.
+
+Q: How much does a CCTV camera cost in Egypt?
+A: Approximate prices can range from around 700 EGP for basic cameras to tens of thousands of EGP for professional PTZ or advanced AI cameras. The exact price depends on specifications and brand.
+
+Q: Is 4K always better than 2MP?
+A: 4K provides significantly more image detail, but the best choice depends on the required viewing distance, storage capacity, bandwidth, lighting, and budget.
+
+Q: What does PoE mean?
+A: Power over Ethernet. It allows compatible IP cameras to receive power and transfer data through the same Ethernet cable.
+
+8. RAG TESTING NOTES
+====================
+
+This document is intentionally written with factual, structured information so a RAG system can be tested with questions about:
+- Camera types
+- Camera specifications
+- Approximate prices
+- AI features
+- CCTV terminology
+- DVR vs NVR
+- Outdoor vs indoor cameras
+- PTZ cameras
+- IP vs analog cameras
+- Night vision
+- WDR
+- PoE
+- Camera selection
+
+Price values in this document are TEST/REFERENCE RANGES, not live quotations.
+For real purchasing decisions, current local seller prices should be checked.

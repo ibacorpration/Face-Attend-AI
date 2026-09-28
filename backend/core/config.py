@@ -37,6 +37,23 @@ class Settings(BaseSettings):
 
     CORS_ALLOWED_ORIGINS: str = "http://localhost:8000"
 
+    # RAG Settings
+    EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
+    VECTOR_DB_DIR: str = "rag_data/chroma_db"
+    COLLECTION_NAME: str = "rag_documents"
+    LLM_PROVIDER: str = "groq"
+    GROQ_API_KEY: str = ""
+    GROQ_MODEL_NAME: str = "llama3-8b-8192"
+    LLM_MAX_TOKENS: int = 500
+    RAG_TOP_K: int = 2
+    DEFAULT_CHUNK_SIZE: int = 500
+    DEFAULT_CHUNK_OVERLAP: int = 50
+    RAG_SCORE_THRESHOLD: float = 0.5
+    RAG_RELATIVE_SCORE_CUTOFF: float = 0.8
+    RAG_MAX_CONTEXT_CHARS: int = 4000
+    CHAT_HISTORY_MAX_MESSAGES: int = 10
+    CHAT_HISTORY_MAX_CHARS_PER_MSG: int = 500
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     @property
