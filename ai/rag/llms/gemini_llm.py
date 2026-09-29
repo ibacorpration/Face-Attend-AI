@@ -37,7 +37,7 @@ class GeminiLLMProvider(BaseLLMProvider):
         if self.api_key:
             self.client = genai.Client(
                 api_key=self.api_key,
-                http_options={'retry_options': {'attempts': 1}, 'timeout': 8}
+                http_options={'timeout': 8.0}
             )
         else:
             self.client = None
