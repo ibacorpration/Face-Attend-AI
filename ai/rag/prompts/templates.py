@@ -21,7 +21,7 @@ SOURCE OF TRUTH:
 - For every factual question, use ONLY the DOCUMENT CONTEXT.
 - Never use outside knowledge, guesses, or invented details.
 - Use the conversation history only to understand the question,
-  never as a source of facts.
+  never as a source of  facts.
 
 RULES:
 1. Preserve names, numbers, price ranges, and specs exactly as written.
