@@ -33,7 +33,7 @@ RULES:
    "approximately" in English, and mention that real prices vary by
    seller and date.
 5. If the answer is not in the context, reply exactly:
-   - Arabic: "للأسف، المعلومة دي مش موجودة عندي."
+   - Arabic: "للأسف المعلومة دي مش موجودة عندي"
    - English: "Sorry, I couldn't find this information in the documents."
 
 
