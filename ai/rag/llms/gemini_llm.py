@@ -16,7 +16,7 @@ class GeminiAPIKeyError(RAGException):
 
 class GeminiLLMProvider(BaseLLMProvider):
     """
-    Gemini 2.5 Flash LLM provider using the modern google-genai SDK.
+    Gemini 3.5 Flash LLM provider using the modern google-genai .
     """
 
     def __init__(self, api_key: str = None, model: str = None):
@@ -31,7 +31,7 @@ class GeminiLLMProvider(BaseLLMProvider):
             model 
             if model is not None 
             else getattr(settings, "GEMINI_MODEL", None)
-            or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+            or os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
         )
 
         if self.api_key:

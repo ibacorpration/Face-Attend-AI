@@ -43,7 +43,7 @@ class Settings(BaseSettings):
     COLLECTION_NAME: str = "rag_documents_v2"
     LLM_PROVIDER: str = "gemini"
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GEMINI_MODEL: str = "gemini-3.5-flash"
     GROQ_API_KEY: str = ""
     GROQ_MODEL_NAME: str = "openai/gpt-oss-20b"
     LLM_MAX_TOKENS: int = 500
