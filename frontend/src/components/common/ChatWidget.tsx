@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import ibaMascotFull from '../../assets/iba-mascot-full.png';
 import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string;
@@ -152,7 +153,23 @@ export const ChatWidget: React.FC = () => {
                       : 'bg-[#2d1b40] text-white rounded-bl-sm'
                       }`}
                   >
-                    <p className="text-sm leading-relaxed">{msg.text}</p>
+                    {msg.sender === 'bot' ? (
+                      <div className="text-sm leading-relaxed">
+                        <ReactMarkdown
+                          components={{
+                            ul: ({node, ...props}) => <ul className="list-disc pl-4 my-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="list-decimal pl-4 my-1" {...props} />,
+                            li: ({node, ...props}) => <li className="mb-0.5" {...props} />,
+                            p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-semibold text-[#D4FF3F]" {...props} />,
+                          }}
+                        >
+                          {msg.text}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-sm leading-relaxed">{msg.text}</p>
+                    )}
                   </div>
                 </motion.div>
               ))}
