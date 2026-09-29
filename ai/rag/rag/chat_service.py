@@ -5,6 +5,8 @@ from typing import Dict, Any, List, Generator
 from ai.rag.rag.rag_service import RAGService
 from ai.rag.llms.base import BaseLLMProvider
 from ai.rag.llms.groq_llm import GroqLLMProvider
+from ai.rag.llms.gemini_llm import GeminiLLMProvider
+from ai.rag.llms.fallback_llm import FallbackLLMProvider
 from ai.rag.memory.base import BaseMemory
 from ai.rag.memory.in_memory import InMemoryConversationMemory
 from ai.rag.prompts.templates import RAG_SYSTEM_PROMPT, RAG_USER_PROMPT_TEMPLATE
@@ -61,7 +63,10 @@ class RAGChatService:
         memory: BaseMemory = None
     ):
         self.rag_service = rag_service
-        self.llm_provider = llm_provider or GroqLLMProvider()
+        self.llm_provider = llm_provider or FallbackLLMProvider(
+            primary=GeminiLLMProvider(), 
+            fallback=GroqLLMProvider()
+        )
         self.memory = memory or InMemoryConversationMemory()
 
     def chat(

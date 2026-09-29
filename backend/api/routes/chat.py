@@ -13,6 +13,9 @@ from ai.rag.vector_store.chroma import ChromaVectorStore
 from ai.rag.rag.rag_service import RAGService
 from ai.rag.rag.chat_service import RAGChatService
 from ai.rag.llms.groq_llm import GroqLLMProvider
+from ai.rag.llms.gemini_llm import GeminiLLMProvider
+from ai.rag.llms.fallback_llm import FallbackLLMProvider
+from ai.rag.llms.base import BaseLLMProvider
 from ai.rag.memory.in_memory import InMemoryConversationMemory
 
 logger = logging.getLogger(__name__)
@@ -31,8 +34,10 @@ def get_memory() -> InMemoryConversationMemory:
     return InMemoryConversationMemory()
 
 @lru_cache()
-def get_llm_provider() -> GroqLLMProvider:
-    return GroqLLMProvider()
+def get_llm_provider() -> BaseLLMProvider:
+    primary = GeminiLLMProvider()
+    fallback = GroqLLMProvider()
+    return FallbackLLMProvider(primary=primary, fallback=fallback)
 
 def get_rag_service() -> RAGService:
     embedding_provider = get_embedding_provider()
