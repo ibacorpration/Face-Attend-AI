@@ -77,7 +77,7 @@ def export_monthly_attendance_csv(
     from datetime import datetime
     import calendar
     from backend.core.config import settings
-    from backend.services.employee_service import employee_service
+    from backend.services.employee_service import EmployeeService
     
     if not month:
         tz = pytz.timezone(settings.APP_TIMEZONE)
@@ -87,7 +87,8 @@ def export_monthly_attendance_csv(
     year_int, month_int = int(year_str), int(month_str)
     
     records = attendance_service.get_attendance_by_month(db, year_int, month_int)
-    employees = employee_service.get_employees(db)
+    employee_svc = EmployeeService()
+    employees = employee_svc.get_employees(db)
     
     output = io.StringIO()
     writer = csv.writer(output)

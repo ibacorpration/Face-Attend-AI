@@ -127,7 +127,7 @@ export const AttendancePage = () => {
         <Button 
           variant="secondary" 
           onClick={handleExport}
-          className="hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all"
+          className="hover:bg-purple-600 hover:text-primary hover:border-purple-600 transition-all font-semibold"
         >
           <Download size={18} className="mr-2" />
           Export CSV
