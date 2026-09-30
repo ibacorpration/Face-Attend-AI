@@ -21,6 +21,21 @@ export const AdminLayout: React.FC = () => {
   const headerInfo = routeTitles[location.pathname] || { title: 'Dashboard', subtitle: '' };
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [userName, setUserName] = useState('Admin');
+
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.sub) {
+          setUserName(payload.sub);
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  }, []);
 
   const fetchUnread = async () => {
     try {
@@ -98,7 +113,7 @@ export const AdminLayout: React.FC = () => {
             
             <div className="flex items-center gap-3 cursor-pointer">
               <div className="w-11 h-11 rounded-full bg-slate-200 shadow-sm overflow-hidden flex items-center justify-center">
-                 <img src="https://ui-avatars.com/api/?name=Admin&background=C6F135&color=111112&bold=true" alt="Admin" className="w-full h-full object-cover" />
+                 <img src={`https://ui-avatars.com/api/?name=${userName}&background=C6F135&color=111112&bold=true`} alt={userName} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>

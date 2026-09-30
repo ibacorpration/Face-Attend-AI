@@ -148,7 +148,7 @@ export const AttendancePage = () => {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="space-y-3"
+            className="space-y-3 max-w-5xl mx-auto"
           >
             {filteredData.map(record => {
               const status = record.check_out ? 'Completed' : (record.check_in ? 'In Progress' : 'Absent');
@@ -198,8 +198,8 @@ export const AttendancePage = () => {
                         </p>
                       </div>
 
-                      <div className="w-24 flex justify-end">
-                        <Badge variant={statusVariant} dot>
+                      <div className="w-32 flex justify-end">
+                        <Badge variant={statusVariant} dot className="w-28 justify-center py-1.5 text-[13px]">
                           {status}
                         </Badge>
                       </div>

@@ -313,7 +313,7 @@ const CameraPage = () => {
             {isTerminal && (
               <Button 
                 onClick={handleBack} 
-                className="w-full h-12 bg-white/5 border border-white/10 text-white hover:bg-white/10 font-bold text-base mt-2"
+                className="w-full h-12 bg-primary text-sidebar hover:bg-primary-light font-bold text-base mt-2"
               >
                 Back
               </Button>
