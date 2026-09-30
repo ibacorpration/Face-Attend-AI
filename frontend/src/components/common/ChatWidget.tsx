@@ -57,10 +57,6 @@ export const ChatWidget: React.FC = () => {
 
     try {
       const botId = (Date.now() + 1).toString();
-      setMessages((prev) => [
-        ...prev,
-        { id: botId, text: '', sender: 'bot', timestamp: new Date() },
-      ]);
 
       const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
       const token = localStorage.getItem('auth_token');
@@ -87,6 +83,10 @@ export const ChatWidget: React.FC = () => {
           if (isFirstChunk) {
             setIsTyping(false);
             isFirstChunk = false;
+            setMessages((prev) => [
+              ...prev,
+              { id: botId, text: '', sender: 'bot', timestamp: new Date() },
+            ]);
           }
 
           const chunkStr = decoder.decode(value, { stream: true });
@@ -161,8 +161,8 @@ export const ChatWidget: React.FC = () => {
 
             {/* Messages Area */}
             <div 
-              data-lenis-prevent
-              className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 relative bg-[#20152F] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
+              data-lenis-prevent="true"
+              className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 relative bg-[#20152F] hide-scrollbar"
             >
               <AnimatePresence>
                 {messages.length === 0 && (
