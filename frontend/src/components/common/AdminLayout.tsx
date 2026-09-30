@@ -125,7 +125,7 @@ export const AdminLayout: React.FC = () => {
               <div className="w-11 h-11 rounded-full bg-surface-tint shadow-sm overflow-hidden flex items-center justify-center border-2 border-transparent hover:border-primary transition-colors relative">
                 {currentUserData?.has_face ? (
                   <img 
-                    src={`/api/v1/admin/users/${currentUserData.id}/face/image?v=${Date.now()}`} 
+                    src={`/api/v1/admin/users/${currentUserData.id}/face/image?v=1`} 
                     alt={userName} 
                     className="w-full h-full object-cover"
                     onError={(e) => {

@@ -137,7 +137,11 @@ async def get_admin_face_image(user_id: int, db: Session = Depends(get_db)):
     admin = db.query(AdminUser).filter(AdminUser.id == user_id).first()
     if not admin or not admin.image_data:
         raise HTTPException(status_code=404, detail="Image not found")
-    return Response(content=admin.image_data, media_type="image/jpeg")
+    return Response(
+        content=admin.image_data, 
+        media_type="image/jpeg",
+        headers={"Cache-Control": "public, max-age=31536000"}
+    )
 
 @router.delete("/users/{user_id}")
 async def delete_admin(user_id: int, db: Session = Depends(get_db), current_admin: AdminUser = Depends(get_current_admin)):

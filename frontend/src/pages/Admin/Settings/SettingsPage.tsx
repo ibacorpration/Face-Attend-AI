@@ -38,7 +38,7 @@ export default function SettingsPage() {
   const [password, setPassword] = useState('');
   const [faceImage, setFaceImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imageVersion, setImageVersion] = useState(Date.now());
+  const [imageVersion, setImageVersion] = useState(1);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

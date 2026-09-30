@@ -75,11 +75,15 @@ def get_employee_face_image(employee_id: int, db: Session = Depends(get_db)):
     
     face = db.query(EmployeeFace).filter(EmployeeFace.employee_id == employee_id).order_by(EmployeeFace.created_at.desc()).first()
     if face and face.image_data:
-        return Response(content=face.image_data, media_type="image/jpeg")
+        return Response(
+            content=face.image_data, 
+            media_type="image/jpeg",
+            headers={"Cache-Control": "public, max-age=31536000"}
+        )
 
     storage_dir = Path("storage/employee_images") / str(employee_id)
     if storage_dir.exists() and storage_dir.is_dir():
         for file in storage_dir.iterdir():
             if file.is_file() and file.suffix.lower() in [".jpg", ".jpeg", ".png", ".webp"]:
-                return FileResponse(file)
+                return FileResponse(file, headers={"Cache-Control": "public, max-age=31536000"})
     raise HTTPException(status_code=404, detail="Face image not found")
