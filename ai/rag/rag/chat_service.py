@@ -15,24 +15,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# Short greetings/thanks/meta questions ("hi", "شكرا", "عرفني بنفسك"...)
-# match against a document chunk with just enough similarity to clear the
-# lenient absolute score_threshold, even though the question has nothing
-# to do with the knowledge base. Matching one of these patterns skips
-# retrieval entirely for that turn, so no sources box gets attached to a
-# reply that never actually used any document.
+
 _SMALLTALK_PATTERNS = [
-    r'^(hi+|hello+|hey+|hiya|yo|greetings)[\s!.,]*$',
-    r'^(good\s?(morning|evening|afternoon|night))[\s!.,]*$',
-    r'^(thanks?( you)?|thx|ty|appreciate it)[\s!.,]*$',
-    r'^(bye|goodbye|see\s?you|later|take care)[\s!.,]*$',
-    r'^(ok(ay)?|cool|nice|great|got it|sounds good)[\s!.,]*$',
-    r'^(who are you|introduce yourself|what can you do|what is your name)[\s?.,]*$',
-    r'^(هاي|هلا+|أهلا+|اهلا+|السلام عليكم|صباح الخير|مساء الخير)[\s!.,؟]*$',
-    r'^(شكرا+|شكراً|تسلم|يعطيك العافية|متشكر|ميرسي|تسلم ايديك|تسلم ايدك)[\s!.,؟]*$',
-    r'^(مع السلامة|باي|سلام|تصبح على خير)[\s!.,؟]*$',
-    r'^(عرفني بنفسك|عرفني بيك|من أنت|انت مين|إنت مين|مين انت|ايه اللي تقدر تعمله|بتعمل ايه)[\s?.,؟]*$',
-    r'^(اوك|أوكي|تمام|كويس|حلو|ماشي)[\s!.,؟]*$',
+
+    # English
+    r'^(hi+|hello+|hey+|hiya|yo|greetings)$',
+    r'^(good\s?(morning|evening|afternoon|night))$',
+    r'^(thanks?( you)?|thx|ty|appreciate it)$',
+    r'^(bye|goodbye|see\s?you|later|take care)$',
+    r'^(ok(ay)?|cool|nice|great|got it|sounds good)$',
+    r'^(who are you|introduce yourself|what can you do|what is your name)$',
+
+    # Arabic
+    r'^(هاي|هلا+|أهلا+|اهلا+|السلام عليكم|صباح الخير|مساء الخير)$',
+    r'^(شكرا+|شكراً|تسلم|يعطيك العافية|متشكر|ميرسي|تسلم ايديك|تسلم ايدك)$',
+    r'^(مع السلامة|باي|سلام|تصبح على خير)$',
+    r'^(عرفني بنفسك|عرفني بيك|من أنت|انت مين|إنت مين|مين انت|ايه اللي تقدر تعمله|بتعمل ايه)$',
+    r'^(اوك|أوكي|تمام|كويس|حلو|ماشي)$',
+
 ]
 
 
