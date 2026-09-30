@@ -56,8 +56,19 @@ function App() {
         <Toaster
           position="top-right"
           toastOptions={{
-            style: { marginTop: '50px' },
-            className: 'bg-sidebar border border-primary/50 text-white shadow-soft-lg rounded-2xl',
+            style: {
+              marginTop: '30px',
+              background: '#1a1a1a',
+              color: 'white',
+              border: 'none',
+              borderRadius: '16px',
+              padding: '16px',
+            },
+            classNames: {
+              success: 'shadow-[0_6px_0_#a3e635]',
+              error: 'shadow-[0_6px_0_#ef4444]',
+              icon: 'mr-2'
+            }
           }}
         />
         <BrowserRouter>
