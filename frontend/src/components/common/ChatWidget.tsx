@@ -14,18 +14,7 @@ interface Message {
   timestamp: Date;
 }
 
-import api from '../../services/api';
 
-// RAG backend call
-const getBotResponse = async (message: string): Promise<string> => {
-  try {
-    const response = await api.post('/chat', { message });
-    return response.data.answer || 'Sorry, I got an empty response.';
-  } catch (error) {
-    console.error('Chat API Error:', error);
-    return 'Sorry, I could not process your request right now. Please try again.';
-  }
-};
 
 export const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
