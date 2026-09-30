@@ -6,6 +6,8 @@ import { Bell, Search, Menu } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
 import { messageService } from '../../services/message.service';
+import ibaMascotFull from '../../assets/iba-mascot-full.png';
+import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
   '/admin': { title: 'Welcome', subtitle: 'Explore your IBA Corpration dashboard' },
@@ -22,19 +24,28 @@ export const AdminLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [userName, setUserName] = useState('Admin');
+  const [currentUserData, setCurrentUserData] = useState<any>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
+    const fetchUserData = async () => {
       try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (payload.sub) {
-          setUserName(payload.sub);
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          if (payload.sub) {
+            setUserName(payload.sub);
+            // Fetch admins to get full user data (face status, id, etc.)
+            const admins = await import('../../services/admin.service').then(m => m.adminService.getAdmins());
+            const user = admins.find(a => a.username === payload.sub);
+            if (user) setCurrentUserData(user);
+          }
         }
       } catch (e) {
         // ignore
       }
-    }
+    };
+    
+    fetchUserData();
   }, []);
 
   const fetchUnread = async () => {
@@ -112,8 +123,12 @@ export const AdminLayout: React.FC = () => {
             </button>
             
             <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-11 h-11 rounded-full bg-slate-200 shadow-sm overflow-hidden flex items-center justify-center">
-                 <img src={`https://ui-avatars.com/api/?name=${userName}&background=C6F135&color=111112&bold=true`} alt={userName} className="w-full h-full object-cover" />
+              <div className="w-11 h-11 rounded-full bg-surface-tint shadow-sm overflow-hidden flex items-center justify-center border-2 border-transparent hover:border-primary transition-colors relative">
+                {currentUserData?.has_face ? (
+                  <img src={`/api/v1/admin/users/${currentUserData.id}/face/image?v=${Date.now()}`} alt={userName} className="w-full h-full object-cover" />
+                ) : (
+                  <img src={ibaMascotIcon} alt={userName} className="w-8 h-8 object-contain" />
+                )}
               </div>
             </div>
           </div>
