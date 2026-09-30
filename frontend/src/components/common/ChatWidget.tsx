@@ -64,7 +64,7 @@ export const ChatWidget: React.FC = () => {
 
       const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
       const token = localStorage.getItem('auth_token');
-      
+
       const res = await fetch(`${baseURL}/chat/stream`, {
         method: 'POST',
         headers: {
@@ -77,21 +77,21 @@ export const ChatWidget: React.FC = () => {
       if (!res.ok) throw new Error('Network response was not ok');
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
-      
+
       if (reader) {
         let isFirstChunk = true;
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          
+
           if (isFirstChunk) {
             setIsTyping(false);
             isFirstChunk = false;
           }
-          
+
           const chunkStr = decoder.decode(value, { stream: true });
           const lines = chunkStr.split('\n');
-          
+
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               const dataStr = line.slice(6);
@@ -101,8 +101,8 @@ export const ChatWidget: React.FC = () => {
               try {
                 const data = JSON.parse(dataStr);
                 if (data.content) {
-                  await new Promise(r => setTimeout(r, 25)); // Artificial delay for organic typing effect
-                  setMessages(prev => prev.map(msg => 
+                  await new Promise(r => setTimeout(r, 35)); // Artificial delay for organic typing effect
+                  setMessages(prev => prev.map(msg =>
                     msg.id === botId ? { ...msg, text: msg.text + data.content } : msg
                   ));
                 }
@@ -199,11 +199,11 @@ export const ChatWidget: React.FC = () => {
                       <div className="text-sm leading-relaxed">
                         <ReactMarkdown
                           components={{
-                            ul: ({node, ...props}) => <ul className="list-disc pl-4 my-1" {...props} />,
-                            ol: ({node, ...props}) => <ol className="list-decimal pl-4 my-1" {...props} />,
-                            li: ({node, ...props}) => <li className="mb-0.5" {...props} />,
-                            p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
-                            strong: ({node, ...props}) => <strong className="font-semibold text-[#D4FF3F]" {...props} />,
+                            ul: ({ node, ...props }) => <ul className="list-disc pl-4 my-1" {...props} />,
+                            ol: ({ node, ...props }) => <ol className="list-decimal pl-4 my-1" {...props} />,
+                            li: ({ node, ...props }) => <li className="mb-0.5" {...props} />,
+                            p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                            strong: ({ node, ...props }) => <strong className="font-semibold text-[#D4FF3F]" {...props} />,
                           }}
                         >
                           {msg.text}
