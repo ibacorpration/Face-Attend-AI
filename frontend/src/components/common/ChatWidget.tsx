@@ -101,6 +101,7 @@ export const ChatWidget: React.FC = () => {
               try {
                 const data = JSON.parse(dataStr);
                 if (data.content) {
+                  await new Promise(r => setTimeout(r, 25)); // Artificial delay for organic typing effect
                   setMessages(prev => prev.map(msg => 
                     msg.id === botId ? { ...msg, text: msg.text + data.content } : msg
                   ));
