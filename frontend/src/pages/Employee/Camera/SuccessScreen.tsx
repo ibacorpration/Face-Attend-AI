@@ -78,6 +78,21 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
         <h1 className="text-3xl font-extrabold text-white mb-1 truncate w-full px-4">{result.full_name?.split(' ')[0] || 'Employee'}</h1>
         <p className="text-slate-400 text-sm font-medium mb-4">{result.department || 'Staff Member'}</p>
         
+        {/* Attendance Times */}
+        <div className="w-full grid grid-cols-2 gap-3 mb-6">
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center shadow-inner">
+            <span className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Check In</span>
+            <span className={`font-bold ${result.check_in_time ? 'text-white text-xl' : 'text-slate-500 text-sm'}`}>
+              {result.check_in_time || 'Not yet'}
+            </span>
+          </div>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center shadow-inner">
+            <span className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Check Out</span>
+            <span className={`font-bold ${result.check_out_time ? 'text-white text-xl' : (result.check_in_time ? 'text-primary text-sm' : 'text-slate-500 text-sm')}`}>
+              {result.check_out_time ? result.check_out_time : (result.check_in_time ? 'Still ongoing' : 'Not yet')}
+            </span>
+          </div>
+        </div>
         {result.message && (
           <div className="w-full bg-primary/20 border border-primary/40 rounded-xl p-3 mb-6">
             <p className="text-primary-light font-bold text-sm">{result.message}</p>

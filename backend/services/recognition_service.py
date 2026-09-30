@@ -105,6 +105,8 @@ class RecognitionService:
             res_message = att_record.get("message") if isinstance(att_record, dict) else None
             already_checked_in = att_record.get("already_checked_in") if isinstance(att_record, dict) else False
             already_checked_out = att_record.get("already_checked_out") if isinstance(att_record, dict) else False
+            check_in_time = att_record.get("check_in_time") if isinstance(att_record, dict) else None
+            check_out_time = att_record.get("check_out_time") if isinstance(att_record, dict) else None
             
             error_code = None
             success = True
@@ -136,7 +138,9 @@ class RecognitionService:
                     employee_id=employee.id,
                     employee_code=employee.employee_code,
                     full_name=employee.full_name,
-                    department=employee.department
+                    department=employee.department,
+                    check_in_time=check_in_time,
+                    check_out_time=check_out_time
                 )
                 
             return RecognitionResult(
@@ -151,7 +155,9 @@ class RecognitionService:
                 liveness_passed=ai_res["liveness"]["is_live"],
                 quality_passed=ai_res["quality"]["is_good"],
                 action=res_action,
-                message=res_message
+                message=res_message,
+                check_in_time=check_in_time,
+                check_out_time=check_out_time
             )
         except Exception as e:
             logger.exception("CRITICAL ERROR IN recognize_and_log_attendance")

@@ -15,6 +15,8 @@ export interface RecognitionResult {
   action?: string;
   message?: string;
   error_code?: string;
+  check_in_time?: string;
+  check_out_time?: string;
 }
 
 export const recognitionService = {

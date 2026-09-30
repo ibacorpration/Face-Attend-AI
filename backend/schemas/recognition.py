@@ -16,3 +16,5 @@ class RecognitionResult(BaseModel):
     action: Optional[str] = None
     message: Optional[str] = None
     error_code: Optional[str] = None
+    check_in_time: Optional[str] = None
+    check_out_time: Optional[str] = None
