@@ -75,10 +75,12 @@ class AttendanceService:
         return self.repo.get_all_by_date(db, target_date)
 
     def get_attendance_by_month(self, db: Session, year: int, month: int):
-        # We can query using SQLAlchemy's extract function or range
-        from sqlalchemy import extract
+        import calendar
+        from datetime import date
         from backend.db.models import Attendance
+        start_date = date(year, month, 1)
+        end_date = date(year, month, calendar.monthrange(year, month)[1])
         return db.query(Attendance).filter(
-            extract('year', Attendance.date) == year,
-            extract('month', Attendance.date) == month
+            Attendance.date >= start_date,
+            Attendance.date <= end_date
         ).all()
