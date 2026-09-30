@@ -101,12 +101,12 @@ def update_admin_password(user_id: int, payload: AdminUserUpdatePassword, db: Se
     return {"message": "Password updated"}
 
 @router.post("/users/{user_id}/face")
-async def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Session = Depends(get_db), current_admin: AdminUser = Depends(get_current_admin)):
+def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Session = Depends(get_db), current_admin: AdminUser = Depends(get_current_admin)):
     admin = db.query(AdminUser).filter(AdminUser.id == user_id).first()
     if not admin:
         raise HTTPException(status_code=404, detail="Admin not found")
     
-    contents = await file.read()
+    contents = file.file.read()
     import numpy as np
     import cv2
     from backend.services.ai_singleton import get_ai_service

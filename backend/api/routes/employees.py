@@ -24,13 +24,13 @@ def create_employee(
     return employee_service.create_employee(db, employee_in)
 
 @router.post("/{employee_id}/face")
-async def upload_employee_face(
+def upload_employee_face(
     employee_id: int,
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
     admin: AdminUser = Depends(get_current_admin),
 ):
-    contents = await file.read()
+    contents = file.file.read()
     employee_service.register_face(db, employee_id, contents, file.filename)
     return {"message": "Face registered successfully"}
 

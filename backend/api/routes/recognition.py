@@ -14,7 +14,7 @@ router = APIRouter()
 recognition_service = RecognitionService()
 
 @router.post("/verify", response_model=RecognitionResult)
-async def verify_face(
+def verify_face(
     file: UploadFile = File(...), 
     action: str = Form("auto"),
     db: Session = Depends(get_db)
@@ -22,7 +22,7 @@ async def verify_face(
     if action not in ["check_in", "check_out", "auto"]:
         raise HTTPException(status_code=422, detail="Invalid action parameter")
         
-    contents = await file.read()
+    contents = file.file.read()
     
     if len(contents) > settings.MAX_IMAGE_SIZE_MB * 1024 * 1024:
         from backend.core.error_codes import INVALID_IMAGE

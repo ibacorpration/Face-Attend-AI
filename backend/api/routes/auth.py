@@ -22,8 +22,8 @@ def login_for_access_token(
     return auth_service.login(db, username=form_data.username, password=form_data.password)
 
 @router.post("/face-login", response_model=Token)
-async def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    contents = await file.read()
+def face_login(file: UploadFile = File(...), db: Session = Depends(get_db)):
+    contents = file.file.read()
     nparr = np.frombuffer(contents, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     
