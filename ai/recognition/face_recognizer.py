@@ -18,6 +18,14 @@ class FaceRecognizer:
         Process an image to find the largest face and extract its embedding.
         Returns a dictionary with success status, embedding, and bounding box.
         """
+        import cv2
+        # Resize image if it's too large to prevent OOM crashes
+        max_size = 1024
+        h, w = image.shape[:2]
+        if max(h, w) > max_size:
+            scale = max_size / max(h, w)
+            image = cv2.resize(image, (int(w * scale), int(h * scale)))
+
         # 1. Detect faces
         faces = self.detector.detect(image)
         if len(faces) == 0:
