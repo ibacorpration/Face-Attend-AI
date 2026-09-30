@@ -23,7 +23,10 @@ export const AdminLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [userName, setUserName] = useState('Admin');
-  const [currentUserData, setCurrentUserData] = useState<any>(null);
+  const [currentUserData, setCurrentUserData] = useState<any>(() => {
+    const cached = localStorage.getItem('currentUserData');
+    return cached ? JSON.parse(cached) : null;
+  });
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,7 +39,10 @@ export const AdminLayout: React.FC = () => {
             // Fetch admins to get full user data (face status, id, etc.)
             const admins = await import('../../services/admin.service').then(m => m.adminService.getAdmins());
             const user = admins.find(a => a.username === payload.sub);
-            if (user) setCurrentUserData(user);
+            if (user) {
+              setCurrentUserData(user);
+              localStorage.setItem('currentUserData', JSON.stringify(user));
+            }
           }
         }
       } catch (e) {

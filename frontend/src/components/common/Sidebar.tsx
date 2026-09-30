@@ -18,6 +18,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ unreadCount = 0 }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('currentUserData');
     window.location.href = '/';
   };
 
