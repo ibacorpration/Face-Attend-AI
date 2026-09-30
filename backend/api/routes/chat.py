@@ -35,8 +35,8 @@ def get_memory() -> InMemoryConversationMemory:
 
 @lru_cache()
 def get_llm_provider() -> BaseLLMProvider:
-    primary = GeminiLLMProvider()
-    fallback = GroqLLMProvider()
+    primary = GroqLLMProvider()
+    fallback = GeminiLLMProvider()
     return FallbackLLMProvider(primary=primary, fallback=fallback)
 
 def get_rag_service() -> RAGService:
@@ -65,6 +65,9 @@ class ChatResponse(BaseModel):
     answer: str
     sources: Optional[List[SourceModel]] = []
 
+from fastapi.responses import StreamingResponse
+import json
+
 @router.post("", response_model=ChatResponse)
 def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(get_rag_chat_service)):
     try:
@@ -72,9 +75,6 @@ def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(g
             user_message=request.message,
             conversation_id=request.conversation_id
         )
-        # response is assumed to be an object or dict with 'answer' and optionally 'sources'
-        # RAGChatService typically returns an Answer object
-        # Let's map it securely
         answer = response.get("response", str(response))
         sources = response.get("sources", [])
         
@@ -95,3 +95,22 @@ def chat_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(g
     except Exception as e:
         logger.exception("Error in chat endpoint")
         raise HTTPException(status_code=500, detail="Internal server error")
+
+@router.post("/stream")
+def chat_stream_endpoint(request: ChatRequest, chat_service: RAGChatService = Depends(get_rag_chat_service)):
+    def generate():
+        try:
+            for chunk in chat_service.chat_stream(
+                user_message=request.message,
+                conversation_id=request.conversation_id
+            ):
+                if chunk.startswith("[[SOURCES]]"):
+                    continue
+                # We yield each chunk as SSE
+                yield f"data: {json.dumps({'content': chunk})}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            logger.exception("Error in chat stream endpoint")
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+            
+    return StreamingResponse(generate(), media_type="text/event-stream")

@@ -67,16 +67,68 @@ export const ChatWidget: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const response = await getBotResponse(userMessage.text);
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: response,
-        sender: 'bot',
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botMessage]);
+      const botId = (Date.now() + 1).toString();
+      setMessages((prev) => [
+        ...prev,
+        { id: botId, text: '', sender: 'bot', timestamp: new Date() },
+      ]);
+
+      const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+      const token = localStorage.getItem('auth_token');
+      
+      const res = await fetch(`${baseURL}/chat/stream`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ message: userMessage.text })
+      });
+
+      if (!res.ok) throw new Error('Network response was not ok');
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      
+      if (reader) {
+        let isFirstChunk = true;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          if (isFirstChunk) {
+            setIsTyping(false);
+            isFirstChunk = false;
+          }
+          
+          const chunkStr = decoder.decode(value, { stream: true });
+          const lines = chunkStr.split('\n');
+          
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6);
+              if (dataStr === '[DONE]') {
+                break;
+              }
+              try {
+                const data = JSON.parse(dataStr);
+                if (data.content) {
+                  setMessages(prev => prev.map(msg => 
+                    msg.id === botId ? { ...msg, text: msg.text + data.content } : msg
+                  ));
+                }
+              } catch (e) {
+                // ignore incomplete JSON parts
+              }
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error('Failed to get bot response', error);
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now().toString(), text: 'Sorry, I could not process your request right now.', sender: 'bot', timestamp: new Date() }
+      ]);
     } finally {
       setIsTyping(false);
     }
