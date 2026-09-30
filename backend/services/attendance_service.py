@@ -73,3 +73,12 @@ class AttendanceService:
 
     def get_attendance_by_date(self, db: Session, target_date: date):
         return self.repo.get_all_by_date(db, target_date)
+
+    def get_attendance_by_month(self, db: Session, year: int, month: int):
+        # We can query using SQLAlchemy's extract function or range
+        from sqlalchemy import extract
+        from backend.db.models import Attendance
+        return db.query(Attendance).filter(
+            extract('year', Attendance.date) == year,
+            extract('month', Attendance.date) == month
+        ).all()

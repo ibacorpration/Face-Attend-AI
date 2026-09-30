@@ -49,7 +49,8 @@ export const AttendancePage = () => {
   };
 
   const handleExport = () => {
-    attendanceService.exportAttendance(dateFilter);
+    const month = dateFilter.substring(0, 7); // Extracts 'YYYY-MM'
+    attendanceService.exportMonthlyAttendance(month);
   };
 
   const calculateDuration = (checkIn: string | null, checkOut: string | null) => {
@@ -123,7 +124,11 @@ export const AttendancePage = () => {
           </select>
         </div>
         
-        <Button variant="secondary" onClick={handleExport}>
+        <Button 
+          variant="secondary" 
+          onClick={handleExport}
+          className="hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all"
+        >
           <Download size={18} className="mr-2" />
           Export CSV
         </Button>

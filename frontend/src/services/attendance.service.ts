@@ -36,5 +36,21 @@ export const attendanceService = {
       link.click();
       link.remove();
     });
+  },
+
+  exportMonthlyAttendance: (month?: string) => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+    let url = `${baseUrl}/attendance/export/monthly`;
+    if (month) url += `?month=${month}`;
+    
+    return api.get(url, { responseType: 'blob' }).then((response) => {
+      const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', `monthly_attendance_${month || 'export'}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
   }
 };
