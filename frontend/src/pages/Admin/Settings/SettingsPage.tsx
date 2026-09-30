@@ -38,6 +38,7 @@ export default function SettingsPage() {
   const [password, setPassword] = useState('');
   const [faceImage, setFaceImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageVersion, setImageVersion] = useState(Date.now());
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -149,6 +150,7 @@ export default function SettingsPage() {
     try {
       await adminService.uploadFace(adminId, file);
       toast.success('Face registered successfully', { id: loadingToast });
+      setImageVersion(Date.now());
       fetchAdmins();
     } catch (error) {
       toast.error('Failed to register face', { id: loadingToast });
@@ -194,7 +196,7 @@ export default function SettingsPage() {
                 <Card className="flex items-center gap-4 p-5 group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     {admin.has_face ? (
-                      <img src={`/api/v1/admin/users/${admin.id}/face/image?v=${new Date().getTime()}`} alt="Admin Face" className="w-full h-full object-cover" />
+                      <img src={`/api/v1/admin/users/${admin.id}/face/image?v=${imageVersion}`} alt="Admin Face" className="w-full h-full object-cover" />
                     ) : admin.id === 1 ? (
                       <img src={ibaMascotFull} alt="Admin" className="w-10 h-10 object-contain" />
                     ) : (
