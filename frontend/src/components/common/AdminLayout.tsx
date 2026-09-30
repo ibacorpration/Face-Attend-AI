@@ -125,7 +125,16 @@ export const AdminLayout: React.FC = () => {
             <div className="flex items-center gap-3 cursor-pointer">
               <div className="w-11 h-11 rounded-full bg-surface-tint shadow-sm overflow-hidden flex items-center justify-center border-2 border-transparent hover:border-primary transition-colors relative">
                 {currentUserData?.has_face ? (
-                  <img src={`/api/v1/admin/users/${currentUserData.id}/face/image?v=${Date.now()}`} alt={userName} className="w-full h-full object-cover" />
+                  <img 
+                    src={`/api/v1/admin/users/${currentUserData.id}/face/image?v=${Date.now()}`} 
+                    alt={userName} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null; // Prevent infinite loop
+                      e.currentTarget.src = ibaMascotIcon;
+                      e.currentTarget.className = "w-8 h-8 object-contain";
+                    }}
+                  />
                 ) : (
                   <img src={ibaMascotIcon} alt={userName} className="w-8 h-8 object-contain" />
                 )}

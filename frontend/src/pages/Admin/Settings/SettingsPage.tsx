@@ -196,7 +196,16 @@ export default function SettingsPage() {
                 <Card className="flex items-center gap-4 p-5 group">
                   <div className="w-14 h-14 rounded-2xl bg-surface-tint flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-colors overflow-hidden relative">
                     {admin.has_face ? (
-                      <img src={`/api/v1/admin/users/${admin.id}/face/image?v=${imageVersion}`} alt="Admin Face" className="w-full h-full object-cover" />
+                      <img 
+                        src={`/api/v1/admin/users/${admin.id}/face/image?v=${imageVersion}`} 
+                        alt="Admin Face" 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = ibaMascotIcon;
+                          e.currentTarget.className = "w-8 h-8 object-contain";
+                        }}
+                      />
                     ) : admin.id === 1 ? (
                       <img src={ibaMascotFull} alt="Admin" className="w-10 h-10 object-contain" />
                     ) : (
