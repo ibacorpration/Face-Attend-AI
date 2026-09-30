@@ -101,13 +101,12 @@ export const ChatWidget: React.FC = () => {
               try {
                 const data = JSON.parse(dataStr);
                 if (data.content) {
-                  await new Promise(r => setTimeout(r, 35)); // Artificial delay for organic typing effect
+                  await new Promise(r => setTimeout(r, 35));
                   setMessages(prev => prev.map(msg =>
                     msg.id === botId ? { ...msg, text: msg.text + data.content } : msg
                   ));
                 }
               } catch (e) {
-                // ignore incomplete JSON parts
               }
             }
           }
@@ -160,7 +159,7 @@ export const ChatWidget: React.FC = () => {
             </div>
 
             {/* Messages Area */}
-            <div 
+            <div
               data-lenis-prevent="true"
               className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 relative bg-[#20152F] hide-scrollbar"
             >
