@@ -172,7 +172,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto pb-8">
+      <div className="flex-1 overflow-y-auto pb-8" data-lenis-prevent="true">
         <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
           <Shield size={20} className="text-primary" />
           Administrators

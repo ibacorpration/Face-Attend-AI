@@ -6,7 +6,6 @@ import { Bell, Search, Menu } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { motion, AnimatePresence } from 'framer-motion';
 import { messageService } from '../../services/message.service';
-import ibaMascotFull from '../../assets/iba-mascot-full.png';
 import ibaMascotIcon from '../../assets/iba-mascot-icon.png';
 
 const routeTitles: Record<string, { title: string; subtitle: string }> = {
@@ -144,7 +143,7 @@ export const AdminLayout: React.FC = () => {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto px-6 lg:px-10 pb-10">
+        <main className="flex-1 overflow-y-auto px-6 lg:px-10 pb-10" data-lenis-prevent="true">
           <Outlet />
         </main>
         

@@ -130,7 +130,7 @@ export const AttendancePage = () => {
       </Card>
 
       {/* Attendance List */}
-      <div className="flex-1 overflow-y-auto pb-8">
+      <div className="flex-1 overflow-y-auto pb-8" data-lenis-prevent="true">
         {isLoading ? (
           <div className="space-y-4">
             {[1, 2, 3, 4, 5].map(i => (
