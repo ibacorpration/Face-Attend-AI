@@ -58,6 +58,9 @@ function App() {
           toastOptions={{
             style: { marginTop: '40px' },
             className: 'bg-sidebar border border-primary/50 text-white shadow-soft-lg rounded-2xl',
+            classNames: {
+              error: '!text-red-500',
+            }
           }}
         />
         <BrowserRouter>
