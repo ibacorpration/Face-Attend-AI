@@ -67,6 +67,11 @@ export const AttendancePage = () => {
     return emp ? emp.full_name : 'Unknown';
   };
 
+  const getEmployeeDepartment = (id: number) => {
+    const emp = employees.find(e => e.id === id);
+    return emp?.department || 'N/A';
+  };
+
   const getEmployeeImage = (id: number) => {
     const emp = employees.find(e => e.id === id);
     return `/api/v1/employees/${id}/face/image?v=${emp?.updated_at || ''}`;
@@ -164,12 +169,12 @@ export const AttendancePage = () => {
                       <div className="min-w-0">
                         <h4 className="font-bold text-sm text-text-main truncate">{getEmployeeName(record.employee_id)}</h4>
                         <p className="text-xs text-text-secondary truncate mt-0.5 flex items-center gap-1">
-                          <MapPin size={12} /> HQ Office
+                          <MapPin size={12} /> {getEmployeeDepartment(record.employee_id)}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between sm:justify-end gap-6 sm:w-2/3">
+                    <div className="flex items-center justify-between sm:justify-start gap-4 sm:gap-10 sm:w-2/3">
                       <div className="text-left sm:text-right">
                         <p className="text-xs text-text-secondary mb-1">Check In</p>
                         <p className="font-semibold text-sm text-text-main flex items-center gap-1">
