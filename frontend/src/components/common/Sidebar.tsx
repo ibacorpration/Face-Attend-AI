@@ -6,11 +6,15 @@ const navItems = [
   { path: '/admin', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
   { path: '/admin/employees', icon: <Users size={20} />, label: 'Employees' },
   { path: '/admin/attendance', icon: <CalendarDays size={20} />, label: 'Attendance' },
-  { path: '/admin/messages', icon: <MessageSquare size={20} />, label: 'Messages', badge: 3 },
+  { path: '/admin/messages', icon: <MessageSquare size={20} />, label: 'Messages' },
   { path: '/admin/settings', icon: <Settings size={20} />, label: 'Settings' },
 ];
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  unreadCount?: number;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ unreadCount = 0 }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
@@ -25,27 +29,30 @@ export const Sidebar: React.FC = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto py-6 px-4 space-y-1" data-lenis-prevent="true">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            end={item.path === '/admin'}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-3 rounded-full transition-colors font-medium ${isActive
-                ? 'bg-primary text-sidebar'
-                : 'hover:bg-white/5 text-slate-400 hover:text-white'
-              }`
-            }
-          >
-            {item.icon}
-            <span className="flex-1">{item.label}</span>
-            {item.badge && (
-              <span className="bg-primary text-sidebar text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                {item.badge}
-              </span>
-            )}
-          </NavLink>
-        ))}
+        {navItems.map((item) => {
+          const badge = item.path === '/admin/messages' && unreadCount > 0 ? unreadCount : null;
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === '/admin'}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-4 py-3 rounded-full transition-colors font-medium ${isActive
+                  ? 'bg-primary text-sidebar'
+                  : 'hover:bg-white/5 text-slate-400 hover:text-white'
+                }`
+              }
+            >
+              {item.icon}
+              <span className="flex-1">{item.label}</span>
+              {badge && (
+                <span className="bg-primary text-sidebar text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                  {badge}
+                </span>
+              )}
+            </NavLink>
+          );
+        })}
       </div>
 
       <div className="p-4 border-t border-white/5">

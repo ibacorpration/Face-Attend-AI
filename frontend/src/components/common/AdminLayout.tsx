@@ -84,7 +84,7 @@ export const AdminLayout: React.FC = () => {
       <div className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        <Sidebar />
+        <Sidebar unreadCount={unreadCount} />
       </div>
 
       <div className="flex-1 flex flex-col h-full overflow-hidden relative z-10 w-full">
