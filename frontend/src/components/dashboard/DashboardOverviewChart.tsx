@@ -11,7 +11,6 @@ import {
 } from 'recharts';
 import { Card } from '../ui/Card';
 import { motion } from 'framer-motion';
-import api from '../../services/api';
 
 interface ChartDataPoint {
   date: string;
