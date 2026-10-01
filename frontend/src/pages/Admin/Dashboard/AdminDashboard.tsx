@@ -27,7 +27,7 @@ const StatCard = ({ title, value, subtext, rate, icon, onClick }: any) => (
     transition={{ type: "spring", stiffness: 300, damping: 25 }}
     className="h-full"
   >
-    <Card tinted className={`!bg-[#C6F135] h-full flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:!bg-[#C6F135] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-300' : ''}`} onClick={onClick}>
+    <Card tinted className={`h-full flex flex-col relative overflow-hidden group ${onClick ? 'cursor-pointer hover:bg-[#C6F135] hover:shadow-[0_20px_40px_rgba(91,42,114,0.3)] transition-all duration-300' : ''}`} onClick={onClick}>
       <div className="flex justify-between items-start mb-4 relative z-10">
         <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm text-sidebar group-hover:scale-110 transition-transform duration-300">
           {icon}

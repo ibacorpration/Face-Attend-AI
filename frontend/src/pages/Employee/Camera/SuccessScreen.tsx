@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, MessageSquare, Send, Reply } from 'lucide-react';
+import { MessageSquare, Send, Reply } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { RecognitionResult } from '../../../services/recognition.service';
 import { useNavigate } from 'react-router-dom';
@@ -57,21 +57,32 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="min-h-screen bg-[#0d0d0f] flex flex-col items-center justify-center p-4 relative font-sans overflow-hidden"
+      className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative font-sans overflow-hidden"
     >
-      <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px]" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-sidebar/20 blur-[100px]" />
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[100px]" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#5B2A72]/10 blur-[100px]" />
 
-      <div className="bg-sidebar rounded-[32px] p-10 shadow-2xl border border-white/10 w-full max-w-md text-center relative z-10 flex flex-col items-center">
+      <div className="bg-[#20152F] rounded-[32px] p-10 shadow-[0_30px_60px_rgba(32,21,47,0.15)] border border-[#5B2A72]/50 w-full max-w-md text-center relative z-10 flex flex-col items-center">
 
-        {/* Animated Checkmark */}
+        {/* Employee Image */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(198,241,53,0.3)]"
+          className="w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(198,241,53,0.3)] overflow-hidden border-4 border-primary bg-primary/20"
         >
-          <CheckCircle2 className="text-primary" size={48} />
+          {result.employee_id ? (
+            <img 
+              src={`/api/v1/employees/${result.employee_id}/face/image`} 
+              alt={result.full_name || 'Employee'}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+          ) : (
+            <span className="text-primary font-bold text-3xl">{result.full_name?.charAt(0) || 'E'}</span>
+          )}
         </motion.div>
 
         <h2 className="text-primary font-bold text-lg mb-1 tracking-wide uppercase">Identity Confirmed</h2>
@@ -93,11 +104,7 @@ const SuccessScreen: React.FC<SuccessScreenProps> = ({ result, onContinue }) => 
             </span>
           </div>
         </div>
-        {result.message && (
-          <div className="w-full bg-primary/20 border border-primary/40 rounded-xl p-3 mb-6">
-            <p className="text-primary-light font-bold text-sm">{result.message}</p>
-          </div>
-        )}
+
 
         {/* Admin Replies */}
         {replies.length > 0 && (
