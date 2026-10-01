@@ -19,6 +19,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ unreadCount = 0 }) => {
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('currentUserData');
+    localStorage.removeItem('chat_messages');
+    localStorage.removeItem('chat_is_open');
     window.location.href = '/';
   };
 
