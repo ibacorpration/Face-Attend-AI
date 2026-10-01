@@ -1,8 +1,37 @@
-# FaceAttend AI 🎯
+<div align="center">
 
-## AI Face Recognition Attendance System
+  <h1>🏢 IBA Corporation</h1>
+  
+  <p align="center">
+    <strong>FaceAttend AI</strong><br>
+    <em>A Next-Generation AI Face Recognition Attendance System</em>
+  </p>
+  
+  <p align="center">
+    <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+    <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
+  </p>
 
-**FaceAttend AI** is a production-ready, full-stack employee attendance system leveraging Computer Vision, Face Detection, Face Recognition, and Liveness checking. It features a high-performance Python/FastAPI backend and a premium, modern React/Vite frontend.
+</div>
+
+<br>
+
+**FaceAttend AI** is a production-ready, full-stack employee attendance system designed specifically for **IBA Corporation**. By leveraging state-of-the-art Computer Vision, Face Detection, Face Recognition, and Liveness checking, it provides a secure, seamless, and futuristic approach to workforce time tracking. 
+
+Built with a high-performance Python/FastAPI backend and a premium, modern React/Vite frontend.
+
+---
+
+## ✨ Key Features
+
+- **Face ID Authentication**: Instant and secure check-in/check-out using highly accurate ArcFace algorithms.
+- **Anti-Spoofing (Liveness Check)**: Prevents attendance fraud using advanced face quality and liveness metrics.
+- **Premium Admin Dashboard**: A sleek, beautifully animated dark-themed dashboard for managing employees and monitoring live attendance.
+- **Excel & CSV Exporting**: Instantly generate and download comprehensive monthly attendance reports.
+- **Interactive Kiosk Mode**: A futuristic and engaging user interface for the employee check-in tablet/camera, featuring smooth micro-animations.
 
 ---
 
@@ -10,9 +39,9 @@
 
 The system architecture cleanly separates the Frontend, Backend, and AI components.
 
-- **Frontend**: A modern SPA built with React 18, Vite, TypeScript, and Tailwind CSS.
+- **Frontend**: A modern SPA built with React 18, Vite, TypeScript, Tailwind CSS, and Framer Motion.
 - **Backend**: FastAPI providing robust REST APIs for Authentication, Employees, Attendance, and Recognition.
-- **AI / Computer Vision**: YuNet for fast face detection, ArcFace for highly accurate recognition, along with quality and liveness checking.
+- **AI / Computer Vision**: YuNet for fast face detection, ArcFace for highly accurate recognition.
 - **Database**: SQLite (via SQLAlchemy 2.x) to store state, configuration, and encrypted face embeddings.
 
 ---
@@ -22,7 +51,7 @@ The system architecture cleanly separates the Frontend, Backend, and AI componen
 To maintain clarity, here is the high-level folder architecture of the monorepo:
 
 ```text
-FaceAttend AI/
+IBA Corporation AI Attend/
 ├── ai/                 # Computer Vision and AI pipeline components (Models, Extractors)
 ├── backend/            # FastAPI application (Routes, Schemas, Auth, DB Models)
 ├── frontend/           # React + Vite UI (Pages, Components, Hooks, Services)
@@ -51,6 +80,7 @@ FaceAttend AI/
 - **Bundler**: Vite
 - **Styling**: Tailwind CSS
 - **Routing**: React Router v6
+- **Animations**: Framer Motion & GSAP
 - **Testing**: Vitest & React Testing Library
 
 ---
@@ -99,5 +129,5 @@ Once both servers are running:
 
 To run the entire production-ready containerized environment (Backend + AI + Frontend):
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
