@@ -4,7 +4,8 @@
   
   <p align="center">
     <strong>FaceAttend AI</strong><br>
-    <em>A Next-Generation AI Face Recognition Attendance System</em>
+    <em>A Next-Generation AI Face Recognition Attendance System</em><br><br>
+    <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
   </p>
   
   <p align="center">
@@ -118,9 +119,9 @@ IBA Corporation AI Attend/
 
 ## 🌐 How to Use
 
-Once both servers are running:
-- **Employee Kiosk (Face Scan):** Navigate to `http://localhost:3000/` or `http://localhost:3000/camera`
-- **Admin Dashboard:** Navigate to `http://localhost:3000/admin/login`
+You can access the live system here:
+- **Employee Kiosk (Face Scan):** [iba-corpration.up.railway.app](https://iba-corpration.up.railway.app/)
+- **Admin Dashboard:** [iba-corpration.up.railway.app/admin/login](https://iba-corpration.up.railway.app/admin/login)
   - *(Default credentials: `admin` / `admin` - or as configured in your DB)*
 
 ---
