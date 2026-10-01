@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Search, Calendar, Download, FileText } from 'lucide-react';
+import { toast } from 'sonner';
 import { attendanceService, AttendanceRecord } from '../../../services/attendance.service';
 import { employeeService, Employee } from '../../../services/employee.service';
 import { motion } from 'framer-motion';
@@ -54,7 +55,7 @@ export const AttendancePage = () => {
       await attendanceService.exportMonthlyAttendance(month);
     } catch (error) {
       console.error("Export failed:", error);
-      alert("Failed to export attendance. Please try again.");
+      toast.error("Failed to export attendance. Please try again.");
     }
   };
 
