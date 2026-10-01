@@ -28,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('chat_messages');
+    localStorage.removeItem('chat_is_open');
     setIsAuthenticated(false);
   };
 

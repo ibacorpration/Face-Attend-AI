@@ -17,18 +17,22 @@ interface Message {
 
 
 export const ChatWidget: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => {
+    return localStorage.getItem('chat_is_open') === 'true';
+  });
   const [messages, setMessages] = useState<Message[]>(() => {
     const saved = localStorage.getItem('chat_messages');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        return parsed.map((m: any) => ({
-          ...m,
-          timestamp: new Date(m.timestamp)
-        }));
+        if (Array.isArray(parsed)) {
+          return parsed.map((m: any) => ({
+            ...m,
+            timestamp: m.timestamp ? new Date(m.timestamp) : new Date()
+          }));
+        }
       } catch (e) {
-        return [];
+        console.error('Failed to parse chat messages from localStorage:', e);
       }
     }
     return [];
@@ -44,6 +48,10 @@ export const ChatWidget: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('chat_messages', JSON.stringify(messages));
   }, [messages]);
+
+  useEffect(() => {
+    localStorage.setItem('chat_is_open', String(isOpen));
+  }, [isOpen]);
 
   useEffect(() => {
     scrollToBottom();
