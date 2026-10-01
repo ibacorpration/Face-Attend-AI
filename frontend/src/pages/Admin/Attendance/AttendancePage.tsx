@@ -48,9 +48,14 @@ export const AttendancePage = () => {
     }
   };
 
-  const handleExport = () => {
-    const month = dateFilter.substring(0, 7); // Extracts 'YYYY-MM'
-    attendanceService.exportMonthlyAttendance(month);
+  const handleExport = async () => {
+    try {
+      const month = dateFilter.substring(0, 7); // Extracts 'YYYY-MM'
+      await attendanceService.exportMonthlyAttendance(month);
+    } catch (error) {
+      console.error("Export failed:", error);
+      alert("Failed to export attendance. Please try again.");
+    }
   };
 
   const calculateDuration = (checkIn: string | null, checkOut: string | null) => {
@@ -127,7 +132,7 @@ export const AttendancePage = () => {
         <Button 
           variant="secondary" 
           onClick={handleExport}
-          className="hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all font-semibold"
+          className="hover:bg-[#20152F] hover:text-[#C6F135] hover:border-[#20152F] transition-all font-semibold"
         >
           <Download size={18} className="mr-2" />
           Export Excel
