@@ -35,7 +35,7 @@ COPY . .
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 
 # Create mount points
-RUN mkdir -p /app/data /app/ai/models
+RUN mkdir -p /app/data /app/ai/computer_vision/models
 
 # Download AI models during image build
 RUN python scripts/download_models.py

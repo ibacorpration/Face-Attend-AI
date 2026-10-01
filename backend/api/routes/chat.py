@@ -8,15 +8,15 @@ import logging
 # For now, let's just make it a simple route, and apply Depends if needed later.
 
 from functools import lru_cache
-from ai.rag.embeddings.sentence_transformer import SentenceTransformerEmbedding
-from ai.rag.vector_store.chroma import ChromaVectorStore
-from ai.rag.rag.rag_service import RAGService
-from ai.rag.rag.chat_service import RAGChatService
-from ai.rag.llms.groq_llm import GroqLLMProvider
-from ai.rag.llms.gemini_llm import GeminiLLMProvider
-from ai.rag.llms.fallback_llm import FallbackLLMProvider
-from ai.rag.llms.base import BaseLLMProvider
-from ai.rag.memory.in_memory import InMemoryConversationMemory
+from ai.chatbot.rag.embeddings.sentence_transformer import SentenceTransformerEmbedding
+from ai.chatbot.rag.vector_store.chroma import ChromaVectorStore
+from ai.chatbot.rag.rag.rag_service import RAGService
+from ai.chatbot.rag.rag.chat_service import RAGChatService
+from ai.chatbot.rag.llms.groq_llm import GroqLLMProvider
+from ai.chatbot.rag.llms.gemini_llm import GeminiLLMProvider
+from ai.chatbot.rag.llms.fallback_llm import FallbackLLMProvider
+from ai.chatbot.rag.llms.base import BaseLLMProvider
+from ai.chatbot.rag.memory.in_memory import InMemoryConversationMemory
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

@@ -10,7 +10,7 @@ MODELS = {
     "w600k_r50.onnx": "https://huggingface.co/Aitrepreneur/insightface/resolve/main/models/buffalo_l/w600k_r50.onnx"
 }
 
-def download_models(output_dir="ai/models"):
+def download_models(output_dir="ai/computer_vision/models"):
     os.makedirs(output_dir, exist_ok=True)
     
     for filename, url in MODELS.items():

@@ -8,7 +8,7 @@ from fastapi import UploadFile, File
 import numpy as np
 import cv2
 from backend.services.ai_singleton import get_ai_service
-from ai.utils.similarity import cosine_similarity
+from ai.computer_vision.utils.similarity import cosine_similarity
 from backend.core.config import settings
 
 router = APIRouter()

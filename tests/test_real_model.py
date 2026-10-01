@@ -6,7 +6,7 @@ import sys
 # Add project root to sys path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ai.services.face_recognition_service import FaceRecognitionService
+from ai.computer_vision.services.face_recognition_service import FaceRecognitionService
 
 def test_real_model():
     print("Downloading test image...")

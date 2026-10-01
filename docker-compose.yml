@@ -10,7 +10,7 @@ services:
       - "8000:8000"
     volumes:
       - ./data:/app/data
-      - ./ai/models:/app/ai/models
+      - ./ai/computer_vision/models:/app/ai/computer_vision/models
     environment:
       # Optional: Override environment variables here instead of .env
       - ENVIRONMENT=production

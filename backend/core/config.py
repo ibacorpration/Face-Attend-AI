@@ -15,9 +15,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER: str = "admin"
     FIRST_SUPERUSER_PASSWORD: str = "changeme"
 
-    AI_MODEL_PATH: str = "ai/models/w600k_r50.onnx"
+    AI_MODEL_PATH: str = "ai/computer_vision/models/w600k_r50.onnx"
     AI_MODEL_VERSION: str = "arcface-w600k-r50-v1"
-    FACE_DETECTOR_MODEL_PATH: str = "ai/models/face_detection_yunet.onnx"
+    FACE_DETECTOR_MODEL_PATH: str = "ai/computer_vision/models/face_detection_yunet.onnx"
 
     FACE_RECOGNITION_THRESHOLD: float = 0.60
     FACE_RECOGNITION_BORDERLINE_BAND: float = 0.05

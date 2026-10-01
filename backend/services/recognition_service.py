@@ -1,7 +1,7 @@
 import numpy as np
 from sqlalchemy.orm import Session
 from backend.services.ai_singleton import get_ai_service
-from ai.utils.similarity import cosine_similarity, verify_match
+from ai.computer_vision.utils.similarity import cosine_similarity, verify_match
 from backend.repositories.face_repository import FaceRepository
 from backend.repositories.employee_repository import EmployeeRepository
 from backend.services.attendance_service import AttendanceService

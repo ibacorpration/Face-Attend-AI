@@ -1,4 +1,4 @@
-from ai.services.face_recognition_service import FaceRecognitionService
+from ai.computer_vision.services.face_recognition_service import FaceRecognitionService
 
 _instance: FaceRecognitionService | None = None
 
