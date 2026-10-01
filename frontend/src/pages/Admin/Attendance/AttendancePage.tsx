@@ -173,8 +173,8 @@ export const AttendancePage = () => {
                       </div>
                       <div className="min-w-0">
                         <h4 className="font-bold text-sm text-text-main truncate">{getEmployeeName(record.employee_id)}</h4>
-                        <p className="text-xs text-text-secondary truncate mt-0.5 flex items-center gap-1">
-                          <MapPin size={12} /> {getEmployeeDepartment(record.employee_id)}
+                        <p className="text-xs text-text-secondary truncate mt-0.5">
+                          {getEmployeeDepartment(record.employee_id)}
                         </p>
                       </div>
                     </div>
