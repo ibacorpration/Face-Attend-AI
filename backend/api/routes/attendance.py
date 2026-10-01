@@ -117,7 +117,7 @@ def export_monthly_attendance_csv(
         absent_count = max(0, days_in_month - attended_count)
         
         writer.writerow([
-            f"{emp.first_name} {emp.last_name}",
+            emp.full_name,
             emp.phone or "",
             emp.department or "",
             attended_count,
