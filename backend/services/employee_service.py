@@ -94,4 +94,16 @@ class EmployeeService:
     def delete_employee(self, db: Session, employee_id: int):
         if not self.repo.delete(db, employee_id=employee_id):
             raise HTTPException(status_code=404, detail="Employee not found")
+            
+        # Also completely delete all saved face images for this employee from the disk
+        import shutil
+        import logging
+        employee_dir = STORAGE_DIR / str(employee_id)
+        if employee_dir.exists() and employee_dir.is_dir():
+            try:
+                shutil.rmtree(employee_dir)
+                logging.getLogger(__name__).info(f"Deleted image directory for employee {employee_id}")
+            except Exception as e:
+                logging.getLogger(__name__).warning(f"Failed to delete image directory {employee_dir}: {e}")
+                
         return {"ok": True}

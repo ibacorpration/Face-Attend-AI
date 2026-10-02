@@ -77,6 +77,20 @@ async def lifespan(app: FastAPI):
             )
         '''))
         db.commit()
+        
+        # 4. Clean up orphaned image directories from the file system
+        from pathlib import Path
+        import shutil
+        storage_dir = Path("storage/employee_images")
+        if storage_dir.exists():
+            active_ids = {str(row[0]) for row in db.execute(text("SELECT id FROM employees")).fetchall()}
+            for folder in storage_dir.iterdir():
+                if folder.is_dir() and folder.name not in active_ids:
+                    try:
+                        shutil.rmtree(folder)
+                    except Exception as ex:
+                        print(f"Failed to delete orphaned image folder {folder}: {ex}")
+                        
     except Exception as e:
         print(f"Error cleaning up orphaned records: {e}")
         db.rollback()
