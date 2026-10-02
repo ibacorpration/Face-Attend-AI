@@ -1,9 +1,17 @@
 <div align="center">
 
-  <h1>🏢 IBA Corporation</h1>
-  
+  <h1>Face Attend AI</h1>
   <p align="center">
     <strong>FaceAttend AI</strong><br>
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/595f8e5d-7914-4350-acd4-c57a689e0f88"
+    alt="FaceAttend AI Dashboard"
+    width="100%"
+  />
+</p>
+
     <em>A Next-Generation AI Face Recognition Attendance System</em><br><br>
     <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
   </p>
@@ -20,18 +28,20 @@
 
 <br>
 
-**FaceAttend AI** is a production-ready, full-stack employee attendance system designed specifically for **IBA Corporation**. By leveraging state-of-the-art Computer Vision, Face Detection, Face Recognition, and Liveness checking, it provides a secure, seamless, and futuristic approach to workforce time tracking. 
+**FaceAttend AI** is an advanced, production-ready AI ecosystem designed specifically for **IBA Corporation**. At its core, the system harnesses state-of-the-art **Computer Vision** (Face Detection, Face Recognition, Liveness Anti-Spoofing) alongside a powerful **Retrieval-Augmented Generation (RAG) Chatbot** to provide a secure, seamless, and intelligent approach to workforce management. 
 
-Built with a high-performance Python/FastAPI backend and a premium, modern React/Vite frontend.
+Engineered with an AI-first architecture, the platform combines high-performance inference pipelines via Python/FastAPI with a premium, modern React/Vite frontend.
 
 ---
 
-## ✨ Key Features
+## ✨ AI & Core Features
 
-- **Face ID Authentication**: Instant and secure check-in/check-out using highly accurate ArcFace algorithms.
-- **Anti-Spoofing (Liveness Check)**: Prevents attendance fraud using advanced face quality and liveness metrics.
+- **Advanced Computer Vision Pipeline**:
+  - **Face ID Authentication**: Instant and secure check-in/check-out using highly accurate ArcFace embeddings and ONNX Runtime.
+  - **Anti-Spoofing (Liveness Check)**: Prevents attendance fraud using robust heuristics and image quality assessment.
+- **Intelligent HR Chatbot (RAG)**: A deeply integrated NLP assistant capable of answering complex employee and HR queries using dynamic Vector Search (ChromaDB) and modern LLMs.
 - **Premium Admin Dashboard**: A sleek, beautifully animated dark-themed dashboard for managing employees and monitoring live attendance.
-- **Excel & CSV Exporting**: Instantly generate and download comprehensive monthly attendance reports.
+- **Data Analytics & Exporting**: Instantly generate and download comprehensive monthly attendance reports.
 - **Interactive Kiosk Mode**: A futuristic and engaging user interface for the employee check-in tablet/camera, featuring smooth micro-animations.
 
 ---
@@ -69,14 +79,27 @@ IBA Corporation AI Attend/
 
 ## 💻 Technology Stack
 
-### Backend
+### 🧠 AI
+#### Computer Vision
+- **Face Detection**: YuNet (High-speed, lightweight detection)
+- **Face Recognition**: ArcFace (High-accuracy embeddings)
+- **Anti-Spoofing**: Custom algorithms for liveness detection
+- **Processing Engine**: OpenCV & ONNX Runtime (High-performance inference)
+
+#### Chatbot (RAG)
+- **LLM APIs**: Groq & Google GenAI (Gemini)
+- **Vector Database**: ChromaDB
+- **Embeddings**: Sentence-Transformers
+- **Document Processing**: PyPDF
+
+### ⚙️ Backend
 - **Language**: Python 3.10+
-- **Framework**: FastAPI
+- **Framework**: FastAPI (High concurrency for AI inference)
 - **ORM**: SQLAlchemy 2.x
 - **Config**: Pydantic v2
 - **Testing**: pytest
 
-### Frontend
+### 🎨 Frontend
 - **Framework**: React 18 (TypeScript)
 - **Bundler**: Vite
 - **Styling**: Tailwind CSS
@@ -119,10 +142,9 @@ IBA Corporation AI Attend/
 
 ## 🌐 How to Use
 
-You can access the live system here:
-- **Employee Kiosk (Face Scan):** [iba-corpration.up.railway.app](https://iba-corpration.up.railway.app/)
-- **Admin Dashboard:** [iba-corpration.up.railway.app/admin/login](https://iba-corpration.up.railway.app/admin/login)
-  - *(Default credentials: `admin` / `admin` - or as configured in your DB)*
+ <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
+
+  - *(Default credentials: `admin` / `123` - or as configured in your DB)*
 
 ---
 
