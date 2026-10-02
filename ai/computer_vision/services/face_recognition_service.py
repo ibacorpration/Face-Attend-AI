@@ -40,6 +40,7 @@ class FaceRecognitionService:
             
         return {
             "success": True,
+            "num_faces": rec_result.get("num_faces", 1),
             "embedding": rec_result["embedding"],
             "quality": quality_result,
             "liveness": liveness_result

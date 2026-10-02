@@ -121,6 +121,9 @@ def upload_admin_face(user_id: int, file: UploadFile = File(...), db: Session = 
     ai_res = ai_service.process_attendance_frame(image)
     if not ai_res["success"]:
         raise HTTPException(status_code=400, detail=ai_res.get("error", "No face detected"))
+
+    if ai_res.get("num_faces", 1) > 1:
+        raise HTTPException(status_code=400, detail="Multiple faces detected. Please ensure only one face is in the frame.")
         
     from backend.core.security import encrypt_embedding
     

@@ -49,6 +49,7 @@ class FaceRecognizer:
         
         return {
             "success": True,
+            "num_faces": len(faces),
             "embedding": normalized_embedding,
             "face_data": largest_face,
             "aligned_face": aligned_face # Sometimes useful for saving/debugging

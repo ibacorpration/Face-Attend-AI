@@ -51,6 +51,9 @@ class EmployeeService:
         if not ai_res["success"]:
             raise HTTPException(status_code=400, detail=ai_res.get("error", "AI could not process face"))
 
+        if ai_res.get("num_faces", 1) > 1:
+            raise HTTPException(status_code=400, detail="Multiple faces detected. Please ensure only one face is in the frame.")
+
         embedding_bytes = ai_res["embedding"].tobytes()
 
         # Actually persist the photo to disk (this used to be skipped entirely --
