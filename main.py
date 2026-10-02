@@ -56,8 +56,26 @@ async def lifespan(app: FastAPI):
         
     # Clean up orphaned records from before PRAGMA foreign_keys was enabled
     try:
+        # 1. Delete faces/attendance where the employee no longer exists at all
         db.execute(text("DELETE FROM employee_faces WHERE employee_id NOT IN (SELECT id FROM employees)"))
         db.execute(text("DELETE FROM attendance WHERE employee_id NOT IN (SELECT id FROM employees)"))
+        
+        # 2. Delete faces that were created BEFORE the employee was created 
+        # (This happens if an ID was reused, the new employee inherits the old face)
+        db.execute(text('''
+            DELETE FROM employee_faces 
+            WHERE created_at < (
+                SELECT created_at FROM employees WHERE employees.id = employee_faces.employee_id
+            )
+        '''))
+        
+        # 3. Delete attendance records created BEFORE the employee was created
+        db.execute(text('''
+            DELETE FROM attendance 
+            WHERE created_at < (
+                SELECT created_at FROM employees WHERE employees.id = attendance.employee_id
+            )
+        '''))
         db.commit()
     except Exception as e:
         print(f"Error cleaning up orphaned records: {e}")
