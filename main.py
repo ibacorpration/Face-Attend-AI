@@ -54,6 +54,15 @@ async def lifespan(app: FastAPI):
     except Exception:
         db.rollback()
         
+    # Clean up orphaned records from before PRAGMA foreign_keys was enabled
+    try:
+        db.execute(text("DELETE FROM employee_faces WHERE employee_id NOT IN (SELECT id FROM employees)"))
+        db.execute(text("DELETE FROM attendance WHERE employee_id NOT IN (SELECT id FROM employees)"))
+        db.commit()
+    except Exception as e:
+        print(f"Error cleaning up orphaned records: {e}")
+        db.rollback()
+        
     try:
         if not db.query(AdminUser).first():
             default_admin = AdminUser(
