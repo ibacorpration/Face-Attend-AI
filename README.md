@@ -64,7 +64,7 @@ The platform also includes an integrated **AI Assistant** capable of retrieving 
 
 # ✨ Features
 
-## 🧠 AI & Computer Vision
+## 🧠 Computer Vision
 
 ### Face Detection
 
@@ -125,7 +125,7 @@ The biometric pipeline supports:
 
 ---
 
-# 🤖 Intelligent HR Assistant
+# 🤖 Chatbot
 
 Face Attend AI includes an integrated **Retrieval-Augmented Generation (RAG)** chatbot.
 
