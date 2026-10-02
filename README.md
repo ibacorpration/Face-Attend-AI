@@ -9,9 +9,10 @@
     width="100%"
   />
 </p>
-
-    <em>A Next-Generation AI Face Recognition Attendance System</em><br><br>
+    
+  <p align="center">
     <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
+  </p>
   
   <p align="center">
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -145,5 +146,9 @@ IBA Corporation AI Attend/
 
 ---
 
-d
+## 🐳 Docker Deployment
+
+To run the entire production-ready containerized environment (Backend + AI + Frontend):
+```bash
+docker-compose up --build -d
 ```
