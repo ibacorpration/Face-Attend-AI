@@ -6,7 +6,7 @@
 <p>
   <img
     src="https://github.com/user-attachments/assets/595f8e5d-7914-4350-acd4-c57a689e0f88"
-    alt="Face Attend AI Dashboard"
+    alt="Smart Face Attend Dashboard"
     width="100%"
   />
 </p>
@@ -46,11 +46,11 @@
 
 ## 📌 Overview
 
-**Face Attend AI** is an AI-powered workforce attendance platform developed for **IBA Corpration**.
+**Smart Face Attend** is an AI-powered workforce attendance platform developed for **IBA Corpration**.
 
 The system combines **Computer Vision, Face Recognition, Liveness Detection, Retrieval-Augmented Generation (RAG), and Large Language Models (LLMs)** into a single intelligent platform for secure attendance management and HR assistance.
 
-Instead of relying on traditional attendance methods, Face Attend AI uses a complete AI pipeline to detect, validate, recognize, and authenticate employees before recording attendance.
+Instead of relying on traditional attendance methods, Smart Face Attend uses a complete AI pipeline to detect, validate, recognize, and authenticate employees before recording attendance.
 
 The platform also includes an integrated **AI Assistant** capable of retrieving information from a knowledge base and generating contextual answers using modern LLMs.
 
@@ -130,7 +130,7 @@ The biometric pipeline supports:
 
 # 🤖 Chatbot
 
-Face Attend AI includes an integrated **Retrieval-Augmented Generation (RAG)** chatbot.
+Smart Face Attend includes an integrated **Retrieval-Augmented Generation (RAG)** chatbot.
 
 The assistant combines:
 
@@ -216,7 +216,7 @@ The goal is to replace manual attendance workflows with an automated AI-driven p
 
 # 🖥️ Interactive Kiosk
 
-Face Attend AI includes a dedicated attendance kiosk experience designed for employee-facing devices.
+Smart Face Attend includes a dedicated attendance kiosk experience designed for employee-facing devices.
 
 The kiosk provides:
 
@@ -232,7 +232,7 @@ The kiosk provides:
 
 # 🏗️ Architecture
 
-Face Attend AI follows a modular architecture separating the frontend, backend, AI systems, and data layer.
+Smart Face Attend follows a modular architecture separating the frontend, backend, AI systems, and data layer.
 
 ```text
                     ┌──────────────────────┐
