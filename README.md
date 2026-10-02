@@ -34,11 +34,13 @@
 
 ## 🚀 Running Deployment
 
-<p>
+<p align="center">
+  🤖 Web site : 
   <a href="https://iba-corpration.up.railway.app">
-    <strong>🤖 Open Smart Face Attend </strong>
+    https://iba-corpration.up.railway.app
   </a>
 </p>
+
 
 ---
 
