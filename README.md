@@ -12,14 +12,6 @@
 </p>
 
 <br/>
-<div align="center">
-
-**Face Attend AI — IBA Corporation**
-
-<br/>
-<a href="https://iba-corpration.up.railway.app">
-  🤖 Web site : https://iba-corpration.up.railway.app 
-</a>
 
 </div>
 
@@ -41,6 +33,15 @@
 ---
 
 ## 📌 Overview
+
+<div align="center">
+
+**Face Attend AI — IBA Corpration**
+
+<br/>
+<a href="https://iba-corpration.up.railway.app">
+  🤖 Web site : https://iba-corpration.up.railway.app 
+</a>
 
 **Face Attend AI** is an AI-powered workforce attendance platform developed for **IBA Corpration**.
 
