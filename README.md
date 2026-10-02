@@ -1,6 +1,6 @@
 <div align="center">
 
-# Face Attend AI
+# Smart Face Attend
 
 <br/>
 <p>
@@ -15,7 +15,7 @@
 
 </div>
 
-<p>
+<p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=20232A" alt="React" />
