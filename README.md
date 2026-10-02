@@ -2,12 +2,7 @@
 
 # Face Attend AI
 
-<p>
-  <strong>Computer Vision • Face Recognition • Liveness Detection • RAG • LLMs • FastAPI • React</strong>
-</p>
-
 <br/>
-
 <p>
   <img
     src="https://github.com/user-attachments/assets/595f8e5d-7914-4350-acd4-c57a689e0f88"
@@ -17,6 +12,16 @@
 </p>
 
 <br/>
+<div align="center">
+
+**Face Attend AI — IBA Corporation**
+
+<br/>
+<a href="https://iba-corpration.up.railway.app">
+  🤖 Web site : https://iba-corpration.up.railway.app 
+</a>
+
+</div>
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -31,22 +36,6 @@
 
 <br/>
 
-<a href="https://iba-corpration.up.railway.app">
-  <strong>🚀 Live Demo</strong>
-</a>
-
-  •  
-
-<a href="#-features">
-  <strong>✨ Features</strong>
-</a>
-
-  •  
-
-<a href="#-architecture">
-  <strong>🏗️ Architecture</strong>
-</a>
-
 </div>
 
 ---
@@ -59,7 +48,7 @@ The system combines **Computer Vision, Face Recognition, Liveness Detection, Ret
 
 Instead of relying on traditional attendance methods, Face Attend AI uses a complete AI pipeline to detect, validate, recognize, and authenticate employees before recording attendance.
 
-The platform also includes an integrated **AI HR Assistant** capable of retrieving information from a knowledge base and generating contextual answers using modern LLMs.
+The platform also includes an integrated **AI Assistant** capable of retrieving information from a knowledge base and generating contextual answers using modern LLMs.
 
 ### 🎯 Main Goals
 
@@ -261,8 +250,8 @@ Face Attend AI follows a modular architecture separating the frontend, backend, 
    │                     │          │                     │
    │ YuNet               │          │ ChromaDB            │
    │ Liveness            │          │ Embeddings          │
-   │ Alignment           │          │ Gemini               │
-   │ ArcFace             │          │ Groq                 │
+   │ Alignment           │          │ Gemini              │
+   │ ArcFace             │          │ Groq                │
    │ ONNX Runtime        │          │ Document Retrieval  │
    └──────────┬──────────┘          └─────────────────────┘
               │
@@ -441,12 +430,9 @@ GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-2.5-flash
 
 GROQ_API_KEY=your_groq_api_key
-
-DATABASE_URL=sqlite:///./data/face_attendance.db
+GROQ_MODEL=llama-3.3-70b-versatile
+  
 ```
-
-> Never commit real API keys or sensitive credentials to GitHub.
-
 ---
 
 # 🚀 Running Locally
@@ -467,25 +453,6 @@ Create and activate a virtual environment:
 ```powershell
 python -m venv venv
 venv\Scripts\activate
-```
-
-### Linux / macOS
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the backend:
-
-```bash
-uvicorn main:app --reload
 ```
 
 Backend:
@@ -542,24 +509,6 @@ docker-compose down
 
 ---
 
-# 🌐 Live Demo
-
-<p align="center">
-
-<a href="https://iba-corpration.up.railway.app">
-  <strong>🚀 Open Face Attend AI</strong>
-</a>
-
-</p>
-
-**Production URL:**
-
-```text
-https://iba-corpration.up.railway.app
-```
-
----
-
 # 🔐 Security
 
 Security is an important part of the platform architecture.
@@ -594,59 +543,6 @@ For frontend testing:
 cd frontend
 npm run test
 ```
-
----
-
-# 📈 Future Improvements
-
-Potential future extensions include:
-
-* Multi-camera attendance monitoring
-* Real-time WebSocket attendance events
-* Advanced anti-spoofing models
-* PostgreSQL production database
-* Redis-based caching
-* Cloud object storage
-* Advanced HR analytics
-* Mobile attendance application
-* Multi-branch organization support
-* Role-based permission management
-* Advanced AI analytics
-* Improved biometric security
-* Centralized monitoring and logging
-
----
-
-# 🎓 Graduation Project
-
-**Face Attend AI** was developed as a graduation project with a focus on applying modern Artificial Intelligence techniques to a real-world workforce management problem.
-
-The project combines multiple AI and software engineering disciplines:
-
-```text
-Artificial Intelligence
-        +
-Computer Vision
-        +
-Face Recognition
-        +
-Liveness Detection
-        +
-Natural Language Processing
-        +
-RAG
-        +
-Large Language Models
-        +
-Backend Engineering
-        +
-Modern Frontend
-        =
-Face Attend AI
-```
-
-The project demonstrates how different AI technologies can be integrated into a complete end-to-end production-oriented application rather than being used as isolated models.
-
 ---
 
 # 👨‍💻 Project Focus
@@ -676,27 +572,3 @@ The project demonstrates how different AI technologies can be integrated into a 
 * Deployment
 
 ---
-
-# ⭐ Why Face Attend AI?
-
-Face Attend AI is designed around a simple idea:
-
-> **Turn attendance from a manual process into an intelligent AI-powered workflow.**
-
-From detecting a face to verifying liveness, generating a biometric embedding, recognizing the employee, recording attendance, and assisting administrators through an AI chatbot — the entire workflow is built as one integrated system.
-
----
-
-<div align="center">
-
-### Built with AI. Designed for real-world automation. 🤖
-
-**Face Attend AI — IBA Corporation**
-
-<br/>
-
-<a href="https://iba-corpration.up.railway.app">
-  🚀 Live Demo
-</a>
-
-</div>
