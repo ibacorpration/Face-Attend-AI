@@ -1,6 +1,14 @@
 <div align="center">
 
-  <h1>🏢 IBA Corporation</h1>
+  <h1>IBA Corporation</h1>
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/59849cab-28ea-4039-b5de-ccc72f1d5dbe"
+    alt="FaceAttend AI Dashboard"
+    width="100%"
+  />
+</p>
   
   <p align="center">
     <strong>FaceAttend AI</strong><br>
@@ -117,14 +125,6 @@ IBA Corporation AI Attend/
 
 ---
 
-## 🌐 How to Use
-
-You can access the live system here:
-- **Employee Kiosk (Face Scan):** [iba-corpration.up.railway.app](https://iba-corpration.up.railway.app/)
-- **Admin Dashboard:** [iba-corpration.up.railway.app/admin/login](https://iba-corpration.up.railway.app/admin/login)
-  - *(Default credentials: `admin` / `admin` - or as configured in your DB)*
-
----
 
 ## 🐳 Docker Deployment
 
