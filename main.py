@@ -18,18 +18,22 @@ async def lifespan(app: FastAPI):
     from pathlib import Path
     import asyncio
     
-    def sync_rag_background():
-        try:
-            print("Starting RAG documents sync in background...")
-            rag_service = get_rag_service()
-            uploads_dir = Path.cwd() / "rag_data" / "uploads"
-            rag_service.sync_with_uploads_dir(uploads_dir)
-            print("Successfully synced RAG documents.")
-        except Exception as e:
-            print(f"Failed to sync RAG documents: {e}")
-            
-    # Run in a separate thread so it doesn't block FastAPI startup
-    asyncio.create_task(asyncio.to_thread(sync_rag_background))
+    import os
+    if os.getenv("ENABLE_RAG_STARTUP_SYNC", "false").lower() == "true":
+        def sync_rag_background():
+            try:
+                print("Starting RAG documents sync in background...")
+                rag_service = get_rag_service()
+                uploads_dir = Path.cwd() / "rag_data" / "uploads"
+                rag_service.sync_with_uploads_dir(uploads_dir)
+                print("Successfully synced RAG documents.")
+            except Exception as e:
+                print(f"Failed to sync RAG documents: {e}")
+                
+        # Run in a separate thread so it doesn't block FastAPI startup
+        asyncio.create_task(asyncio.to_thread(sync_rag_background))
+    else:
+        print("Skipping RAG documents sync on startup to save memory. Set ENABLE_RAG_STARTUP_SYNC=true to enable.")
     
     # Initialize default admin user
     from backend.db.database import SessionLocal
