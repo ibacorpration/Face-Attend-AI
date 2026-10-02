@@ -4,17 +4,6 @@
 
 <p align="center">
   <img
-    src="https://github.com/user-attachments/assets/59849cab-28ea-4039-b5de-ccc72f1d5dbe"
-    alt="FaceAttend AI Dashboard"
-    width="100%"
-  />
-</p>
-  
-  <p align="center">
-    <strong>FaceAttend AI</strong><br>
-
-<p align="center">
-  <img
     src="https://github.com/user-attachments/assets/595f8e5d-7914-4350-acd4-c57a689e0f88"
     alt="FaceAttend AI Dashboard"
     width="100%"
@@ -148,6 +137,7 @@ IBA Corporation AI Attend/
    *The frontend will be available at: `http://localhost:3000` (or the port specified by Vite, e.g., 5173).*
 
 ---
+
 ## 🌐 How to Use
 
  <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
@@ -156,9 +146,5 @@ IBA Corporation AI Attend/
 
 ---
 
-## 🐳 Docker Deployment
-
-To run the entire production-ready containerized environment (Backend + AI + Frontend):
-```bash
-docker-compose up --build -d
+d
 ```
