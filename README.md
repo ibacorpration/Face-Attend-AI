@@ -9,10 +9,6 @@
     width="100%"
   />
 </p>
-    
-  <p align="center">
-    <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
-  </p>
   
   <p align="center">
     <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -25,6 +21,10 @@
 </div>
 
 <br>
+
+<p align="center">
+    <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
+</p>
 
 **FaceAttend AI** is an advanced, production-ready AI ecosystem designed specifically for **IBA Corporation**. At its core, the system harnesses state-of-the-art **Computer Vision** (Face Detection, Face Recognition, Liveness Anti-Spoofing) alongside a powerful **Retrieval-Augmented Generation (RAG) Chatbot** to provide a secure, seamless, and intelligent approach to workforce management. 
 
@@ -48,9 +48,9 @@ Engineered with an AI-first architecture, the platform combines high-performance
 
 The system architecture cleanly separates the Frontend, Backend, and AI components.
 
+- **AI / Computer Vision**: YuNet for fast face detection, ArcFace for highly accurate recognition.
 - **Frontend**: A modern SPA built with React 18, Vite, TypeScript, Tailwind CSS, and Framer Motion.
 - **Backend**: FastAPI providing robust REST APIs for Authentication, Employees, Attendance, and Recognition.
-- **AI / Computer Vision**: YuNet for fast face detection, ArcFace for highly accurate recognition.
 - **Database**: SQLite (via SQLAlchemy 2.x) to store state, configuration, and encrypted face embeddings.
 
 ---
@@ -61,7 +61,7 @@ To maintain clarity, here is the high-level folder architecture of the monorepo:
 
 ```text
 IBA Corporation AI Attend/
-├── ai/                 # Computer Vision and AI pipeline components (Models, Extractors)
+├── ai/                 # Computer Vision and AI pipeline components & chatbot  
 ├── backend/            # FastAPI application (Routes, Schemas, Auth, DB Models)
 ├── frontend/           # React + Vite UI (Pages, Components, Hooks, Services)
 ├── data/               # SQLite database storage
@@ -104,7 +104,6 @@ IBA Corporation AI Attend/
 - **Routing**: React Router v6
 - **Animations**: Framer Motion & GSAP
 - **Testing**: Vitest & React Testing Library
-
 ---
 
 ## 🚀 Environment Setup & Running Locally
