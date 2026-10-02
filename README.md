@@ -1,6 +1,15 @@
 <div align="center">
 
   <h1>Face Attend AI</h1>
+
+<p align="center">
+  <img
+    src="https://github.com/user-attachments/assets/59849cab-28ea-4039-b5de-ccc72f1d5dbe"
+    alt="FaceAttend AI Dashboard"
+    width="100%"
+  />
+</p>
+  
   <p align="center">
     <strong>FaceAttend AI</strong><br>
 
@@ -139,7 +148,6 @@ IBA Corporation AI Attend/
    *The frontend will be available at: `http://localhost:3000` (or the port specified by Vite, e.g., 5173).*
 
 ---
-
 ## 🌐 How to Use
 
  <a href="https://iba-corpration.up.railway.app"><strong>🔗 Live Project: iba-corpration.up.railway.app</strong></a>
