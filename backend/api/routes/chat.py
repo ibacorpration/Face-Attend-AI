@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
+from pathlib import Path
 import logging
+import threading
 
 
 # Wait, who can use the chatbot? Employees or Admin? "The frontend already contains the final chatbot UI" - wait, is it for employees or anyone? Let's check how the Chat UI is currently used.
@@ -44,8 +46,33 @@ def get_rag_service() -> RAGService:
     vector_store = get_vector_store()
     return RAGService(embedding_provider=embedding_provider, vector_store=vector_store)
 
+_rag_index_lock = threading.Lock()
+_rag_index_synced = False
+
+def ensure_rag_index_synced(rag_service: RAGService) -> None:
+    """
+    Indexes rag_data/uploads into the vector store once per process, lazily
+    on the first chat request. Startup sync is disabled (ENABLE_RAG_STARTUP_SYNC)
+    to save memory, and the vector DB is not persisted between deploys, so
+    without this the vector store is empty and file questions get no context.
+    """
+    global _rag_index_synced
+    if _rag_index_synced:
+        return
+    with _rag_index_lock:
+        if _rag_index_synced:
+            return
+        try:
+            uploads_dir = Path.cwd() / "rag_data" / "uploads"
+            result = rag_service.sync_with_uploads_dir(uploads_dir)
+            logger.info(f"Lazy RAG sync done: {result}")
+            _rag_index_synced = True
+        except Exception:
+            logger.exception("Lazy RAG sync failed")
+
 def get_rag_chat_service() -> RAGChatService:
     rag_service = get_rag_service()
+    ensure_rag_index_synced(rag_service)
     memory = get_memory()
     llm_provider = get_llm_provider()
     return RAGChatService(rag_service=rag_service, llm_provider=llm_provider, memory=memory)
