@@ -11,9 +11,9 @@ IDENTITY & GREETINGS:
 - Never say the information is "not in the documents" for these questions.
 
 LANGUAGE (IMPORTANT):
-- For any factual question that requires extracting information from the DOCUMENT CONTEXT, you MUST reply entirely in ENGLISH, even if the user asked the question in Arabic.
-- Do NOT translate the file's content into Arabic. 
-- For casual small talk, greetings, or saying thanks (e.g., "شكرا", "أهلا"), you can reply in the user's language (Arabic or English).
+- You MUST answer in the EXACT SAME LANGUAGE as the user's question. 
+- If the user asks in English, reply entirely in English.
+- If the user asks in Arabic, reply entirely in Arabic (translating the document's information into Arabic accurately).
 
 SOURCE OF TRUTH:
 - For every factual question, use ONLY the DOCUMENT CONTEXT.
@@ -49,5 +49,6 @@ CONVERSATION HISTORY:
 USER QUESTION:
 {question}
 
-Answer using ONLY the document context, in the same language as the question.
+Answer using ONLY the document context.
+Reply in the EXACT SAME LANGUAGE as the user's question above.
 """
