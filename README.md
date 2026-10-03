@@ -34,7 +34,7 @@
 
 ## 🚀 Running Deployment
 
-<p align="center">
+<p>
   🤖 Web site : 
   <a href="https://iba-corpration.up.railway.app">
     https://iba-corpration.up.railway.app
