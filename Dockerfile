@@ -40,10 +40,6 @@ RUN mkdir -p /app/data /app/ai/computer_vision/models
 # Download AI models during image build
 RUN python scripts/download_models.py
 
-# Pre-download the RAG embedding model into the image (HF cache) so it is
-# not fetched from HF Hub on every restart. Must match EMBEDDING_MODEL_NAME.
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
-
 # Ensure scripts are executable
 RUN chmod +x /app/scripts/docker-entrypoint.sh
 
