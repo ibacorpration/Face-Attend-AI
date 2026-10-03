@@ -49,6 +49,5 @@ CONVERSATION HISTORY:
 USER QUESTION:
 {question}
 
-Answer using ONLY the document context.
-Reply in the EXACT SAME LANGUAGE as the user's question above.
+Answer using ONLY the document context, in the same language as the question.
 """
