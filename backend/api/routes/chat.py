@@ -72,7 +72,6 @@ def ensure_rag_index_synced(rag_service: RAGService) -> None:
 
 def get_rag_chat_service() -> RAGChatService:
     rag_service = get_rag_service()
-    ensure_rag_index_synced(rag_service)
     memory = get_memory()
     llm_provider = get_llm_provider()
     return RAGChatService(rag_service=rag_service, llm_provider=llm_provider, memory=memory)

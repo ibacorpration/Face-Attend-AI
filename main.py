@@ -19,7 +19,7 @@ async def lifespan(app: FastAPI):
     import asyncio
     
     import os
-    if os.getenv("ENABLE_RAG_STARTUP_SYNC", "false").lower() == "true":
+    if os.getenv("ENABLE_RAG_STARTUP_SYNC", "true").lower() == "true":
         def sync_rag_background():
             try:
                 print("Starting RAG documents sync in background...")
