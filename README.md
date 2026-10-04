@@ -39,9 +39,10 @@
   <a href="https://iba-corpration.up.railway.app">
     https://iba-corpration.up.railway.app
   </a>
-  user : iba
-  password : iba
 </p>
+
+- user : iba
+- password : iba
 
 ---
 
