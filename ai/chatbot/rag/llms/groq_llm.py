@@ -38,7 +38,7 @@ class GroqLLMProvider(BaseLLMProvider):
         self.model = model or getattr(
             settings,
             "GROQ_MODEL_NAME",
-            "openai/gpt-oss-120b"
+            "llama-3.1-8b-instant"
         )
 
         # reasoning_effort is only accepted by Groq's reasoning models
