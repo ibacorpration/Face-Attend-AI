@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/OpenCV-Computer_Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" alt="OpenCV" />
   <img src="https://img.shields.io/badge/ONNX_Runtime-Inference-005CED?style=for-the-badge" alt="ONNX Runtime" />
-  <img src="https://img.shields.io/badge/ChromaDB-Vector_DB-FF6B35?style=for-the-badge" alt="ChromaDB" />
+  <img src="https://img.shields.io/badge/ChromaDB-Vector_DB-FF6B35?style=for-the-badge" alt="ChromaDB"  />
 </p>
 
 <br/>
