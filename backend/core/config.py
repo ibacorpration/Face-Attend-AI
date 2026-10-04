@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     GEMINI_MODEL: str = "gemini-3.5-flash"
     GROQ_API_KEY: str = ""
     GROQ_MODEL_NAME: str = "llama-3.1-8b-instant"
-    LLM_MAX_TOKENS: int = 1000
+    LLM_MAX_TOKENS: int = 600
     RAG_TOP_K: int = 2
     DEFAULT_CHUNK_SIZE: int = 500
     DEFAULT_CHUNK_OVERLAP: int = 50
