@@ -47,7 +47,7 @@
 
 **Smart Face Attend** is an AI-powered workforce attendance platform developed for **IBA Corpration**.
 
-The system combines **Computer Vision, Face Recognition, Liveness Detection, Retrieval-Augmented Generation (RAG), and Large Language Models (LLMs)** into a single intelligent platform for secure attendance management and HR assistance.
+The system combines **Computer Vision, Face Recognition, Liveness Detection, Retrieval-Augmented Generation (RAG), and Large Language Models (LLMs)** into a single intelligent platform for secure attendance management and ai assistance.
 
 Instead of relying on traditional attendance methods, Smart Face Attend uses a complete AI pipeline to detect, validate, recognize, and authenticate employees before recording attendance.
 
