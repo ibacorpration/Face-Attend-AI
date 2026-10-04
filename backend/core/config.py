@@ -41,11 +41,11 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
     VECTOR_DB_DIR: str = "rag_data/chroma_db"
     COLLECTION_NAME: str = "rag_documents_v2"
-    LLM_PROVIDER: str = "gemini"
+    LLM_PROVIDER: str = "groq"
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-3.5-flash"
     GROQ_API_KEY: str = ""
-    GROQ_MODEL_NAME: str = "llama-3.1-8b-instant"
+    GROQ_MODEL_NAME: str = "openai/gpt-oss-20b"
     LLM_MAX_TOKENS: int = 500
     RAG_TOP_K: int = 3
     DEFAULT_CHUNK_SIZE: int = 500
