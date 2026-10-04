@@ -41,7 +41,7 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
     VECTOR_DB_DIR: str = "rag_data/chroma_db"
     COLLECTION_NAME: str = "rag_documents_v2"
-    LLM_PROVIDER: str = "groq"
+    LLM_PROVIDER: str = "gemini"
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-3.5-flash"
     GROQ_API_KEY: str = ""
