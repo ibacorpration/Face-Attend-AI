@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str = ""
     GROQ_MODEL_NAME: str = "llama-3.1-8b-instant"
     LLM_MAX_TOKENS: int = 600
-    RAG_TOP_K: int = 2
+    RAG_TOP_K: int = 3
     DEFAULT_CHUNK_SIZE: int = 500
     DEFAULT_CHUNK_OVERLAP: int = 50
     RAG_SCORE_THRESHOLD: float = 0.5
