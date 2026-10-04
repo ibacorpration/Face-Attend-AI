@@ -44,9 +44,8 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = "groq"
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-3.5-flash"
-    GROQ_API_KEY: str = ""
     GROQ_MODEL_NAME: str = "openai/gpt-oss-20b"
-    LLM_MAX_TOKENS: int = 500
+    LLM_MAX_TOKENS: int = 600
     RAG_TOP_K: int = 3
     DEFAULT_CHUNK_SIZE: int = 500
     DEFAULT_CHUNK_OVERLAP: int = 50
