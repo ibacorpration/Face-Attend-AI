@@ -85,21 +85,7 @@ class RAGChatService:
         if _is_smalltalk(user_message):
             retrieved_chunks = []
         else:
-            # Check if the message contains Arabic characters
-            import re
             search_query = user_message
-            if bool(re.search(r'[\u0600-\u06FF]', user_message)):
-                try:
-                    logger.info("Translating Arabic query to English for embedding search...")
-                    search_query = self.llm_provider.generate(
-                        prompt=f"Translate this query to English. Output ONLY the English translation without any quotes or extra words:\n\n{user_message}",
-                        system_prompt="You are a translator.",
-                        temperature=0.1
-                    ).strip(' "\'\n')
-                    logger.info(f"Translated query: {search_query}")
-                except Exception as e:
-                    logger.error(f"Failed to translate query: {e}")
-                    
             retrieved_chunks = self.rag_service.search(
                 query=search_query,
                 top_k=top_k or settings.RAG_TOP_K,
