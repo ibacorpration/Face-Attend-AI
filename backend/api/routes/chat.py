@@ -37,8 +37,13 @@ def get_memory() -> InMemoryConversationMemory:
 
 @lru_cache()
 def get_llm_provider() -> BaseLLMProvider:
-    primary = GroqLLMProvider()
-    fallback = GeminiLLMProvider()
+    from backend.core.config import settings
+    if settings.LLM_PROVIDER.lower() == "gemini":
+        primary = GeminiLLMProvider()
+        fallback = GroqLLMProvider()
+    else:
+        primary = GroqLLMProvider()
+        fallback = GeminiLLMProvider()
     return FallbackLLMProvider(primary=primary, fallback=fallback)
 
 def get_rag_service() -> RAGService:
